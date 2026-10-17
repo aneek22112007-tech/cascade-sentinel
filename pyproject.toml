@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cascade-sentinel"
+version = "0.1.0"
+description = "Cascade Sentinel: the climate-crisis agent that refuses to act without precedent."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "Cascade Sentinel" }]
+dependencies = [
+    "falkordb>=1.4.0",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.0",
+    "mcp>=1.0.0",
+    "httpx>=0.27.0",
+    "rich>=13.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+llm = ["boto3>=1.35.0"]
+
+[project.scripts]
+sentinel-backtest = "sentinel.backtest:main"
+sentinel-mcp = "sentinel.mcp_server:main"
+
+[tool.setuptools.packages.find]
+include = ["sentinel*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]

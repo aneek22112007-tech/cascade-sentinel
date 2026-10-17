@@ -1,0 +1,35 @@
+services:
+  falkordb:
+    image: falkordb/falkordb:latest
+    container_name: sentinel-falkordb
+    ports:
+      - "6379:6379"
+      - "3000:3000"
+    volumes:
+      - falkordb_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+  api:
+    build: .
+    container_name: sentinel-api
+    ports:
+      - "8000:8000"
+    environment:
+      FALKORDB_HOST: falkordb
+      FALKORDB_PORT: "6379"
+      LLM_PROVIDER: none
+      API_HOST: 0.0.0.0
+      API_PORT: "8000"
+    depends_on:
+      falkordb:
+        condition: service_healthy
+    profiles: ["full"]
+
+volumes:
+  falkordb_data:
