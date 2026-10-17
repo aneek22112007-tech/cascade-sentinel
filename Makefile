@@ -30,8 +30,10 @@ ping:
 seed:
 	$(PYTHON) -m sentinel.seed.loader
 
+PORT ?= 8000
+
 demo:
-	$(PYTHON) -m uvicorn sentinel.api.main:app --host 0.0.0.0 --port 8000 --reload
+	$(PYTHON) -m uvicorn sentinel.api.main:app --host 0.0.0.0 --port $(PORT) --reload
 
 backtest:
 	$(PYTHON) -m sentinel.backtest --tenant demo --double-run

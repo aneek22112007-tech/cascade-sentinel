@@ -28,6 +28,10 @@ Simple, demo-strong choices made while building. Update this file whenever somet
 - **Wheat PRESSURES weight 0.95 / conf 0.90** so the grain path lands in the top-K=6 after exposure and T=0.6. The 2-hop dairy exposure path is the UNPRECEDENTED highlight in top-K; the 5-hop dairy branch stays in the corridor with no targeting intervention.
 - **FalkorDB path binding:** `(h)-[rels*2..5]->` raises `Type mismatch: expected List or Null but was Path`. Enumerate uses `MATCH p = (h)-[*2..5]->(o)` plus `relationships(p)` / `nodes(p)`.
 
+## Phase 5
+
+- **Pin `mcp>=1.2,<2`.** mcp 2.x renamed FastMCP to MCPServer. The brief asks for FastMCP, so we stay on 1.x.
+
 ## Phase 2
 
 - **Adjudication order.** Mutual same-path attacks have two stable models. The fixpoint is Gauss–Seidel, hypotheses judged in increasing `(proposer credibility, eff_confidence, id)` so the weaker claim falls first and its attack is dropped. Defeat of a same-path rival then cannot sink the remaining hyp.
