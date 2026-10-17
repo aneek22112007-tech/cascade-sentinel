@@ -63,6 +63,23 @@ class HealthAgent(Agent):
             ids = split_signature(hyp["path_signature"])
             labors = [n for n in ids if n in view.outdoor_hours]
             hours = min((view.outdoor_hours[n] for n in labors), default=9.0)
+            if hyp.get("agent_id") == self.agent_id and "waterborne_diarrhoea" in ids:
+                calls.append(
+                    self.call(
+                        "support_hypothesis",
+                        "support water-borne path",
+                        agent_id=self.agent_id,
+                        hypothesis_id=hyp["id"],
+                        evidence={
+                            "kind": "water_stress",
+                            "statement": f"district water_stress {view.water_stress:.2f} is high",
+                            "value": view.water_stress,
+                            "strength": 0.40,
+                            "source": "src_synthetic_archetype",
+                        },
+                    )
+                )
+                continue
             if hyp.get("agent_id") != self.agent_id and hours < LOW_OUTDOOR:
                 calls.append(
                     self.call(

@@ -292,7 +292,7 @@ def close_episode(tenant: str, episode_id: str) -> dict:
     recon = jaccard(split_signature(top_sig), realized) if top_sig else 0.0
     passed = recon >= config.HIT_JACCARD_MIN
 
-    now = datetime.now(timezone.utc).isoformat()
+    now = f"{year}-06-30T00:00:00+00:00"
     payload = {
         "episode_id": episode_id,
         "status": "closed",

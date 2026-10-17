@@ -221,7 +221,9 @@
       "observations": [
         {"node": "waterborne_diarrhoea", "date": "2018-06-22", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
       ],
-      "outcomes": []
+      "outcomes": [
+        {"intervention_id": "ors_chlorination", "success": true, "effect_size": 0.44, "description": "ORS + chlorination on a water-borne episode."}
+      ]
     },
     {
       "id": "ep_lib_2021_kalinagar",

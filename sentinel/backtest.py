@@ -198,20 +198,29 @@ def print_footer(tenant: str) -> None:
     )
 
 
-def jsonable(bundle: dict[str, Any]) -> dict[str, Any]:
-    skip = {"step_events"}
-    out = {k: v for k, v in bundle.items() if k not in skip}
+_STRIP_KEYS = {
+    "created_at",
+    "opened_at",
+    "closed_at",
+    "ms",
+    "cypher",
+    "step_events",
+    "steps",
+    "payload",
+}
 
+
+def jsonable(bundle: dict[str, Any]) -> dict[str, Any]:
     def strip(obj: Any) -> Any:
         if isinstance(obj, dict):
-            return {k: strip(v) for k, v in obj.items() if k not in ("created_at", "opened_at", "closed_at")}
+            return {k: strip(v) for k, v in obj.items() if k not in _STRIP_KEYS}
         if isinstance(obj, list):
             return [strip(x) for x in obj]
         if isinstance(obj, float):
-            return round(obj, 10)
+            return round(obj, 8)
         return obj
 
-    return strip(out)
+    return strip(bundle)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -234,12 +243,14 @@ def main(argv: list[str] | None = None) -> int:
         print_season(s2025, "Season N (2025)")
         diffs = diff_seasons(s2024, s2025)
         print_diff(diffs)
-        payload = {
-            "season_2024": jsonable(s2024),
-            "close_2024": closed,
-            "season_2025": jsonable(s2025),
-            "diffs": diffs,
-        }
+        payload = jsonable(
+            {
+                "season_2024": s2024,
+                "close_2024": closed,
+                "season_2025": s2025,
+                "diffs": diffs,
+            }
+        )
         print_footer(args.tenant)
         if args.json_out:
             with open(args.json_out, "w") as f:

@@ -17,7 +17,15 @@ def seeded_demo():
 @pytest.fixture
 def episode_2024(seeded_demo):
     tenant = seeded_demo
+    from sentinel.db import query
+
     opened = open_episode(tenant, 2024)
     eid = opened["result"]["id"]
+    rows = query(tenant, "MATCH (e:Episode {id:$id}) RETURN e.status", {"id": eid}).rows
+    if rows and rows[0][0] == "closed":
+        delete_graph(tenant)
+        load_tenant(tenant)
+        opened = open_episode(tenant, 2024)
+        eid = opened["result"]["id"]
     reset_episode_runtime(tenant, eid)
     return tenant, eid
