@@ -170,7 +170,7 @@
     {"from": "rice_paddy", "to": "mandi_rice", "type": "SHOCKS_PRICE_AT", "properties": {"weight": 0.80, "confidence": 0.80, "lag_days": 5, "elasticity": 0.5, "source": "src_synthetic_corridor"}},
 
     {"from": "mandi_fodder", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.90, "confidence": 0.85, "lag_days": 5, "source": "src_synthetic_corridor"}},
-    {"from": "mandi_wheat", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.70, "confidence": 0.80, "lag_days": 6, "source": "src_synthetic_corridor"}},
+    {"from": "mandi_wheat", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.95, "confidence": 0.90, "lag_days": 6, "source": "src_synthetic_corridor"}},
     {"from": "mandi_pulse", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.60, "confidence": 0.70, "lag_days": 5, "source": "src_synthetic_corridor"}},
     {"from": "mandi_rice", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.65, "confidence": 0.75, "lag_days": 6, "source": "src_synthetic_corridor"}},
     {"from": "dairy_collection", "to": "dairy_households", "type": "PRESSURES", "properties": {"weight": 0.80, "confidence": 0.80, "lag_days": 4, "source": "src_synthetic_corridor"}},

@@ -25,3 +25,10 @@ Simple, demo-strong choices made while building. Update this file whenever somet
 - **Officer `tenant` property** filters DM nodes per graph. Domain officers use `tenant: "*"` and are copied into both graphs.
 - **Indexes:** `CREATE INDEX FOR (n:Label) ON (n.prop)`, ignoring already-exists errors so `make seed` is idempotent.
 - **Forecast numbers in the graph are the synthetic fallbacks**, with `tmax_placeholder` / `anomaly_placeholder` set to `TODO_REAL_VALUE` when the JSON still has the placeholder.
+- **Wheat PRESSURES weight 0.95 / conf 0.90** so the grain path lands in the top-K=6 after exposure and T=0.6. The 2-hop dairy exposure path is the UNPRECEDENTED highlight in top-K; the 5-hop dairy branch stays in the corridor with no targeting intervention.
+- **FalkorDB path binding:** `(h)-[rels*2..5]->` raises `Type mismatch: expected List or Null but was Path`. Enumerate uses `MATCH p = (h)-[*2..5]->(o)` plus `relationships(p)` / `nodes(p)`.
+
+## Phase 2
+
+- **Adjudication order.** Mutual same-path attacks have two stable models. The fixpoint is Gauss–Seidel, hypotheses judged in increasing `(proposer credibility, eff_confidence, id)` so the weaker claim falls first and its attack is dropped. Defeat of a same-path rival then cannot sink the remaining hyp.
+- **Hit/miss at close.** An agent scores one hit if any of its hypotheses has Jaccard ≥ 0.6 against the primary realized path or any `also_realized` path; otherwise one miss.
