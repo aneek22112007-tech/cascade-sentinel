@@ -28,6 +28,10 @@ Simple, demo-strong choices made while building. Update this file whenever somet
 - **Wheat PRESSURES weight 0.95 / conf 0.90** so the grain path lands in the top-K=6 after exposure and T=0.6. The 2-hop dairy exposure path is the UNPRECEDENTED highlight in top-K; the 5-hop dairy branch stays in the corridor with no targeting intervention.
 - **FalkorDB path binding:** `(h)-[rels*2..5]->` raises `Type mismatch: expected List or Null but was Path`. Enumerate uses `MATCH p = (h)-[*2..5]->(o)` plus `relationships(p)` / `nodes(p)`.
 
+## Phase 9
+
+- **Live URL is a Cloudflare quick tunnel** (`https://switched-hdtv-guards-julia.trycloudflare.com`) in front of local FalkorDB + API on :8001, because port 8000 was already taken on this machine and there was no Fly/Railway token. The tunnel is ephemeral; GitHub repo is the durable artefact.
+
 ## Phase 5
 
 - **Pin `mcp>=1.2,<2`.** mcp 2.x renamed FastMCP to MCPServer. The brief asks for FastMCP, so we stay on 1.x.

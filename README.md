@@ -4,7 +4,7 @@
 
 ![Season 2024 graph](docs/screenshots/02-season-2024.png)
 
-**Live demo:** _coming in Phase 9_ · **Video:** _placeholder_
+**Live demo:** https://switched-hdtv-guards-julia.trycloudflare.com · **Video:** _placeholder_ · **Repo:** https://github.com/aneek22112007-tech/cascade-sentinel
 
 > Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent.
 
