@@ -86,7 +86,9 @@
         {"node": "farm_laborers", "date": "2019-06-03", "value": 9.5, "unit": "outdoor_hours", "source": "src_synthetic_episode"},
         {"node": "heat_stress_illness", "date": "2019-06-10", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
       ],
-      "outcomes": []
+      "outcomes": [
+        {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.30, "description": "Hour shift on a direct-exposure episode; midday work reduced."}
+      ]
     },
     {
       "id": "ep_lib_2020_grain",
