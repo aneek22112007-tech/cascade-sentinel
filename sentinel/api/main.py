@@ -243,12 +243,21 @@ def recs(tenant: str, episode_id: str) -> dict[str, Any]:
     return {"episode_id": episode_id, "recommendations": items, "synthetic": True}
 
 
-@app.get("/")
-def index() -> FileResponse:
-    page = STATIC / "index.html"
+def _page(name: str) -> FileResponse | JSONResponse:
+    page = STATIC / name
     if not page.exists():
         return JSONResponse({"ok": True, "ui": "pending", "health": "/health"})
     return FileResponse(page)
+
+
+@app.get("/", response_model=None)
+def index():
+    return _page("landing.html")
+
+
+@app.get("/app", response_model=None)
+def dashboard():
+    return _page("app.html")
 
 
 if STATIC.exists():

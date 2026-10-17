@@ -28,9 +28,17 @@ Simple, demo-strong choices made while building. Update this file whenever somet
 - **Wheat PRESSURES weight 0.95 / conf 0.90** so the grain path lands in the top-K=6 after exposure and T=0.6. The 2-hop dairy exposure path is the UNPRECEDENTED highlight in top-K; the 5-hop dairy branch stays in the corridor with no targeting intervention.
 - **FalkorDB path binding:** `(h)-[rels*2..5]->` raises `Type mismatch: expected List or Null but was Path`. Enumerate uses `MATCH p = (h)-[*2..5]->(o)` plus `relationships(p)` / `nodes(p)`.
 
+## Landing + dashboard (vanilla static)
+
+- **No build step.** `static/landing.html` is `/`, `static/app.html` is `/app`. FastAPI `FileResponse` with `response_model=None` (a `FileResponse | JSONResponse` union is rejected as a response model). Old `static/index.html` meta-refreshes to `/app`.
+- **No CDN.** Cytoscape 3.30.4, dagre 0.8.5, cytoscape-dagre 2.5.0 live in `static/vendor/` and load only on `/app` after the first snapshot. System font stack (`ui-sans-serif` / `ui-monospace`); no Google Fonts.
+- **Live-demo CTA is same-origin `/app`.** The trycloudflare URL is dead and is not linked.
+- **Marketing numbers** are the brief's verified figures (Jaccard 1.000, 0/75 lost writes, 11 tools, 23 tests on the landing proof tiles, 2 tenants). Pytest in this repo now collects 33 tests after the eight-fix commit; the landing still shows 23 as specified in the brief.
+- **Team names** stay `<!-- TODO: team names -->`. No invented testimonials.
+
 ## Phase 9
 
-- **Live URL is a Cloudflare quick tunnel** (`https://ones-memo-major-aurora.trycloudflare.com`) in front of local FalkorDB + API on :8001, because port 8000 was already taken on this machine and there was no Fly/Railway token. The tunnel is ephemeral; GitHub repo is the durable artefact. Previous URL `https://switched-hdtv-guards-julia.trycloudflare.com` died with the prior cloudflared process.
+- **Live URL is a Cloudflare quick tunnel** (`https://ones-memo-major-aurora.trycloudflare.com`) in front of local FalkorDB + API on :8001, because port 8000 was already taken on this machine and there was no Fly/Railway token. The tunnel is ephemeral; GitHub repo is the durable artefact. Previous URL `https://switched-hdtv-guards-julia.trycloudflare.com` died with the prior cloudflared process. The marketing site does not link that URL.
 
 ## Concurrency, auth, packaging
 
