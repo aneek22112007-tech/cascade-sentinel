@@ -8,15 +8,19 @@ install:
 	$(PYTHON) -m pip install -e ".[dev]"
 
 up:
-	$(COMPOSE) up -d falkordb
-	@echo "Waiting for FalkorDB on :6379..."
-	@i=0; \
-	until $(COMPOSE) exec -T falkordb redis-cli ping 2>/dev/null | grep -q PONG; do \
-	  i=$$((i+1)); \
-	  if [ $$i -ge 40 ]; then echo "FalkorDB did not become ready"; exit 1; fi; \
-	  sleep 1; \
-	done
-	@echo "FalkorDB ready. Redis :6379  Browser http://localhost:3000"
+	@if $(PYTHON) -c "from sentinel.db import ping; ping()" >/dev/null 2>&1; then \
+	  echo "FalkorDB already reachable on :6379 (browser http://localhost:3000)"; \
+	else \
+	  $(COMPOSE) up -d falkordb; \
+	  echo "Waiting for FalkorDB on :6379..."; \
+	  i=0; \
+	  until $(PYTHON) -c "from sentinel.db import ping; ping()" >/dev/null 2>&1; do \
+	    i=$$((i+1)); \
+	    if [ $$i -ge 40 ]; then echo "FalkorDB did not become ready"; exit 1; fi; \
+	    sleep 1; \
+	  done; \
+	  echo "FalkorDB ready. Redis :6379  Browser http://localhost:3000"; \
+	fi
 
 down:
 	$(COMPOSE) down

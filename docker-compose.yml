@@ -1,7 +1,6 @@
 services:
   falkordb:
     image: falkordb/falkordb:latest
-    container_name: sentinel-falkordb
     ports:
       - "6379:6379"
       - "3000:3000"
@@ -17,7 +16,6 @@ services:
 
   api:
     build: .
-    container_name: sentinel-api
     ports:
       - "8000:8000"
     environment:
