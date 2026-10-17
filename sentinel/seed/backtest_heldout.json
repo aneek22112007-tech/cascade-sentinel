@@ -1,0 +1,65 @@
+{
+  "comment": "Realized observations and intervention outcomes. Read ONLY by close_episode. Never loaded at seed time. All values synthetic.",
+  "by_tenant_year": {
+    "demo": {
+      "2024": {
+        "realized_path": ["heatwave", "fodder_jowar_vegetative", "fodder", "mandi_fodder", "farm_laborers", "heat_stress_illness"],
+        "also_realized": [["heatwave", "farm_laborers", "heat_stress_illness"]],
+        "not_realized": [["heatwave", "wheat_grainfill", "wheat_grain", "mandi_wheat", "farm_laborers", "heat_stress_illness"]],
+        "observations": [
+          {"node": "fodder_jowar_vegetative", "date": "2024-05-16", "value": 1.0, "unit": "stress_flag", "source": "src_synthetic_episode"},
+          {"node": "fodder", "date": "2024-05-22", "value": 0.67, "unit": "relative_yield", "source": "src_synthetic_episode"},
+          {"node": "mandi_fodder", "date": "2024-05-26", "value": 1.32, "unit": "price_index", "source": "src_agmarknet"},
+          {"node": "farm_laborers", "date": "2024-05-30", "value": 10.8, "unit": "outdoor_hours", "source": "src_synthetic_episode"},
+          {"node": "heat_stress_illness", "date": "2024-06-06", "value": 1.0, "unit": "signal_present", "source": "src_idsp"}
+        ],
+        "outcomes": [
+          {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.41, "description": "Hour shift reduced midday worksite exposure."},
+          {"intervention_id": "fodder_bank", "success": true, "effect_size": 0.34, "description": "Fodder bank + transport subsidy slowed the mandi spike."},
+          {"intervention_id": "ors_chlorination", "success": true, "effect_size": 0.47, "description": "ORS stocking and chlorination kept water-borne signal contained."},
+          {"intervention_id": "worksite_cool_shelters", "success": true, "effect_size": 0.36, "description": "Pilot shelters were used this season; heat complaints at those sites dropped. (Held-out success; not recommended on day one.)"}
+        ]
+      },
+      "2025": {
+        "realized_path": ["heatwave", "fodder_jowar_vegetative", "fodder", "mandi_fodder", "farm_laborers", "heat_stress_illness"],
+        "also_realized": [["heatwave", "farm_laborers", "heat_stress_illness"]],
+        "not_realized": [["heatwave", "wheat_grainfill", "wheat_grain", "mandi_wheat", "farm_laborers", "heat_stress_illness"]],
+        "observations": [
+          {"node": "fodder", "date": "2025-05-23", "value": 0.71, "unit": "relative_yield", "source": "src_synthetic_episode"},
+          {"node": "heat_stress_illness", "date": "2025-06-05", "value": 1.0, "unit": "signal_present", "source": "src_idsp"}
+        ],
+        "outcomes": [
+          {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.40, "description": "Hour shift held."},
+          {"intervention_id": "fodder_bank", "success": true, "effect_size": 0.32, "description": "Fodder bank held."},
+          {"intervention_id": "ors_chlorination", "success": true, "effect_size": 0.46, "description": "ORS + chlorination held."},
+          {"intervention_id": "worksite_cool_shelters", "success": true, "effect_size": 0.38, "description": "Cool shelters recommended and used."}
+        ]
+      }
+    },
+    "district_b": {
+      "2024": {
+        "realized_path": ["heatwave", "rice_reproductive", "rice_paddy", "mandi_rice", "farm_laborers", "heat_stress_illness"],
+        "also_realized": [["heatwave", "farm_laborers", "heat_stress_illness"]],
+        "not_realized": [],
+        "observations": [
+          {"node": "rice_paddy", "date": "2024-05-24", "value": 0.80, "unit": "relative_yield", "source": "src_synthetic_episode"},
+          {"node": "heat_stress_illness", "date": "2024-06-04", "value": 1.0, "unit": "signal_present", "source": "src_idsp"}
+        ],
+        "outcomes": [
+          {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.30, "description": "Hour shift helped the direct-exposure branch."}
+        ]
+      },
+      "2025": {
+        "realized_path": ["heatwave", "rice_reproductive", "rice_paddy", "mandi_rice", "farm_laborers", "heat_stress_illness"],
+        "also_realized": [["heatwave", "farm_laborers", "heat_stress_illness"]],
+        "not_realized": [],
+        "observations": [
+          {"node": "rice_paddy", "date": "2025-05-24", "value": 0.81, "unit": "relative_yield", "source": "src_synthetic_episode"}
+        ],
+        "outcomes": [
+          {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.31, "description": "Hour shift held."}
+        ]
+      }
+    }
+  }
+}

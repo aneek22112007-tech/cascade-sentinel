@@ -1,0 +1,185 @@
+{
+  "nodes": [
+    {
+      "id": "heatwave",
+      "labels": ["HazardType"],
+      "properties": {
+        "name": "Heatwave",
+        "provenance": "synthetic",
+        "layer": "corridor"
+      }
+    },
+    {
+      "id": "wheat_grainfill",
+      "labels": ["CropStage"],
+      "properties": {
+        "crop": "wheat",
+        "stage": "grainfill",
+        "heat_threshold_c": 35.0,
+        "window_start_doy": 70,
+        "window_end_doy": 126,
+        "provenance": "synthetic",
+        "layer": "corridor"
+      }
+    },
+    {
+      "id": "fodder_jowar_vegetative",
+      "labels": ["CropStage"],
+      "properties": {
+        "crop": "jowar",
+        "stage": "vegetative",
+        "heat_threshold_c": 40.0,
+        "window_start_doy": 121,
+        "window_end_doy": 175,
+        "provenance": "synthetic",
+        "layer": "corridor"
+      }
+    },
+    {
+      "id": "zaid_moong_flowering",
+      "labels": ["CropStage"],
+      "properties": {
+        "crop": "moong",
+        "stage": "flowering",
+        "heat_threshold_c": 38.0,
+        "window_start_doy": 115,
+        "window_end_doy": 165,
+        "provenance": "synthetic",
+        "layer": "corridor"
+      }
+    },
+    {
+      "id": "rice_reproductive",
+      "labels": ["CropStage"],
+      "properties": {
+        "crop": "rice",
+        "stage": "reproductive",
+        "heat_threshold_c": 37.0,
+        "window_start_doy": 130,
+        "window_end_doy": 175,
+        "provenance": "synthetic",
+        "layer": "corridor"
+      }
+    },
+    {
+      "id": "dairy_cattle",
+      "labels": ["LivestockStage"],
+      "properties": {
+        "species": "cattle",
+        "stage": "lactating",
+        "heat_threshold_c": 32.0,
+        "window_start_doy": 1,
+        "window_end_doy": 366,
+        "provenance": "synthetic",
+        "layer": "corridor"
+      }
+    },
+    {
+      "id": "fodder",
+      "labels": ["Commodity"],
+      "properties": { "name": "fodder", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "wheat_grain",
+      "labels": ["Commodity"],
+      "properties": { "name": "wheat grain", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "milk",
+      "labels": ["Commodity"],
+      "properties": { "name": "milk", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "zaid_pulse",
+      "labels": ["Commodity"],
+      "properties": { "name": "zaid pulse", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "rice_paddy",
+      "labels": ["Commodity"],
+      "properties": { "name": "rice paddy", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "mandi_fodder",
+      "labels": ["Market"],
+      "properties": { "commodity": "fodder", "name": "fodder mandi", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "mandi_wheat",
+      "labels": ["Market"],
+      "properties": { "commodity": "wheat_grain", "name": "wheat mandi", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "dairy_collection",
+      "labels": ["Market"],
+      "properties": { "commodity": "milk", "name": "dairy collection centre", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "mandi_pulse",
+      "labels": ["Market"],
+      "properties": { "commodity": "zaid_pulse", "name": "pulse mandi", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "mandi_rice",
+      "labels": ["Market"],
+      "properties": { "commodity": "rice_paddy", "name": "rice mandi", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "farm_laborers",
+      "labels": ["LaborGroup"],
+      "properties": { "name": "farm labourers", "outdoor_hours": 9.0, "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "dairy_households",
+      "labels": ["LaborGroup"],
+      "properties": { "name": "dairy households", "outdoor_hours": 5.0, "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "heat_stress_illness",
+      "labels": ["HealthOutcome"],
+      "properties": { "name": "heat-stress illness", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "waterborne_diarrhoea",
+      "labels": ["HealthOutcome"],
+      "properties": { "name": "water-borne diarrhoea", "provenance": "synthetic", "layer": "corridor" }
+    },
+    {
+      "id": "livestock_heat_stress",
+      "labels": ["HealthOutcome"],
+      "properties": { "name": "livestock heat stress", "provenance": "synthetic", "layer": "corridor" }
+    }
+  ],
+  "edges": [
+    {"from": "heatwave", "to": "wheat_grainfill", "type": "STRESSES", "properties": {"weight": 0.85, "confidence": 0.90, "lag_days": 2, "source": "src_synthetic_corridor"}},
+    {"from": "heatwave", "to": "fodder_jowar_vegetative", "type": "STRESSES", "properties": {"weight": 0.92, "confidence": 0.90, "lag_days": 1, "source": "src_synthetic_corridor"}},
+    {"from": "heatwave", "to": "zaid_moong_flowering", "type": "STRESSES", "properties": {"weight": 0.80, "confidence": 0.85, "lag_days": 2, "source": "src_synthetic_corridor"}},
+    {"from": "heatwave", "to": "rice_reproductive", "type": "STRESSES", "properties": {"weight": 0.88, "confidence": 0.85, "lag_days": 2, "source": "src_synthetic_corridor"}},
+    {"from": "heatwave", "to": "dairy_cattle", "type": "STRESSES", "properties": {"weight": 0.75, "confidence": 0.80, "lag_days": 1, "source": "src_synthetic_corridor"}},
+
+    {"from": "wheat_grainfill", "to": "wheat_grain", "type": "REDUCES_YIELD_OF", "properties": {"weight": 0.85, "confidence": 0.88, "lag_days": 7, "source": "src_synthetic_corridor"}},
+    {"from": "fodder_jowar_vegetative", "to": "fodder", "type": "REDUCES_YIELD_OF", "properties": {"weight": 0.90, "confidence": 0.90, "lag_days": 5, "source": "src_synthetic_corridor"}},
+    {"from": "zaid_moong_flowering", "to": "zaid_pulse", "type": "REDUCES_YIELD_OF", "properties": {"weight": 0.80, "confidence": 0.80, "lag_days": 6, "source": "src_synthetic_corridor"}},
+    {"from": "rice_reproductive", "to": "rice_paddy", "type": "REDUCES_YIELD_OF", "properties": {"weight": 0.85, "confidence": 0.85, "lag_days": 8, "source": "src_synthetic_corridor"}},
+    {"from": "dairy_cattle", "to": "milk", "type": "REDUCES_YIELD_OF", "properties": {"weight": 0.80, "confidence": 0.85, "lag_days": 3, "source": "src_synthetic_corridor"}},
+
+    {"from": "fodder", "to": "mandi_fodder", "type": "SHOCKS_PRICE_AT", "properties": {"weight": 0.90, "confidence": 0.85, "lag_days": 3, "elasticity": 1.4, "source": "src_synthetic_corridor"}},
+    {"from": "wheat_grain", "to": "mandi_wheat", "type": "SHOCKS_PRICE_AT", "properties": {"weight": 0.80, "confidence": 0.85, "lag_days": 4, "elasticity": 0.6, "source": "src_synthetic_corridor"}},
+    {"from": "milk", "to": "dairy_collection", "type": "SHOCKS_PRICE_AT", "properties": {"weight": 0.75, "confidence": 0.80, "lag_days": 2, "elasticity": 0.9, "source": "src_synthetic_corridor"}},
+    {"from": "zaid_pulse", "to": "mandi_pulse", "type": "SHOCKS_PRICE_AT", "properties": {"weight": 0.70, "confidence": 0.75, "lag_days": 4, "elasticity": 0.8, "source": "src_synthetic_corridor"}},
+    {"from": "rice_paddy", "to": "mandi_rice", "type": "SHOCKS_PRICE_AT", "properties": {"weight": 0.80, "confidence": 0.80, "lag_days": 5, "elasticity": 0.5, "source": "src_synthetic_corridor"}},
+
+    {"from": "mandi_fodder", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.90, "confidence": 0.85, "lag_days": 5, "source": "src_synthetic_corridor"}},
+    {"from": "mandi_wheat", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.70, "confidence": 0.80, "lag_days": 6, "source": "src_synthetic_corridor"}},
+    {"from": "mandi_pulse", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.60, "confidence": 0.70, "lag_days": 5, "source": "src_synthetic_corridor"}},
+    {"from": "mandi_rice", "to": "farm_laborers", "type": "PRESSURES", "properties": {"weight": 0.65, "confidence": 0.75, "lag_days": 6, "source": "src_synthetic_corridor"}},
+    {"from": "dairy_collection", "to": "dairy_households", "type": "PRESSURES", "properties": {"weight": 0.80, "confidence": 0.80, "lag_days": 4, "source": "src_synthetic_corridor"}},
+
+    {"from": "heatwave", "to": "farm_laborers", "type": "EXPOSES", "properties": {"weight": 0.95, "confidence": 0.90, "lag_days": 0, "source": "src_synthetic_corridor"}},
+    {"from": "heatwave", "to": "dairy_households", "type": "EXPOSES", "properties": {"weight": 0.70, "confidence": 0.75, "lag_days": 0, "source": "src_synthetic_corridor"}},
+
+    {"from": "farm_laborers", "to": "heat_stress_illness", "type": "AT_RISK_OF", "properties": {"weight": 0.90, "confidence": 0.90, "lag_days": 7, "source": "src_synthetic_corridor"}},
+    {"from": "farm_laborers", "to": "waterborne_diarrhoea", "type": "AT_RISK_OF", "properties": {"weight": 0.80, "confidence": 0.85, "lag_days": 14, "source": "src_synthetic_corridor"}},
+    {"from": "dairy_households", "to": "livestock_heat_stress", "type": "AT_RISK_OF", "properties": {"weight": 0.85, "confidence": 0.80, "lag_days": 5, "source": "src_synthetic_corridor"}}
+  ]
+}

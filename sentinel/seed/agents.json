@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {
+      "id": "weather",
+      "labels": ["Agent"],
+      "properties": {
+        "name": "Weather agent",
+        "hits": 3,
+        "misses": 1,
+        "domain": "meteorology",
+        "provenance": "synthetic",
+        "layer": "governance"
+      }
+    },
+    {
+      "id": "agronomy",
+      "labels": ["Agent"],
+      "properties": {
+        "name": "Agronomy agent",
+        "hits": 1,
+        "misses": 1,
+        "domain": "agriculture",
+        "provenance": "synthetic",
+        "layer": "governance"
+      }
+    },
+    {
+      "id": "health",
+      "labels": ["Agent"],
+      "properties": {
+        "name": "Health agent",
+        "hits": 2,
+        "misses": 1,
+        "domain": "public_health",
+        "provenance": "synthetic",
+        "layer": "governance"
+      }
+    }
+  ]
+}

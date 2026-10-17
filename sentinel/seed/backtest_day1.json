@@ -1,0 +1,73 @@
+{
+  "comment": "ONLY day-one inputs for season N-1 (2024) and season N (2025). Held-out observations live in backtest_heldout.json and are read only by close_episode. tmax_c and anomaly_c that should be IMD values are TODO_REAL_VALUE; the synthetic fallback is used at runtime. Structured on the May 2024 north-India heatwave pattern; shipped numbers are synthetic.",
+  "forecasts": [
+    {
+      "id": "fc_2024_demo",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2024,
+      "issued_date": "2024-05-10",
+      "valid_from": "2024-05-12",
+      "valid_to": "2024-05-20",
+      "doy": 136,
+      "tmax_c": "TODO_REAL_VALUE",
+      "tmax_c_synthetic_fallback": 46.0,
+      "anomaly_c": "TODO_REAL_VALUE",
+      "anomaly_c_synthetic_fallback": 7.5,
+      "duration_days": 8,
+      "source": "src_imd",
+      "hazard": "heatwave"
+    },
+    {
+      "id": "fc_2025_demo",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2025,
+      "issued_date": "2025-05-11",
+      "valid_from": "2025-05-13",
+      "valid_to": "2025-05-21",
+      "doy": 136,
+      "tmax_c": "TODO_REAL_VALUE",
+      "tmax_c_synthetic_fallback": 45.8,
+      "anomaly_c": "TODO_REAL_VALUE",
+      "anomaly_c_synthetic_fallback": 7.4,
+      "duration_days": 8,
+      "source": "src_imd",
+      "hazard": "heatwave"
+    },
+    {
+      "id": "fc_2024_district_b",
+      "tenant": "district_b",
+      "district": "kalinagar",
+      "season_year": 2024,
+      "issued_date": "2024-05-10",
+      "valid_from": "2024-05-12",
+      "valid_to": "2024-05-20",
+      "doy": 136,
+      "tmax_c": "TODO_REAL_VALUE",
+      "tmax_c_synthetic_fallback": 44.5,
+      "anomaly_c": "TODO_REAL_VALUE",
+      "anomaly_c_synthetic_fallback": 6.5,
+      "duration_days": 8,
+      "source": "src_imd",
+      "hazard": "heatwave"
+    },
+    {
+      "id": "fc_2025_district_b",
+      "tenant": "district_b",
+      "district": "kalinagar",
+      "season_year": 2025,
+      "issued_date": "2025-05-11",
+      "valid_from": "2025-05-13",
+      "valid_to": "2025-05-21",
+      "doy": 136,
+      "tmax_c": "TODO_REAL_VALUE",
+      "tmax_c_synthetic_fallback": 44.2,
+      "anomaly_c": "TODO_REAL_VALUE",
+      "anomaly_c_synthetic_fallback": 6.4,
+      "duration_days": 8,
+      "source": "src_imd",
+      "hazard": "heatwave"
+    }
+  ]
+}

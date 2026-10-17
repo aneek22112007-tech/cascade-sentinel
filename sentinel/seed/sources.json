@@ -1,0 +1,85 @@
+{
+  "nodes": [
+    {
+      "id": "src_imd",
+      "labels": ["Source"],
+      "properties": {
+        "title": "India Meteorological Department — heatwave bulletins and press releases",
+        "url": "https://mausam.imd.gov.in/",
+        "provenance": "real",
+        "accessed": "2026-10-17",
+        "layer": "governance",
+        "note": "Catalog only. No IMD figures are copied into this repo."
+      }
+    },
+    {
+      "id": "src_idsp",
+      "labels": ["Source"],
+      "properties": {
+        "title": "IDSP / NCDC weekly outbreak reports",
+        "url": "https://idsp.mohfw.gov.in/",
+        "provenance": "real",
+        "accessed": "2026-10-17",
+        "layer": "governance",
+        "note": "Catalog only. No case counts are copied into this repo."
+      }
+    },
+    {
+      "id": "src_agmarknet",
+      "labels": ["Source"],
+      "properties": {
+        "title": "Agmarknet mandi arrivals and modal prices",
+        "url": "https://agmarknet.gov.in/",
+        "provenance": "real",
+        "accessed": "2026-10-17",
+        "layer": "governance",
+        "note": "Catalog only. No prices are copied into this repo."
+      }
+    },
+    {
+      "id": "src_fao_giews",
+      "labels": ["Source"],
+      "properties": {
+        "title": "FAO GIEWS country brief — India",
+        "url": "https://www.fao.org/giews/countrybrief/country.jsp?code=IND",
+        "provenance": "real",
+        "accessed": "2026-10-17",
+        "layer": "governance",
+        "note": "Catalog only. No FAO figures are copied into this repo."
+      }
+    },
+    {
+      "id": "src_synthetic_corridor",
+      "labels": ["Source"],
+      "properties": {
+        "title": "Synthetic Bundelkhand-like heat–fodder–labour corridor (archetype)",
+        "url": "",
+        "provenance": "synthetic",
+        "accessed": "2026-10-17",
+        "layer": "governance"
+      }
+    },
+    {
+      "id": "src_synthetic_episode",
+      "labels": ["Source"],
+      "properties": {
+        "title": "Synthetic episode library 2018–2023 (archetype outcomes)",
+        "url": "",
+        "provenance": "synthetic",
+        "accessed": "2026-10-17",
+        "layer": "governance"
+      }
+    },
+    {
+      "id": "src_synthetic_archetype",
+      "labels": ["Source"],
+      "properties": {
+        "title": "Synthetic district archetypes Rajpur and Kalinagar",
+        "url": "",
+        "provenance": "synthetic",
+        "accessed": "2026-10-17",
+        "layer": "governance"
+      }
+    }
+  ]
+}

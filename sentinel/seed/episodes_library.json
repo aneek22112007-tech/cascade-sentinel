@@ -1,0 +1,271 @@
+{
+  "path_aliases": {
+    "fodder": ["heatwave", "fodder_jowar_vegetative", "fodder", "mandi_fodder", "farm_laborers", "heat_stress_illness"],
+    "wheat": ["heatwave", "wheat_grainfill", "wheat_grain", "mandi_wheat", "farm_laborers", "heat_stress_illness"],
+    "direct": ["heatwave", "farm_laborers", "heat_stress_illness"],
+    "waterborne": ["heatwave", "farm_laborers", "waterborne_diarrhoea"],
+    "rice": ["heatwave", "rice_reproductive", "rice_paddy", "mandi_rice", "farm_laborers", "heat_stress_illness"],
+    "dairy": ["heatwave", "dairy_cattle", "milk", "dairy_collection", "dairy_households", "livestock_heat_stress"]
+  },
+  "episodes": [
+    {
+      "id": "ep_lib_2018_rajpur",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2018,
+      "opened_at": "2018-05-12T00:00:00Z",
+      "closed_at": "2018-06-20T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2018_rajpur",
+        "issued_date": "2018-05-10",
+        "valid_from": "2018-05-12",
+        "valid_to": "2018-05-18",
+        "doy": 136,
+        "tmax_c": 45.0,
+        "anomaly_c": 6.8,
+        "duration_days": 7
+      },
+      "realized_path": "fodder",
+      "observations": [
+        {"node": "fodder", "date": "2018-05-20", "value": 0.70, "unit": "relative_yield", "source": "src_synthetic_episode"},
+        {"node": "mandi_fodder", "date": "2018-05-24", "value": 1.35, "unit": "price_index", "source": "src_synthetic_episode"},
+        {"node": "heat_stress_illness", "date": "2018-06-02", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": [
+        {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.40, "description": "Peak-hour outdoor labour reduced; fewer heat complaints at worksites."},
+        {"intervention_id": "fodder_bank", "success": true, "effect_size": 0.35, "description": "Fodder bank opened; mandi fodder price index cooled."}
+      ]
+    },
+    {
+      "id": "ep_lib_2019_rajpur",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2019,
+      "opened_at": "2019-05-11T00:00:00Z",
+      "closed_at": "2019-06-18T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2019_rajpur",
+        "issued_date": "2019-05-09",
+        "valid_from": "2019-05-11",
+        "valid_to": "2019-05-19",
+        "doy": 135,
+        "tmax_c": 46.2,
+        "anomaly_c": 7.2,
+        "duration_days": 8
+      },
+      "realized_path": "fodder",
+      "observations": [
+        {"node": "fodder", "date": "2019-05-21", "value": 0.68, "unit": "relative_yield", "source": "src_synthetic_episode"},
+        {"node": "farm_laborers", "date": "2019-05-26", "value": 10.5, "unit": "outdoor_hours", "source": "src_synthetic_episode"},
+        {"node": "heat_stress_illness", "date": "2019-06-04", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": [
+        {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.38, "description": "MGNREGA shift to morning/evening cut midday exposure."},
+        {"intervention_id": "ors_chlorination", "success": true, "effect_size": 0.50, "description": "ORS + chlorination drive; water-borne signal stayed flat."}
+      ]
+    },
+    {
+      "id": "ep_lib_2019_direct",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2019,
+      "opened_at": "2019-06-02T00:00:00Z",
+      "closed_at": "2019-06-28T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2019_direct",
+        "issued_date": "2019-05-31",
+        "valid_from": "2019-06-02",
+        "valid_to": "2019-06-08",
+        "doy": 153,
+        "tmax_c": 44.5,
+        "anomaly_c": 6.1,
+        "duration_days": 6
+      },
+      "realized_path": "direct",
+      "observations": [
+        {"node": "farm_laborers", "date": "2019-06-03", "value": 9.5, "unit": "outdoor_hours", "source": "src_synthetic_episode"},
+        {"node": "heat_stress_illness", "date": "2019-06-10", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": []
+    },
+    {
+      "id": "ep_lib_2020_grain",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2020,
+      "opened_at": "2020-04-20T00:00:00Z",
+      "closed_at": "2020-05-30T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2020_grain",
+        "issued_date": "2020-04-18",
+        "valid_from": "2020-04-20",
+        "valid_to": "2020-04-28",
+        "doy": 111,
+        "tmax_c": 43.0,
+        "anomaly_c": 5.5,
+        "duration_days": 8
+      },
+      "realized_path": "wheat",
+      "observations": [
+        {"node": "wheat_grain", "date": "2020-04-30", "value": 0.78, "unit": "relative_yield", "source": "src_synthetic_episode"},
+        {"node": "mandi_wheat", "date": "2020-05-05", "value": 1.12, "unit": "price_index", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": [
+        {"intervention_id": "mandi_price_advisory", "success": false, "effect_size": 0.05, "description": "Price-cap advisory ignored; wheat mandi moved anyway."},
+        {"intervention_id": "fodder_bank", "success": false, "effect_size": 0.02, "description": "Fodder bank opened off-path; did not change the grain-price cascade."}
+      ]
+    },
+    {
+      "id": "ep_lib_2021_shelters",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2021,
+      "opened_at": "2021-05-14T00:00:00Z",
+      "closed_at": "2021-06-22T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2021_shelters",
+        "issued_date": "2021-05-12",
+        "valid_from": "2021-05-14",
+        "valid_to": "2021-05-22",
+        "doy": 134,
+        "tmax_c": 47.0,
+        "anomaly_c": 8.0,
+        "duration_days": 9
+      },
+      "realized_path": "fodder",
+      "observations": [
+        {"node": "fodder", "date": "2021-05-22", "value": 0.65, "unit": "relative_yield", "source": "src_synthetic_episode"},
+        {"node": "heat_stress_illness", "date": "2021-06-05", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": [
+        {"intervention_id": "worksite_cool_shelters", "success": false, "effect_size": 0.08, "description": "Shelters installed late and unused; midday work continued."},
+        {"intervention_id": "ors_chlorination", "success": true, "effect_size": 0.45, "description": "Chlorination drive kept water-borne cases from spiking."}
+      ]
+    },
+    {
+      "id": "ep_lib_2022_grain",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2022,
+      "opened_at": "2022-04-18T00:00:00Z",
+      "closed_at": "2022-05-28T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2022_grain",
+        "issued_date": "2022-04-16",
+        "valid_from": "2022-04-18",
+        "valid_to": "2022-04-25",
+        "doy": 108,
+        "tmax_c": 42.8,
+        "anomaly_c": 5.2,
+        "duration_days": 7
+      },
+      "realized_path": "wheat",
+      "observations": [
+        {"node": "wheat_grain", "date": "2022-04-28", "value": 0.80, "unit": "relative_yield", "source": "src_synthetic_episode"},
+        {"node": "mandi_wheat", "date": "2022-05-03", "value": 1.10, "unit": "price_index", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": [
+        {"intervention_id": "mandi_price_advisory", "success": false, "effect_size": 0.04, "description": "Second advisory failure; traders did not hold prices."},
+        {"intervention_id": "work_hour_shift", "success": false, "effect_size": 0.06, "description": "Hour shift issued after harvest window; no labour-heat effect on this grain path."}
+      ]
+    },
+    {
+      "id": "ep_lib_2023_rajpur",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2023,
+      "opened_at": "2023-05-13T00:00:00Z",
+      "closed_at": "2023-06-21T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2023_rajpur",
+        "issued_date": "2023-05-11",
+        "valid_from": "2023-05-13",
+        "valid_to": "2023-05-21",
+        "doy": 133,
+        "tmax_c": 46.5,
+        "anomaly_c": 7.4,
+        "duration_days": 8
+      },
+      "realized_path": "fodder",
+      "observations": [
+        {"node": "fodder", "date": "2023-05-21", "value": 0.69, "unit": "relative_yield", "source": "src_synthetic_episode"},
+        {"node": "mandi_fodder", "date": "2023-05-25", "value": 1.28, "unit": "price_index", "source": "src_synthetic_episode"},
+        {"node": "heat_stress_illness", "date": "2023-06-04", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": [
+        {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.42, "description": "Early hour shift; worksite heat complaints dropped."},
+        {"intervention_id": "fodder_bank", "success": true, "effect_size": 0.33, "description": "Fodder transport subsidy slowed the mandi spike."},
+        {"intervention_id": "ors_chlorination", "success": true, "effect_size": 0.48, "description": "Pre-positioned ORS and tank chlorination."}
+      ]
+    },
+    {
+      "id": "ep_lib_2018_waterborne",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2018,
+      "opened_at": "2018-06-08T00:00:00Z",
+      "closed_at": "2018-07-05T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2018_waterborne",
+        "issued_date": "2018-06-06",
+        "valid_from": "2018-06-08",
+        "valid_to": "2018-06-14",
+        "doy": 159,
+        "tmax_c": 44.0,
+        "anomaly_c": 6.0,
+        "duration_days": 6
+      },
+      "realized_path": "waterborne",
+      "observations": [
+        {"node": "waterborne_diarrhoea", "date": "2018-06-22", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": []
+    },
+    {
+      "id": "ep_lib_2021_kalinagar",
+      "tenant": "district_b",
+      "district": "kalinagar",
+      "season_year": 2021,
+      "opened_at": "2021-05-16T00:00:00Z",
+      "closed_at": "2021-06-20T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2021_kalinagar",
+        "issued_date": "2021-05-14",
+        "valid_from": "2021-05-16",
+        "valid_to": "2021-05-24",
+        "doy": 136,
+        "tmax_c": 43.5,
+        "anomaly_c": 5.8,
+        "duration_days": 8
+      },
+      "realized_path": "rice",
+      "observations": [
+        {"node": "rice_paddy", "date": "2021-05-28", "value": 0.82, "unit": "relative_yield", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": []
+    },
+    {
+      "id": "ep_lib_2023_kalinagar",
+      "tenant": "district_b",
+      "district": "kalinagar",
+      "season_year": 2023,
+      "opened_at": "2023-05-14T00:00:00Z",
+      "closed_at": "2023-06-18T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2023_kalinagar",
+        "issued_date": "2023-05-12",
+        "valid_from": "2023-05-14",
+        "valid_to": "2023-05-20",
+        "doy": 134,
+        "tmax_c": 44.0,
+        "anomaly_c": 6.2,
+        "duration_days": 7
+      },
+      "realized_path": "direct",
+      "observations": [
+        {"node": "heat_stress_illness", "date": "2023-05-22", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": []
+    }
+  ]
+}

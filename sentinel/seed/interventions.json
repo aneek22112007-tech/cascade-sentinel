@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "id": "work_hour_shift",
+      "labels": ["Intervention"],
+      "properties": {
+        "name": "Shift field/MGNREGA work to before 11:00 and after 16:00",
+        "domain": "labour",
+        "lead_time_days": 7,
+        "cost_band": "low",
+        "trials": 4,
+        "successes": 3,
+        "last_trial_year": 2023,
+        "provenance": "synthetic",
+        "layer": "procedural"
+      }
+    },
+    {
+      "id": "fodder_bank",
+      "labels": ["Intervention"],
+      "properties": {
+        "name": "Open fodder banks + fodder transport subsidy",
+        "domain": "agriculture",
+        "lead_time_days": 10,
+        "cost_band": "medium",
+        "trials": 3,
+        "successes": 2,
+        "last_trial_year": 2023,
+        "provenance": "synthetic",
+        "layer": "procedural"
+      }
+    },
+    {
+      "id": "ors_chlorination",
+      "labels": ["Intervention"],
+      "properties": {
+        "name": "ORS stocking + water chlorination drive",
+        "domain": "health",
+        "lead_time_days": 5,
+        "cost_band": "low",
+        "trials": 3,
+        "successes": 3,
+        "last_trial_year": 2023,
+        "provenance": "synthetic",
+        "layer": "procedural"
+      }
+    },
+    {
+      "id": "mandi_price_advisory",
+      "labels": ["Intervention"],
+      "properties": {
+        "name": "Mandi price-cap advisory",
+        "domain": "markets",
+        "lead_time_days": 3,
+        "cost_band": "low",
+        "trials": 2,
+        "successes": 0,
+        "last_trial_year": 2022,
+        "provenance": "synthetic",
+        "layer": "procedural"
+      }
+    },
+    {
+      "id": "worksite_cool_shelters",
+      "labels": ["Intervention"],
+      "properties": {
+        "name": "Shaded rest + water points at worksites",
+        "domain": "labour",
+        "lead_time_days": 12,
+        "cost_band": "medium",
+        "trials": 1,
+        "successes": 0,
+        "last_trial_year": 2021,
+        "provenance": "synthetic",
+        "layer": "procedural"
+      }
+    }
+  ],
+  "edges": [
+    {"from": "work_hour_shift", "to": "farm_laborers", "type": "TARGETS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_corridor"}},
+    {"from": "fodder_bank", "to": "mandi_fodder", "type": "TARGETS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_corridor"}},
+    {"from": "ors_chlorination", "to": "waterborne_diarrhoea", "type": "TARGETS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_corridor"}},
+    {"from": "mandi_price_advisory", "to": "mandi_wheat", "type": "TARGETS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_corridor"}},
+    {"from": "worksite_cool_shelters", "to": "farm_laborers", "type": "TARGETS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_corridor"}},
+    {"from": "worksite_cool_shelters", "to": "heat_stress_illness", "type": "TARGETS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_corridor"}}
+  ]
+}

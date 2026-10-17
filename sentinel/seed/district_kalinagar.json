@@ -1,0 +1,42 @@
+{
+  "tenant": "district_b",
+  "nodes": [
+    {
+      "id": "kalinagar",
+      "labels": ["District"],
+      "properties": {
+        "name": "Kalinagar (archetype)",
+        "state": "Irrigated rice belt (fictional)",
+        "archetype": "irrigated_rice_dominant",
+        "provenance": "synthetic",
+        "layer": "semantic"
+      }
+    },
+    {
+      "id": "vp_kalinagar",
+      "labels": ["VulnerabilityProfile"],
+      "properties": {
+        "landless_labor_share": 0.22,
+        "market_dependence": 0.45,
+        "water_stress": 0.30,
+        "irrigation_gap": 0.20,
+        "informal_work_share": 0.40,
+        "vector": [0.22, 0.45, 0.30, 0.20, 0.40],
+        "provenance": "synthetic",
+        "layer": "semantic"
+      }
+    }
+  ],
+  "edges": [
+    {"from": "kalinagar", "to": "vp_kalinagar", "type": "HAS_PROFILE", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "rice_reproductive", "type": "GROWS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "area_share": 0.55, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "wheat_grainfill", "type": "GROWS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "area_share": 0.10, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "fodder_jowar_vegetative", "type": "GROWS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "area_share": 0.08, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "zaid_moong_flowering", "type": "GROWS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "area_share": 0.05, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "mandi_rice", "type": "HAS_MARKET", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "mandi_wheat", "type": "HAS_MARKET", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "dairy_collection", "type": "HAS_MARKET", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "farm_laborers", "type": "HAS_GROUP", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "size_estimate": 0.50, "source": "src_synthetic_archetype"}},
+    {"from": "kalinagar", "to": "dairy_households", "type": "HAS_GROUP", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "size_estimate": 0.30, "source": "src_synthetic_archetype"}}
+  ]
+}

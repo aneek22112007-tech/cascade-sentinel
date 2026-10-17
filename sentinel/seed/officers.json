@@ -1,0 +1,102 @@
+{
+  "nodes": [
+    {
+      "id": "team_district_admin",
+      "labels": ["Team"],
+      "properties": { "name": "District administration", "provenance": "synthetic", "layer": "governance" }
+    },
+    {
+      "id": "team_labour",
+      "labels": ["Team"],
+      "properties": { "name": "Labour & MGNREGA cell", "provenance": "synthetic", "layer": "governance" }
+    },
+    {
+      "id": "team_agri",
+      "labels": ["Team"],
+      "properties": { "name": "Agriculture & markets cell", "provenance": "synthetic", "layer": "governance" }
+    },
+    {
+      "id": "team_health",
+      "labels": ["Team"],
+      "properties": { "name": "District health society", "provenance": "synthetic", "layer": "governance" }
+    },
+    {
+      "id": "officer_rajpur_dm",
+      "labels": ["Officer"],
+      "properties": {
+        "name": "A. Sharma",
+        "role": "District Magistrate",
+        "domain": "district",
+        "tenant": "demo",
+        "provenance": "synthetic",
+        "layer": "governance"
+      }
+    },
+    {
+      "id": "officer_kalinagar_dm",
+      "labels": ["Officer"],
+      "properties": {
+        "name": "R. Iyer",
+        "role": "District Magistrate",
+        "domain": "district",
+        "tenant": "district_b",
+        "provenance": "synthetic",
+        "layer": "governance"
+      }
+    },
+    {
+      "id": "officer_labour",
+      "labels": ["Officer"],
+      "properties": {
+        "name": "P. Yadav",
+        "role": "Labour officer",
+        "domain": "labour",
+        "tenant": "*",
+        "provenance": "synthetic",
+        "layer": "governance"
+      }
+    },
+    {
+      "id": "officer_agri",
+      "labels": ["Officer"],
+      "properties": {
+        "name": "S. Chauhan",
+        "role": "Agriculture officer",
+        "domain": "agriculture",
+        "tenant": "*",
+        "provenance": "synthetic",
+        "layer": "governance"
+      }
+    },
+    {
+      "id": "officer_health",
+      "labels": ["Officer"],
+      "properties": {
+        "name": "Dr. M. Banerjee",
+        "role": "Chief medical officer",
+        "domain": "health",
+        "tenant": "*",
+        "provenance": "synthetic",
+        "layer": "governance"
+      }
+    }
+  ],
+  "edges": [
+    {"from": "officer_rajpur_dm", "to": "team_district_admin", "type": "MEMBER_OF", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_kalinagar_dm", "to": "team_district_admin", "type": "MEMBER_OF", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_labour", "to": "team_labour", "type": "MEMBER_OF", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_agri", "to": "team_agri", "type": "MEMBER_OF", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_health", "to": "team_health", "type": "MEMBER_OF", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+
+    {"from": "officer_rajpur_dm", "to": "rajpur", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_kalinagar_dm", "to": "kalinagar", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+
+    {"from": "officer_labour", "to": "work_hour_shift", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_labour", "to": "worksite_cool_shelters", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_agri", "to": "fodder_bank", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_agri", "to": "mandi_price_advisory", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_agri", "to": "mandi_fodder", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_agri", "to": "mandi_wheat", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "officer_health", "to": "ors_chlorination", "type": "OWNS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}}
+  ]
+}

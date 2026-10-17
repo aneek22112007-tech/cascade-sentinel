@@ -15,3 +15,13 @@ Simple, demo-strong choices made while building. Update this file whenever somet
 
 - All district names are fictional. Every data node carries `provenance: 'synthetic'` except `(:Source)` nodes that point at real public portals (no numeric figures copied from those portals).
 - Day-one forecast fields that would be IMD values are stored as `"tmax_c": "TODO_REAL_VALUE"` with a synthetic fallback used at runtime. The README states the shipped numbers are synthetic.
+
+## Phase 1
+
+- **Extra corridor branches for the demo.** Added `zaid_pulse` / `mandi_pulse` so the moong stage has a typed path, and `rice_reproductive` / `rice_paddy` / `mandi_rice` so Kalinagar's semantic layer produces different top paths. `LivestockStage` carries the same doy window fields as `CropStage` (year-round 1–366) so timing factor is defined.
+- **Wheat window ends on doy 126.** Forecast doy 136 is exactly 10 days later, so T = 0.6 (near). Weather will only attack far-miss windows (T = 0.2) — that decision is recorded here and implemented in the weather agent.
+- **Library HAD_OUTCOME does not increment trials.** `interventions.json` holds the canonical trials/successes/last_trial_year. Seed writes history edges for explain(); `close_episode` is the only writer that bumps counters.
+- **Held-out JSON is not loaded at seed.** `load_heldout()` exists for `close_episode` only.
+- **Officer `tenant` property** filters DM nodes per graph. Domain officers use `tenant: "*"` and are copied into both graphs.
+- **Indexes:** `CREATE INDEX FOR (n:Label) ON (n.prop)`, ignoring already-exists errors so `make seed` is idempotent.
+- **Forecast numbers in the graph are the synthetic fallbacks**, with `tmax_placeholder` / `anomaly_placeholder` set to `TODO_REAL_VALUE` when the JSON still has the placeholder.

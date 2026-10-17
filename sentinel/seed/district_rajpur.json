@@ -1,0 +1,42 @@
+{
+  "tenant": "demo",
+  "nodes": [
+    {
+      "id": "rajpur",
+      "labels": ["District"],
+      "properties": {
+        "name": "Rajpur (archetype)",
+        "state": "Bundelkhand-like (fictional)",
+        "archetype": "semi_arid_high_landless",
+        "provenance": "synthetic",
+        "layer": "semantic"
+      }
+    },
+    {
+      "id": "vp_rajpur",
+      "labels": ["VulnerabilityProfile"],
+      "properties": {
+        "landless_labor_share": 0.45,
+        "market_dependence": 0.82,
+        "water_stress": 0.85,
+        "irrigation_gap": 0.78,
+        "informal_work_share": 0.70,
+        "vector": [0.45, 0.82, 0.85, 0.78, 0.70],
+        "provenance": "synthetic",
+        "layer": "semantic"
+      }
+    }
+  ],
+  "edges": [
+    {"from": "rajpur", "to": "vp_rajpur", "type": "HAS_PROFILE", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "wheat_grainfill", "type": "GROWS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "area_share": 0.45, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "fodder_jowar_vegetative", "type": "GROWS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "area_share": 0.30, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "zaid_moong_flowering", "type": "GROWS", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "area_share": 0.10, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "mandi_fodder", "type": "HAS_MARKET", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "mandi_wheat", "type": "HAS_MARKET", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "dairy_collection", "type": "HAS_MARKET", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "mandi_pulse", "type": "HAS_MARKET", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "farm_laborers", "type": "HAS_GROUP", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "size_estimate": 0.80, "source": "src_synthetic_archetype"}},
+    {"from": "rajpur", "to": "dairy_households", "type": "HAS_GROUP", "properties": {"weight": 1.0, "confidence": 1.0, "lag_days": 0, "size_estimate": 0.45, "source": "src_synthetic_archetype"}}
+  ]
+}
