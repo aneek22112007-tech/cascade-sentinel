@@ -2,11 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Cascade Sentinel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cascade Sentinel — refuses to act without precedent</title>
+  <link rel="icon" href="/static/logo.svg" />
   <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://unpkg.com/cytoscape@3.30.4/dist/cytoscape.min.js"></script>
+  <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+  <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
 </head>
 <body>
-  <p>UI loads in Phase 6. API is up. <a href="/health">/health</a></p>
+  <header class="topbar">
+    <img class="logo" src="/static/logo.svg" alt="Cascade Sentinel" />
+    <div class="titles">
+      <h1>Cascade Sentinel: the climate-crisis agent that refuses to act without precedent.</h1>
+      <p class="oneliner">Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent.</p>
+    </div>
+    <label class="tenant">
+      Tenant
+      <select id="tenant">
+        <option value="demo">Rajpur (demo)</option>
+        <option value="district_b">Kalinagar (district_b)</option>
+      </select>
+    </label>
+    <span class="badge" title="All district figures are synthetic archetypes">Synthetic data</span>
+    <a class="browser" href="http://localhost:3000" target="_blank" rel="noopener">FalkorDB Browser</a>
+  </header>
+
+  <main class="layout">
+    <aside class="left">
+      <div class="controls">
+        <button id="btn2024" class="primary">① Run Season 2024</button>
+        <button id="btnClose">② Close Episode (reveal history)</button>
+        <button id="btn2025">③ Run Season 2025</button>
+        <button id="btnReset" class="ghost">Reset</button>
+      </div>
+      <p class="hint">Day-1 data only until you close. Held-out outcomes are sealed. All numbers are <strong>synthetic</strong>.</p>
+      <h2>Run timeline</h2>
+      <ol id="timeline" class="timeline"></ol>
+    </aside>
+
+    <section class="center">
+      <div id="graph" class="graph"></div>
+      <div id="unprecBadge" class="unprec-badge hidden">UNPRECEDENTED: escalate to district officer</div>
+      <div class="legend">
+        <span class="swatch accepted"></span> accepted
+        <span class="swatch contested"></span> contested
+        <span class="swatch defeated"></span> defeated
+        <span class="swatch unprecedented"></span> unprecedented
+        <label><input type="checkbox" data-layer="layer-corridor" checked /> Corridor</label>
+        <label><input type="checkbox" data-layer="layer-semantic" checked /> Semantic</label>
+        <label><input type="checkbox" data-layer="layer-episodic" checked /> Episodic</label>
+        <label><input type="checkbox" data-layer="layer-procedural" checked /> Procedural</label>
+        <label><input type="checkbox" data-layer="layer-governance" checked /> Governance</label>
+      </div>
+    </section>
+
+    <aside class="right">
+      <h2>Recommendations</h2>
+      <div id="recs" class="recs"></div>
+    </aside>
+  </main>
+
+  <div id="drawer" class="drawer hidden">
+    <div class="drawer-panel">
+      <header>
+        <h2>Explain</h2>
+        <button id="drawerClose" class="ghost">Close</button>
+      </header>
+      <div id="drawerBody"></div>
+    </div>
+  </div>
+
+  <div id="diffModal" class="modal hidden">
+    <div class="modal-panel">
+      <header>
+        <h2>What changed because of memory</h2>
+        <button id="diffClose" class="ghost">Close</button>
+      </header>
+      <div id="diffBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
   <script src="/static/app.js"></script>
 </body>
 </html>

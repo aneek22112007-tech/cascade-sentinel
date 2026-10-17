@@ -59,7 +59,9 @@ def graph_snapshot(tenant: str, episode_id: str) -> dict:
         tenant,
         """
         MATCH (n)
-        WHERE n.layer IN ['corridor', 'semantic', 'procedural', 'governance', 'signal', 'episodic']
+        WHERE n:HazardType OR n:CropStage OR n:LivestockStage OR n:Commodity
+           OR n:Market OR n:LaborGroup OR n:HealthOutcome OR n:Intervention
+           OR n:District OR n:Officer
         RETURN n.id, labels(n), n.layer, n.provenance, n.name, n.score, n.status, n.kind
         """,
     ).rows
@@ -121,12 +123,18 @@ def graph_snapshot(tenant: str, episode_id: str) -> dict:
                     "weight": w,
                     "confidence": c,
                     "lag_days": lag,
-                    "source": source,
+                    "cite": source,
                 },
                 "classes": cls,
             }
         )
 
+    node_ids = {n["data"]["id"] for n in node_els}
+    edge_els = [
+        e
+        for e in edge_els
+        if e["data"]["source"] in node_ids and e["data"]["target"] in node_ids
+    ]
     return bag.envelope(
         {
             "episode_id": episode_id,
