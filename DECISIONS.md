@@ -30,7 +30,7 @@ Simple, demo-strong choices made while building. Update this file whenever somet
 
 ## Phase 9
 
-- **Live URL is a Cloudflare quick tunnel** (`https://switched-hdtv-guards-julia.trycloudflare.com`) in front of local FalkorDB + API on :8001, because port 8000 was already taken on this machine and there was no Fly/Railway token. The tunnel is ephemeral; GitHub repo is the durable artefact.
+- **Live URL is a Cloudflare quick tunnel** (`https://ones-memo-major-aurora.trycloudflare.com`) in front of local FalkorDB + API on :8001, because port 8000 was already taken on this machine and there was no Fly/Railway token. The tunnel is ephemeral; GitHub repo is the durable artefact. Previous URL `https://switched-hdtv-guards-julia.trycloudflare.com` died with the prior cloudflared process.
 
 ## Phase 5
 
