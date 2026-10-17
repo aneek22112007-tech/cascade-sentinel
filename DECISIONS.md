@@ -32,6 +32,14 @@ Simple, demo-strong choices made while building. Update this file whenever somet
 
 - **Live URL is a Cloudflare quick tunnel** (`https://ones-memo-major-aurora.trycloudflare.com`) in front of local FalkorDB + API on :8001, because port 8000 was already taken on this machine and there was no Fly/Railway token. The tunnel is ephemeral; GitHub repo is the durable artefact. Previous URL `https://switched-hdtv-guards-julia.trycloudflare.com` died with the prior cloudflared process.
 
+## Concurrency, auth, packaging
+
+- **`close_episode` claims the episode** with `SET e.closing=true` where `closed_at IS NULL`, plus a per-(tenant, episode) `threading.Lock`. Failed claims wait for `close_result`. The claim flag is cleared on exception. HAD_OUTCOME increments skip if that episode already wrote the edge.
+- **`query_precedent` reads `Season.year` from the episode**, not `config.CURRENT_YEAR`, so concurrent 2024/2025 runs do not cross-decay. `CURRENT_YEAR` remains the fallback.
+- **Optional `SENTINEL_ADMIN_TOKEN`.** Unset = local demo. Set = mutating POSTs require `X-Sentinel-Token`.
+- **Stale recommendations:** `recommend_action` deletes recs not in the new id set; APPROVED recs are kept with `superseded=true` and hidden from GET `/recommendations`.
+- **Wheel includes `sentinel/seed/*.json`.** UI path is `SENTINEL_STATIC_DIR` or `ROOT/static`.
+
 ## Phase 5
 
 - **Pin `mcp>=1.2,<2`.** mcp 2.x renamed FastMCP to MCPServer. The brief asks for FastMCP, so we stay on 1.x.

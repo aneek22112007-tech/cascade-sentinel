@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from sentinel import config
 from sentinel.db import query as db_query
 from sentinel.formulas import path_signature
 
@@ -87,6 +88,26 @@ def episode_context(bag: CypherBag, tenant: str, episode_id: str) -> dict[str, A
         "vector": list(prof.get("vector") or []),
         "water_stress": float(prof.get("water_stress") or 0.0),
     }
+
+
+def episode_year(bag: CypherBag, tenant: str, ctx: dict[str, Any]) -> int:
+    """Season year for this episode. Falls back to config.CURRENT_YEAR."""
+    ep = ctx.get("episode") or {}
+    season_id = ep.get("season_id") or ""
+    if season_id.startswith("season_"):
+        try:
+            return int(season_id.split("_", 1)[1])
+        except ValueError:
+            pass
+    if season_id:
+        row = bag.run(
+            tenant,
+            "MATCH (s:Season {id: $sid}) RETURN s.year",
+            {"sid": season_id},
+        ).rows
+        if row and row[0][0] is not None:
+            return int(row[0][0])
+    return int(config.CURRENT_YEAR)
 
 
 def district_maps(bag: CypherBag, tenant: str, district_id: str) -> dict[str, Any]:

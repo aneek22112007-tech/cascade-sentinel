@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from sentinel import config
 from sentinel.formulas import episode_similarity, precedent_weight
-from sentinel.tools.common import CypherBag, episode_context, split_signature
+from sentinel.tools.common import CypherBag, episode_context, episode_year, split_signature
 
 
 def query_precedent(tenant: str, episode_id: str, path_signature: str, k: int = 3) -> dict:
@@ -63,7 +63,7 @@ def query_precedent(tenant: str, episode_id: str, path_signature: str, k: int = 
         {"path_ids": path_ids},
     ).rows
 
-    year = config.CURRENT_YEAR
+    year = episode_year(bag, tenant, ctx)
     interventions = []
     seen = set()
     for row in hist:

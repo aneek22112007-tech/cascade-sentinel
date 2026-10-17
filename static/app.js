@@ -19,8 +19,14 @@
     setTimeout(() => toast.classList.add("hidden"), 2800);
   }
 
+  function authHeaders() {
+    const t = (typeof localStorage !== "undefined" && localStorage.getItem("sentinelToken")) || "";
+    return t ? { "X-Sentinel-Token": t } : {};
+  }
+
   async function api(path, opts = {}) {
-    const res = await fetch(path, opts);
+    const headers = Object.assign({}, opts.headers || {}, authHeaders());
+    const res = await fetch(path, Object.assign({}, opts, { headers }));
     if (!res.ok) throw new Error(`${res.status} ${path}`);
     const ct = res.headers.get("content-type") || "";
     if (ct.includes("text/event-stream")) return res;
@@ -153,7 +159,7 @@
   async function runSeason(year) {
     timeline.innerHTML = "";
     showToast(`Running season ${year} (synthetic day-1 data)…`);
-    const res = await fetch(`/api/${tenant()}/run/${year}`, { method: "POST" });
+    const res = await fetch(`/api/${tenant()}/run/${year}`, { method: "POST", headers: authHeaders() });
     await readSSE(res, async (bundle) => {
       episodeId = bundle.episode_id;
       if (year === 2024) last2024 = bundle;

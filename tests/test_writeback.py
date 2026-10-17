@@ -1,7 +1,9 @@
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from sentinel.agents.orchestrator import run_season
 from sentinel.db import delete_graph, query
 from sentinel.formulas import precedent_weight
-from sentinel.seed.loader import load_tenant
+from sentinel.seed.loader import load_heldout, load_tenant
 from sentinel.tools.episodes import close_episode
 
 
@@ -33,3 +35,32 @@ def test_close_writeback_and_idempotent():
     assert second["agents"] == first["agents"]
     row = query("demo", "MATCH (e:Episode {id:$id}) RETURN e.status", {"id": eid}).rows[0]
     assert row[0] == "closed"
+
+
+def test_close_episode_concurrent_increments_trials_once():
+    delete_graph("demo")
+    load_tenant("demo")
+    bundle = run_season("demo", 2024, with_llm=False)
+    eid = bundle["episode_id"]
+    before = {
+        r[0]: int(r[1] or 0)
+        for r in query("demo", "MATCH (i:Intervention) RETURN i.id, i.trials").rows
+    }
+    outcome_ids = {
+        o["intervention_id"]
+        for o in load_heldout()["by_tenant_year"]["demo"]["2024"]["outcomes"]
+    }
+    results = []
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        futs = [pool.submit(close_episode, "demo", eid) for _ in range(4)]
+        for fut in as_completed(futs):
+            results.append(fut.result()["result"])
+    after = {
+        r[0]: int(r[1] or 0)
+        for r in query("demo", "MATCH (i:Intervention) RETURN i.id, i.trials").rows
+    }
+    assert len(results) == 4
+    for iid, trials0 in before.items():
+        delta = 1 if iid in outcome_ids else 0
+        assert after[iid] == trials0 + delta, f"{iid}: {trials0} -> {after[iid]}"
+    assert all(r.get("reconstruction_pass") is True for r in results)

@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import asyncio
+import hmac
 import json
-from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -19,7 +19,7 @@ from sentinel.db import delete_graph
 from sentinel.tools.episodes import close_episode
 from sentinel.tools.registry import call_tool, list_tool_names
 
-STATIC = config.ROOT / "static"
+STATIC = config.SENTINEL_STATIC_DIR
 
 app = FastAPI(
     title="Cascade Sentinel",
@@ -32,6 +32,25 @@ def _ok_tenant(tenant: str) -> str:
     if tenant not in config.TENANTS:
         raise HTTPException(400, f"unknown tenant {tenant}")
     return tenant
+
+
+def require_admin(x_sentinel_token: str | None = Header(default=None, alias="X-Sentinel-Token")) -> None:
+    expected = config.SENTINEL_ADMIN_TOKEN or ""
+    if not expected:
+        return
+    provided = x_sentinel_token or ""
+    if not hmac.compare_digest(provided, expected):
+        raise HTTPException(401, "invalid or missing X-Sentinel-Token")
+
+
+@app.exception_handler(KeyError)
+async def _key_error(_request: Request, exc: KeyError) -> JSONResponse:
+    return JSONResponse(status_code=404, content={"detail": str(exc).strip("'")})
+
+
+@app.exception_handler(ValueError)
+async def _value_error(_request: Request, exc: ValueError) -> JSONResponse:
+    return JSONResponse(status_code=400, content={"detail": str(exc)})
 
 
 @app.get("/health")
@@ -56,7 +75,7 @@ def tenants() -> dict[str, Any]:
 
 
 @app.post("/api/{tenant}/reset")
-def reset_tenant(tenant: str) -> dict[str, Any]:
+def reset_tenant(tenant: str, _: None = Depends(require_admin)) -> dict[str, Any]:
     tenant = _ok_tenant(tenant)
     delete_graph(tenant)
     counts = load_tenant(tenant)
@@ -64,7 +83,7 @@ def reset_tenant(tenant: str) -> dict[str, Any]:
 
 
 @app.post("/api/{tenant}/run/{year}")
-async def run(tenant: str, year: int, sse: bool = True) -> Any:
+async def run(tenant: str, year: int, sse: bool = True, _: None = Depends(require_admin)) -> Any:
     tenant = _ok_tenant(tenant)
     if year not in (2024, 2025):
         raise HTTPException(400, "year must be 2024 or 2025")
@@ -100,9 +119,12 @@ async def run(tenant: str, year: int, sse: bool = True) -> Any:
 
 
 @app.post("/api/{tenant}/close/{episode_id}")
-def close(tenant: str, episode_id: str) -> dict[str, Any]:
+def close(tenant: str, episode_id: str, _: None = Depends(require_admin)) -> dict[str, Any]:
     tenant = _ok_tenant(tenant)
-    return close_episode(tenant, episode_id)
+    try:
+        return close_episode(tenant, episode_id)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc).strip("'")) from exc
 
 
 @app.get("/api/{tenant}/snapshot/{episode_id}")
@@ -114,13 +136,16 @@ def snapshot(tenant: str, episode_id: str) -> dict[str, Any]:
 @app.get("/api/{tenant}/explain/{recommendation_id}")
 def explain_route(tenant: str, recommendation_id: str) -> dict[str, Any]:
     tenant = _ok_tenant(tenant)
-    out = call_tool("explain", tenant=tenant, recommendation_id=recommendation_id)
+    try:
+        out = call_tool("explain", tenant=tenant, recommendation_id=recommendation_id)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc).strip("'")) from exc
     out["result"]["cypher"] = out["cypher"]
     return out
 
 
 @app.post("/api/{tenant}/approve/{recommendation_id}")
-def approve(tenant: str, recommendation_id: str) -> dict[str, Any]:
+def approve(tenant: str, recommendation_id: str, _: None = Depends(require_admin)) -> dict[str, Any]:
     tenant = _ok_tenant(tenant)
     rec = query(
         tenant,
@@ -149,7 +174,10 @@ def approve(tenant: str, recommendation_id: str) -> dict[str, Any]:
 @app.get("/api/{tenant}/memory/{layer}")
 def memory(tenant: str, layer: str) -> dict[str, Any]:
     tenant = _ok_tenant(tenant)
-    return call_tool("memory_view", tenant=tenant, layer=layer)
+    try:
+        return call_tool("memory_view", tenant=tenant, layer=layer)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 @app.get("/api/{tenant}/episode/{year}")
@@ -185,6 +213,7 @@ def recs(tenant: str, episode_id: str) -> dict[str, Any]:
         tenant,
         """
         MATCH (r:Recommendation {episode_id: $eid})
+        WHERE coalesce(r.superseded, false) = false
         OPTIONAL MATCH (r)-[:OF]->(i:Intervention)
         OPTIONAL MATCH (r)-[:ESCALATED_TO]->(o:Officer)
         RETURN r.id, r.kind, r.score, r.path_signature, r.message,

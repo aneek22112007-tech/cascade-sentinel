@@ -63,8 +63,17 @@ def _user_prompt(payload: dict[str, Any]) -> str:
 
 def _bedrock(payload: dict[str, Any]) -> str:
     import boto3  # optional extra
+    from botocore.config import Config as BotoConfig
 
-    client = boto3.client("bedrock-runtime", region_name=config.AWS_REGION)
+    client = boto3.client(
+        "bedrock-runtime",
+        region_name=config.AWS_REGION,
+        config=BotoConfig(
+            read_timeout=config.LLM_TIMEOUT_S,
+            connect_timeout=config.LLM_TIMEOUT_S,
+            retries={"max_attempts": 1},
+        ),
+    )
     body = {
         "anthropic_version": "bedrock-2023-05-31",
         "max_tokens": 200,

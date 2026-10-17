@@ -54,3 +54,59 @@ def test_never_invents_action_on_dairy(episode_2024):
     assert dairy_recs
     assert all(r["kind"] == "escalate" for r in dairy_recs)
     assert all(r.get("intervention_id") is None for r in dairy_recs)
+
+
+def test_stale_recommendations_pruned_unless_approved(episode_2024):
+    from sentinel.db import query
+
+    tenant, eid = _setup(episode_2024)
+    first = recommend_action(tenant, eid)["result"]["recommendations"]
+    keep = {r["id"] for r in first}
+    query(
+        tenant,
+        """
+        MERGE (r:Recommendation {id: $id})
+        SET r.episode_id = $eid, r.kind = 'act', r.score = 0, r.superseded = false,
+            r.provenance = 'synthetic', r.layer = 'procedural'
+        """,
+        {"id": "rec_stale_unapproved", "eid": eid},
+    )
+    query(
+        tenant,
+        """
+        MERGE (r:Recommendation {id: $id})
+        SET r.episode_id = $eid, r.kind = 'act', r.score = 0, r.superseded = false,
+            r.provenance = 'synthetic', r.layer = 'procedural'
+        WITH r
+        MATCH (o:Officer)
+        WITH r, o LIMIT 1
+        MERGE (o)-[:APPROVED {at: timestamp()}]->(r)
+        """,
+        {"id": "rec_stale_approved", "eid": eid},
+    )
+    second = recommend_action(tenant, eid)["result"]["recommendations"]
+    returned = {r["id"] for r in second}
+    assert "rec_stale_unapproved" not in returned
+    assert "rec_stale_approved" not in returned
+    assert keep <= returned
+    gone = query(
+        tenant, "MATCH (r:Recommendation {id: 'rec_stale_unapproved'}) RETURN r.id"
+    ).rows
+    assert gone == []
+    kept = query(
+        tenant,
+        "MATCH (r:Recommendation {id: 'rec_stale_approved'}) RETURN r.superseded",
+    ).rows
+    assert kept and kept[0][0] is True
+    live = query(
+        tenant,
+        """
+        MATCH (r:Recommendation {episode_id: $eid})
+        WHERE coalesce(r.superseded, false) = false
+        RETURN r.id
+        """,
+        {"eid": eid},
+    ).rows
+    live_ids = {r[0] for r in live}
+    assert "rec_stale_approved" not in live_ids
+    assert live_ids == returned

@@ -3,12 +3,22 @@
 from __future__ import annotations
 
 import json
+import threading
+import time
 from datetime import datetime, timezone
 
 from sentinel import config
 from sentinel.formulas import credibility, is_hit, jaccard, path_signature, precedent_weight
 from sentinel.seed.loader import load_heldout
-from sentinel.tools.common import CypherBag, episode_context, split_signature
+from sentinel.tools.common import CypherBag, episode_context, episode_year, split_signature
+
+_CLOSE_LOCKS: dict[tuple[str, str], threading.Lock] = {}
+_CLOSE_LOCKS_GUARD = threading.Lock()
+
+
+def _close_lock(tenant: str, episode_id: str) -> threading.Lock:
+    with _CLOSE_LOCKS_GUARD:
+        return _CLOSE_LOCKS.setdefault((tenant, episode_id), threading.Lock())
 
 
 def open_episode(tenant: str, season_year: int) -> dict:
@@ -109,27 +119,68 @@ def reset_episode_runtime(tenant: str, episode_id: str) -> dict:
     return bag.envelope({"reset": episode_id})
 
 
-def close_episode(tenant: str, episode_id: str) -> dict:
-    bag = CypherBag()
+def _stored_close(bag: CypherBag, tenant: str, episode_id: str) -> dict | None:
     ctx = episode_context(bag, tenant, episode_id)
     ep = ctx["episode"]
-    if ep.get("closed_at"):
-        stored = ep.get("close_result")
-        if stored:
-            return bag.envelope(json.loads(stored))
-        return bag.envelope({"episode_id": episode_id, "status": "closed", "idempotent": True})
+    if not ep.get("closed_at"):
+        return None
+    stored = ep.get("close_result")
+    if stored:
+        return bag.envelope(json.loads(stored))
+    return bag.envelope({"episode_id": episode_id, "status": "closed", "idempotent": True})
 
-    season_id = ep.get("season_id") or ""
-    year = None
-    if season_id.startswith("season_"):
-        year = int(season_id.split("_", 1)[1])
-    else:
-        row = bag.run(
+
+def _wait_stored_close(bag: CypherBag, tenant: str, episode_id: str, timeout_s: float = 15.0) -> dict | None:
+    deadline = time.monotonic() + timeout_s
+    while time.monotonic() < deadline:
+        found = _stored_close(bag, tenant, episode_id)
+        if found is not None:
+            return found
+        time.sleep(0.05)
+    return None
+
+
+def close_episode(tenant: str, episode_id: str) -> dict:
+    with _close_lock(tenant, episode_id):
+        return _close_episode_locked(tenant, episode_id)
+
+
+def _close_episode_locked(tenant: str, episode_id: str) -> dict:
+    bag = CypherBag()
+    stored = _stored_close(bag, tenant, episode_id)
+    if stored is not None:
+        return stored
+
+    claimed = bag.run(
+        tenant,
+        """
+        MATCH (e:Episode {id: $eid})
+        WHERE e.closed_at IS NULL AND coalesce(e.closing, false) = false
+        SET e.closing = true
+        RETURN e.id
+        """,
+        {"eid": episode_id},
+    )
+    if not claimed.rows:
+        waited = _wait_stored_close(bag, tenant, episode_id)
+        if waited is not None:
+            return waited
+        raise RuntimeError(f"close_episode could not claim {episode_id}")
+
+    try:
+        return _close_episode_write(bag, tenant, episode_id)
+    except Exception:
+        bag.run(
             tenant,
-            "MATCH (s:Season {id: $sid}) RETURN s.year",
-            {"sid": season_id},
-        ).rows
-        year = int(row[0][0]) if row else config.CURRENT_YEAR
+            "MATCH (e:Episode {id: $eid}) SET e.closing = false",
+            {"eid": episode_id},
+        )
+        raise
+
+
+def _close_episode_write(bag: CypherBag, tenant: str, episode_id: str) -> dict:
+    ctx = episode_context(bag, tenant, episode_id)
+    year = episode_year(bag, tenant, ctx)
 
     held = load_heldout()["by_tenant_year"][tenant][str(year)]
     realized = list(held["realized_path"])
@@ -195,30 +246,40 @@ def close_episode(tenant: str, episode_id: str) -> dict:
         iid = out["intervention_id"]
         success = bool(out["success"])
         oid = f"out_{episode_id}_{iid}"
-        bag.run(
+        already = bag.run(
             tenant,
             """
-            MATCH (i:Intervention {id: $iid})
-            MERGE (out:Outcome {id: $oid})
-            SET out.description = $desc, out.provenance = 'synthetic', out.layer = 'procedural'
-            MERGE (i)-[r:HAD_OUTCOME {episode_id: $eid}]->(out)
-            SET r.success = $success, r.effect_size = $effect, r.source = $src, r.year = $year,
-                r.weight = 1.0, r.confidence = 1.0, r.lag_days = 0
-            SET i.trials = coalesce(i.trials, 0) + 1,
-                i.successes = coalesce(i.successes, 0) + CASE WHEN $success THEN 1 ELSE 0 END,
-                i.last_trial_year = $year
+            MATCH (:Intervention {id: $iid})-[r:HAD_OUTCOME {episode_id: $eid}]->(:Outcome)
+            RETURN count(r)
             """,
-            {
-                "iid": iid,
-                "oid": oid,
-                "desc": out.get("description", ""),
-                "eid": episode_id,
-                "success": success,
-                "effect": float(out.get("effect_size") or 0.0),
-                "src": "src_synthetic_episode",
-                "year": year,
-            },
-        )
+            {"iid": iid, "eid": episode_id},
+        ).rows
+        had = already and int(already[0][0] or 0) > 0
+        if not had:
+            bag.run(
+                tenant,
+                """
+                MATCH (i:Intervention {id: $iid})
+                MERGE (out:Outcome {id: $oid})
+                SET out.description = $desc, out.provenance = 'synthetic', out.layer = 'procedural'
+                MERGE (i)-[r:HAD_OUTCOME {episode_id: $eid}]->(out)
+                SET r.success = $success, r.effect_size = $effect, r.source = $src, r.year = $year,
+                    r.weight = 1.0, r.confidence = 1.0, r.lag_days = 0
+                SET i.trials = coalesce(i.trials, 0) + 1,
+                    i.successes = coalesce(i.successes, 0) + CASE WHEN $success THEN 1 ELSE 0 END,
+                    i.last_trial_year = $year
+                """,
+                {
+                    "iid": iid,
+                    "oid": oid,
+                    "desc": out.get("description", ""),
+                    "eid": episode_id,
+                    "success": success,
+                    "effect": float(out.get("effect_size") or 0.0),
+                    "src": "src_synthetic_episode",
+                    "year": year,
+                },
+            )
         row = bag.run(
             tenant,
             "MATCH (i:Intervention {id: $iid}) RETURN i.trials, i.successes, i.last_trial_year",
@@ -312,7 +373,7 @@ def close_episode(tenant: str, episode_id: str) -> dict:
         tenant,
         """
         MATCH (e:Episode {id: $eid})
-        SET e.status = 'closed', e.closed_at = $now, e.close_result = $payload
+        SET e.status = 'closed', e.closed_at = $now, e.close_result = $payload, e.closing = false
         """,
         {"eid": episode_id, "now": now, "payload": json.dumps(payload, sort_keys=True)},
     )

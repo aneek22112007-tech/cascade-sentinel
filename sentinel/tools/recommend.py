@@ -109,6 +109,7 @@ def recommend_action(tenant: str, episode_id: str) -> dict:
             _write_rec(bag, tenant, rec, officer_id=officer_id)
 
     recs.sort(key=lambda r: ({"act": 0, "defeated_precedent": 1, "escalate": 2}[r["kind"]], -r["score"]))
+    _prune_stale_recs(bag, tenant, episode_id, {r["id"] for r in recs})
     return bag.envelope({"episode_id": episode_id, "recommendations": recs, "officer_id": officer_id})
 
 
@@ -123,6 +124,7 @@ def _write_rec(bag: CypherBag, tenant: str, rec: dict, officer_id: str | None) -
             r.score = $score,
             r.created_at = coalesce(r.created_at, timestamp()),
             r.message = $message,
+            r.superseded = false,
             r.provenance = 'synthetic',
             r.layer = 'procedural'
         """,
@@ -160,3 +162,29 @@ def _write_rec(bag: CypherBag, tenant: str, rec: dict, officer_id: str | None) -
             """,
             {"rid": rec["id"], "oid": officer_id},
         )
+
+
+def _prune_stale_recs(bag: CypherBag, tenant: str, episode_id: str, keep_ids: set[str]) -> None:
+    rows = bag.run(
+        tenant,
+        """
+        MATCH (r:Recommendation {episode_id: $eid})
+        WHERE NOT r.id IN $keep
+        OPTIONAL MATCH (o:Officer)-[:APPROVED]->(r)
+        RETURN r.id, count(o)
+        """,
+        {"eid": episode_id, "keep": list(keep_ids)},
+    ).rows
+    for rid, n_approved in rows:
+        if int(n_approved or 0) > 0:
+            bag.run(
+                tenant,
+                "MATCH (r:Recommendation {id: $id}) SET r.superseded = true",
+                {"id": rid},
+            )
+        else:
+            bag.run(
+                tenant,
+                "MATCH (r:Recommendation {id: $id}) DETACH DELETE r",
+                {"id": rid},
+            )

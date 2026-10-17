@@ -35,7 +35,13 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "grok-4")
 
 LOG_CYPHER = os.getenv("SENTINEL_LOG_CYPHER", "0") == "1"
 
-# Season clock. Backtest overrides per season.
+# Optional. If set, mutating POST routes require header X-Sentinel-Token.
+SENTINEL_ADMIN_TOKEN = os.getenv("SENTINEL_ADMIN_TOKEN", "") or ""
+
+# UI files. Override when the wheel is installed away from the repo checkout.
+SENTINEL_STATIC_DIR = Path(os.getenv("SENTINEL_STATIC_DIR") or (ROOT / "static"))
+
+# Season clock. Backtest overrides per season. Prefer episode Season.year at read time.
 CURRENT_YEAR = int(os.getenv("CURRENT_YEAR", "2024"))
 
 # --- section 6 constants ---

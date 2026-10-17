@@ -29,8 +29,14 @@ llm = ["boto3>=1.35.0"]
 sentinel-backtest = "sentinel.backtest:main"
 sentinel-mcp = "sentinel.mcp_server:main"
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.packages.find]
 include = ["sentinel*"]
+
+[tool.setuptools.package-data]
+sentinel = ["seed/*.json", "seed/*.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

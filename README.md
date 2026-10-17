@@ -4,7 +4,7 @@
 
 ![Season 2024 graph](docs/screenshots/02-season-2024.png)
 
-**Live demo:** https://ones-memo-major-aurora.trycloudflare.com · **Video:** _placeholder_ · **Repo:** https://github.com/aneek22112007-tech/cascade-sentinel
+**Live demo:** run locally with `make demo` → http://localhost:8000 · **Video:** _placeholder_ · **Repo:** https://github.com/aneek22112007-tech/cascade-sentinel
 
 > Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent.
 
@@ -33,6 +33,8 @@ make demo          # http://localhost:8000
 If port 8000 is taken: `make demo PORT=8001`.
 
 FalkorDB Browser: [http://localhost:3000](http://localhost:3000)
+
+Optional `SENTINEL_ADMIN_TOKEN` in `.env`: when set, mutating POST routes (`/api/{tenant}/reset`, `/run/{year}`, `/close/{episode_id}`, `/approve/{recommendation_id}`) require header `X-Sentinel-Token`. Leave it unset for local demo. The UI sends `localStorage.sentinelToken` when present.
 
 ```bash
 make backtest      # double-run, PASS, memory diffs
