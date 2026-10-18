@@ -23,7 +23,7 @@ class AgronomyAgent(Agent):
         ranked.sort(key=lambda t: -t[0])
         for area, path, crop in ranked:
             sig = path["signature"]
-            if crop == "wheat_grainfill":
+            if crop == "wheat_grainfill" and area >= config.AREA_SHARE_ATTACK_BELOW:
                 conf = 0.90
                 claim = "Wheat grain-price path dominates given area_share."
             elif area < config.AREA_SHARE_ATTACK_BELOW:
@@ -73,7 +73,7 @@ class AgronomyAgent(Agent):
                 continue
             if hyp.get("agent_id") == self.agent_id:
                 continue
-            if crop == "fodder_jowar_vegetative":
+            if crop == "fodder_jowar_vegetative" and area >= config.AREA_SHARE_ATTACK_BELOW:
                 calls.append(
                     self.call(
                         "attack_hypothesis",

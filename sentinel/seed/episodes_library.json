@@ -294,7 +294,9 @@
       "observations": [
         {"node": "rice_paddy", "date": "2021-05-28", "value": 0.82, "unit": "relative_yield", "source": "src_synthetic_episode"}
       ],
-      "outcomes": []
+      "outcomes": [
+        {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.33, "description": "Transplanting crews moved to early/late shifts; fewer heat complaints at paddy worksites."}
+      ]
     },
     {
       "id": "ep_lib_2023_kalinagar",
@@ -317,7 +319,9 @@
       "observations": [
         {"node": "heat_stress_illness", "date": "2023-05-22", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
       ],
-      "outcomes": []
+      "outcomes": [
+        {"intervention_id": "work_hour_shift", "success": true, "effect_size": 0.30, "description": "Hour shift on worksites during the direct heat spell."}
+      ]
     }
   ]
 }

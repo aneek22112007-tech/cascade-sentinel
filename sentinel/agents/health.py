@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from sentinel.agents.base import Agent, EpisodeView, ToolCall
+from sentinel.agents.base import Agent, EpisodeView, ToolCall, dominant_in_window_stage
 from sentinel.tools.common import split_signature
 
 LOW_OUTDOOR = 6.0
@@ -59,6 +59,7 @@ class HealthAgent(Agent):
 
     def critique(self, view: EpisodeView, rivals: list[dict[str, Any]]) -> list[ToolCall]:
         calls: list[ToolCall] = []
+        dominant = dominant_in_window_stage(view)
         for hyp in rivals:
             ids = split_signature(hyp["path_signature"])
             labors = [n for n in ids if n in view.outdoor_hours]
@@ -100,17 +101,18 @@ class HealthAgent(Agent):
                 hyp.get("agent_id") != self.agent_id
                 and "heat_stress_illness" in ids
                 and "farm_laborers" in ids
-                and "fodder" in ids
+                and dominant is not None
+                and dominant in ids
             ):
                 calls.append(
                     self.call(
                         "support_hypothesis",
-                        "support fodder-labour-heat",
+                        f"support {dominant.split('_')[0]}-labour-heat",
                         agent_id=self.agent_id,
                         hypothesis_id=hyp["id"],
                         evidence={
                             "kind": "morbidity",
-                            "statement": "Fodder shock lengthens outdoor hours; heat-stress follows.",
+                            "statement": f"{dominant.split('_')[0].capitalize()} shock (dominant in-window stage) lengthens outdoor hours; heat-stress follows.",
                             "strength": 0.40,
                             "source": "src_synthetic_episode",
                         },

@@ -31,6 +31,27 @@ class EpisodeView:
     windows: dict[str, tuple] = field(default_factory=dict)
 
 
+def dominant_in_window_stage(view: "EpisodeView") -> str | None:
+    """The in-window crop stage that covers the most planted area in this district.
+
+    Rajpur: wheat grain-fill is out of window on the forecast doy, so fodder jowar (0.30) wins.
+    Kalinagar: rice reproductive (0.55) wins. Fully determined by the semantic layer.
+    """
+    from sentinel import config
+    from sentinel.formulas import timing_factor
+
+    doy = int(view.forecast.get("doy") or 0)
+    best, best_area = None, -1.0
+    for stage, area in sorted(view.area_share.items()):
+        if stage not in view.windows:
+            continue
+        if timing_factor(doy, *view.windows[stage]) != config.TIMING_IN_WINDOW:
+            continue
+        if area > best_area:
+            best, best_area = stage, area
+    return best
+
+
 class Agent:
     agent_id: str = ""
 

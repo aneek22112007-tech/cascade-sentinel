@@ -31,9 +31,11 @@ DISTRICT_FILE = {
 
 
 def seed_archetype(tenant: str) -> str:
-    """Map a graph tenant to the seed JSON it clones. `test_*` graphs clone demo."""
+    """Map a graph tenant to the seed JSON it clones. `test_*` clone demo, `testb_*` clone district_b."""
     if tenant in DISTRICT_FILE:
         return tenant
+    if tenant.startswith("testb_"):
+        return "district_b"
     if tenant.startswith("test_"):
         return "demo"
     raise ValueError(f"unknown tenant {tenant!r}")

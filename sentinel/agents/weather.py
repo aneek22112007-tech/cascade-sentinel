@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from sentinel import config
-from sentinel.agents.base import Agent, EpisodeView, ToolCall
+from sentinel.agents.base import Agent, EpisodeView, ToolCall, dominant_in_window_stage
 from sentinel.formulas import timing_factor
 from sentinel.tools.common import split_signature
 
@@ -14,6 +14,7 @@ class WeatherAgent(Agent):
     def propose(self, view: EpisodeView) -> list[ToolCall]:
         calls: list[ToolCall] = []
         doy = int(view.forecast.get("doy") or 0)
+        dominant = dominant_in_window_stage(view)
         for path in view.paths:
             ids = path["node_ids"]
             sig = path["signature"]
@@ -55,7 +56,8 @@ class WeatherAgent(Agent):
                         episode_id=view.episode_id,
                         path_signature=sig,
                         claim=f"In-window stage stress on {stages[0]} (doy {doy} inside window).",
-                        confidence=0.95 if stages[0] == "fodder_jowar_vegetative" else 0.80,
+                        # exposure-weighted: the in-window stage with the most planted area
+                        confidence=0.95 if stages[0] == dominant else 0.80,
                     )
                 )
         return calls
