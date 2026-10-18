@@ -40,16 +40,27 @@ class QueryResult:
         return out
 
 
+def _lite_client(path: str):
+    try:
+        from redislite.falkordb_client import FalkorDB as LiteDB
+    except ImportError:
+        from falkordblite import FalkorDB as LiteDB
+    return LiteDB(path)
+
+
 def get_client() -> FalkorDB:
     global _client
     if _client is None:
-        kwargs: dict[str, Any] = {
-            "host": config.FALKORDB_HOST,
-            "port": config.FALKORDB_PORT,
-        }
-        if config.FALKORDB_PASSWORD:
-            kwargs["password"] = config.FALKORDB_PASSWORD
-        _client = FalkorDB(**kwargs)
+        if config.FALKORDB_LITE:
+            _client = _lite_client(config.FALKORDB_LITE)
+        else:
+            kwargs: dict[str, Any] = {
+                "host": config.FALKORDB_HOST,
+                "port": config.FALKORDB_PORT,
+            }
+            if config.FALKORDB_PASSWORD:
+                kwargs["password"] = config.FALKORDB_PASSWORD
+            _client = FalkorDB(**kwargs)
     return _client
 
 

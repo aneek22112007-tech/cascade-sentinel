@@ -34,6 +34,25 @@ If port 8000 is taken: `make demo PORT=8001`.
 
 FalkorDB Browser: [http://localhost:3000](http://localhost:3000)
 
+### No Docker?
+
+Python 3.12+. Embedded Redis + FalkorDB via [FalkorDBLite](https://docs.falkordb.com/operations/falkordblite/falkordblite-py) — Unix sockets, no Docker daemon.
+
+```bash
+pip install falkordblite
+# macOS: brew install libomp   # if libomp.dylib is missing
+echo 'FALKORDB_LITE=/tmp/falkordb.db' >> .env
+make seed
+make demo
+```
+
+Skip `make up`. Seed, backtest, pytest, and the API use the same `select_graph` client against the embedded file.
+
+```python
+from redislite.falkordb_client import FalkorDB
+db = FalkorDB("/tmp/falkordb.db")
+```
+
 Optional `SENTINEL_ADMIN_TOKEN` in `.env`: when set, mutating POST routes (`/api/{tenant}/reset`, `/run/{year}`, `/close/{episode_id}`, `/approve/{recommendation_id}`) require header `X-Sentinel-Token`. Leave it unset for local demo. The UI sends `localStorage.sentinelToken` when present.
 
 ```bash

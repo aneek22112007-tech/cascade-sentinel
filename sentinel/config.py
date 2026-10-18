@@ -16,6 +16,8 @@ SEED_DIR = Path(__file__).resolve().parent / "seed"
 FALKORDB_HOST = os.getenv("FALKORDB_HOST", "localhost")
 FALKORDB_PORT = int(os.getenv("FALKORDB_PORT", "6379"))
 FALKORDB_PASSWORD = os.getenv("FALKORDB_PASSWORD", "") or None
+# Embedded FalkorDBLite db file. When set, db.py skips host/port Docker Redis.
+FALKORDB_LITE = os.getenv("FALKORDB_LITE", "") or ""
 
 DEFAULT_TENANT = os.getenv("TENANT_DEFAULT", "demo")
 TENANTS = ("demo", "district_b")
