@@ -1,0 +1,23 @@
+# Render Blueprint: New + > Blueprint > pick this repo > Apply.
+# One free Docker web service. FalkorDB runs embedded inside the container
+# (sentinel.serve), both tenants auto-seed on boot. Render injects $PORT.
+services:
+  - type: web
+    name: cascade-sentinel
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: LLM_PROVIDER
+        value: none
+      - key: SEED_ON_START
+        value: if-empty
+      # Optional: lock the mutating POST routes for a public demo.
+      # - key: SENTINEL_ADMIN_TOKEN
+      #   generateValue: true
+      # Optional: external FalkorDB (FalkorDB Cloud) instead of embedded.
+      # - key: FALKORDB_URL
+      #   sync: false
