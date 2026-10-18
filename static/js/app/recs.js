@@ -100,7 +100,7 @@ function recCard(r) {
   const actions = el("div", { class: "row" });
   actions.append(el("button", { class: "btn", type: "button", text: "Explain", onclick: () => openExplain(r.id) }));
   if (r.kind === "act") {
-    actions.append(el("button", { class: "btn btn-primary", type: "button", text: "Approve", onclick: () => approve(r, card) }));
+    actions.append(el("button", { class: "btn btn-primary", type: "button", text: "Approve", "data-approve": "1", onclick: () => approve(r, card) }));
   }
   card.append(actions);
 
@@ -114,13 +114,15 @@ function markApproved(card, officer) {
   card.classList.add("approved");
   const note = el("p", { class: "muted", text: `Approved by ${officer.name}, ${officer.role}` });
   card.append(note);
-  card.querySelectorAll("button").forEach((b) => {
-    if (b.textContent === "Approve") b.disabled = true;
+  card.querySelectorAll("button[data-approve]").forEach((b) => {
+    b.disabled = true;
+    b.textContent = "Approved ✓";
   });
 }
 
 async function approve(r, card) {
-  const btn = [...card.querySelectorAll("button")].find((b) => b.textContent === "Approve");
+  const btn = card.querySelector("button[data-approve]");
+  if (!btn || btn.disabled) return;
   if (btn) {
     btn.disabled = true;
     btn.prepend(el("span", { class: "spin", "aria-hidden": "true" }));

@@ -1,6 +1,6 @@
 {
-  "recorded_at": "2026-10-18T10:37:12+00:00",
-  "elapsed_s": 3.0,
+  "recorded_at": "2026-10-18T14:31:09+00:00",
+  "elapsed_s": 3.32,
   "health": {
     "ok": true,
     "ping": 1,
@@ -42,10 +42,10 @@
       "escalate_2025": 1
     },
     "district_b": {
-      "reconstruction_jaccard": 0.3333333333333333,
-      "reconstruction_pass": false,
-      "recs_2025": 12,
-      "escalate_2025": 5
+      "reconstruction_jaccard": 1.0,
+      "reconstruction_pass": true,
+      "recs_2025": 7,
+      "escalate_2025": 2
     }
   },
   "note": "Static replay of recorded FalkorDB runs. Synthetic archetype data. Run locally for the live graph."

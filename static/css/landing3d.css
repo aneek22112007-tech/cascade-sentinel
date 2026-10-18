@@ -25,7 +25,7 @@
 html { background: var(--bg); color: var(--ink); -webkit-text-size-adjust: 100%; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
-body { margin: 0; font: 400 16px/1.6 var(--sans); background: var(--bg); overflow-x: hidden; }
+body { margin: 0; font: 400 16px/1.6 var(--sans); background: var(--bg); overflow-x: clip; }
 a { color: inherit; }
 code { font-family: var(--mono); font-size: 0.88em; color: #ffd8a8; background: rgba(255, 146, 43, 0.08); padding: 0.08em 0.35em; border-radius: 4px; }
 .mono { font-family: var(--mono); }
@@ -79,7 +79,7 @@ code { font-family: var(--mono); font-size: 0.88em; color: #ffd8a8; background: 
   transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s; border-bottom: 1px solid transparent; }
 .nav.scrolled { background: rgba(5, 7, 11, 0.6); backdrop-filter: blur(14px) saturate(1.4); border-color: var(--line); }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 500 16px var(--display); letter-spacing: -0.01em; }
-.brand b { font-weight: 700; margin-left: 4px; }
+.brand b { font-weight: 700; }
 .nav-links { display: flex; gap: 22px; margin-left: auto; font: 500 13px var(--sans); }
 .nav-links a { text-decoration: none; color: var(--dim); transition: color 0.2s; }
 .nav-links a:hover { color: var(--ink); }
@@ -219,3 +219,36 @@ main { position: relative; z-index: 2; }
   .pitch { font-size: 14.5px; margin-bottom: 20px; }
   .hero-meta li:nth-child(3) { display: none; }
 }
+
+/* ---------- QA fixes ---------- */
+/* hero stats: readable over the grid / particles */
+.hero-meta li { color: #c9d2dd; background: rgba(5, 7, 11, 0.62); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 999px; padding: 6px 12px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.hero-meta b { color: #fff; }
+/* keep right-aligned panels clear of the fixed chapter rail */
+@media (min-width: 961px) {
+  .chapter.right { padding-right: clamp(96px, 8vw, 150px); }
+  .chapter:not(.right):not(.hero):not(.finale) .panel { margin-right: 96px; }
+}
+/* no horizontal scroll: clip the oversized grain layer, let grid cells shrink */
+.stage { overflow: hidden; }
+html { overflow-x: clip; }
+.grid2 > *, .tracks > *, .stats > * { min-width: 0; }
+.hero-meta { gap: 10px 10px; }
+@media (max-width: 640px) {
+  .hero.chapter { min-height: 100vh; min-height: 100svh; align-items: flex-end; padding-bottom: 5vh; }
+  .m-long, .m-hide { display: none; }
+  .memory-cards { gap: 8px; }
+  .mcard p { overflow-wrap: anywhere; }
+}
+.mcard { min-width: 0; } .mcard p { overflow-wrap: anywhere; }
+/* chapter copy stays readable (sticky) while the scene plays underneath */
+@media (min-width: 641px) {
+  .chapter:not(.hero):not(.finale) { align-items: flex-start; padding-top: 18vh; padding-bottom: 30vh; }
+  .chapter:not(.hero):not(.finale) .panel { position: sticky; top: max(96px, calc(50vh - 240px)); }
+}
+@media (max-width: 1199px) { .chapter-rail { display: none; } }
+.track { background: rgba(8, 11, 17, 0.84); }
+.panel { background: rgba(10, 13, 19, 0.78); }
+/* scene fades in once it is built (lazy init after first paint) */
+html.js #scene { opacity: 0; transition: opacity 0.9s var(--ease); }
+html.scene-ready #scene { opacity: 1; }

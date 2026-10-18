@@ -17,14 +17,14 @@
       else document.documentElement.setAttribute("data-theme", matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
       var l = document.createElement("link");
       l.rel = "canonical";
-      l.href = location.origin + "/app";
+      l.href = "https://aneek22112007-tech.github.io/cascade-sentinel/app/";
       document.head.appendChild(l);
     })();
   </script>
 </head>
 <body class="app-body">
-  <div class="replay-banner" role="status" style="position:sticky;top:0;z-index:1000;background:#3b2f14;color:#ffe8a3;border-bottom:1px solid #7a651f;font:500 13px/1.4 system-ui,sans-serif;padding:8px 16px;text-align:center">Static replay of recorded FalkorDB runs. Run locally for the live graph: <code>pip install -e ".[embedded]" &amp;&amp; python -m sentinel.serve</code> · <a style="color:#ffd8a8" href="https://github.com/aneek22112007-tech/cascade-sentinel">GitHub</a></div>
   <a class="skip" href="#graph">Skip to graph</a>
+  <style>.replay-banner{flex:0 0 auto;background:#3b2f14;color:#ffe8a3;border-bottom:1px solid #7a651f;font:500 13px/1.4 system-ui,sans-serif;padding:7px 16px;text-align:center}.replay-banner a{color:#ffd8a8}.replay-banner code{font-size:12px}@media (max-width:640px){.replay-banner{font-size:12px;padding:5px 10px}.replay-banner .rb-long{display:none}}</style><aside class="replay-banner" aria-label="Replay notice"><strong>Static replay</strong> of recorded FalkorDB runs.<span class="rb-long"> Run locally for the live graph: <code>pip install -e ".[embedded]" &amp;&amp; python -m sentinel.serve</code></span> · <a href="https://github.com/aneek22112007-tech/cascade-sentinel#quickstart">Run it live</a></aside>
   <div class="app-shell">
     <div id="healthBanner" class="banner hidden" role="status">
       <span id="healthBannerMsg">Can't reach FalkorDB/API. Run make up && make seed</span>
@@ -43,19 +43,21 @@
       </label>
       <span id="healthPill" class="health-pill bad">API…</span>
       <span class="badge badge-synthetic">Synthetic data</span>
-      <a class="btn btn-ghost" id="browserLink" href="http://localhost:3000" target="_blank" rel="noopener">FalkorDB Browser</a>
-      <button class="btn btn-ghost" type="button" id="themeToggle" aria-pressed="true">Light</button>
+      <a class="btn btn-ghost" id="browserLink" hidden href="http://localhost:3000" target="_blank" rel="noopener">FalkorDB Browser</a>
+      <button class="btn btn-ghost" type="button" id="themeToggle">Light</button>
     </header>
+    <main id="main" class="app-main">
+    <h1 class="visually-hidden">Cascade Sentinel dashboard</h1>
     <div class="stepper" role="group" aria-label="Season controls">
-      <button class="btn btn-primary" type="button" id="btn2024" data-busy>① Run Season 2024</button>
-      <button class="btn" type="button" id="btnClose" data-busy>② Close Episode (reveal history)</button>
-      <button class="btn" type="button" id="btn2025" data-busy>③ Run Season 2025</button>
+      <button class="btn btn-primary" type="button" id="btn2024" data-busy><span>① Run<span class="lbl-long"> Season</span> 2024</span></button>
+      <button class="btn" type="button" id="btnClose" data-busy><span>② Close<span class="lbl-long"> Episode (reveal history)</span></span></button>
+      <button class="btn" type="button" id="btn2025" data-busy><span>③ Run<span class="lbl-long"> Season</span> 2025</span></button>
       <button class="btn btn-ghost" type="button" id="btnReset" data-busy>Reset</button>
-      <span class="muted">Day-1 data only until you close. Held-out outcomes are sealed.</span>
+      <span class="muted step-hint" id="stepHint" aria-live="polite">Start with ① Run Season 2024. Day-1 data only; held-out outcomes stay sealed.</span>
     </div>
 
     <div class="app-grid">
-      <aside class="col-left pane active" data-pane="debate" id="leftPane">
+      <aside class="col-left pane" data-pane="debate" id="leftPane" aria-label="Debate and memory">
         <div class="debate-block">
           <h2 class="pane-title">Debate timeline <span id="stepCount" class="muted">0 steps</span></h2>
           <div id="timelineLog" role="log" aria-live="polite">
@@ -105,13 +107,14 @@
         </details>
       </section>
 
-      <aside class="col-right pane" data-pane="actions">
+      <aside class="col-right pane" data-pane="actions" aria-label="Recommendations">
         <h2 class="pane-title">Recommendations</h2>
         <div id="recFilters" class="tabs" role="tablist"></div>
         <div id="recs"></div>
         <div id="closePanel"></div>
       </aside>
     </div>
+    </main>
 
     <nav class="mobile-tabs" aria-label="Dashboard regions">
       <button class="btn" type="button" data-pane="graph" aria-pressed="true">Graph</button>
@@ -123,30 +126,30 @@
 
   <div id="drawer" class="drawer hidden">
     <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="explainTitle">
-      <header>
+      <div class="dlg-head">
         <h2 id="explainTitle">Explain</h2>
         <button id="drawerClose" class="btn btn-ghost" type="button">Close</button>
-      </header>
+      </div>
       <div id="drawerBody"></div>
     </div>
   </div>
 
   <div id="diffModal" class="modal hidden">
     <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="diffTitle">
-      <header>
+      <div class="dlg-head">
         <h2 id="diffTitle">What changed because of memory</h2>
         <button id="diffClose" class="btn btn-ghost" type="button">Close</button>
-      </header>
+      </div>
       <div id="diffBody"></div>
     </div>
   </div>
 
   <div id="confirmModal" class="modal hidden">
     <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
-      <header>
+      <div class="dlg-head">
         <h2 id="confirmTitle">Reset tenant graph?</h2>
         <button id="confirmNo" class="btn btn-ghost" type="button">Cancel</button>
-      </header>
+      </div>
       <p>This reseeds the tenant graph. All in-session hypotheses and recommendations for this tenant are replaced with the synthetic seed.</p>
       <button id="confirmYes" class="btn btn-danger" type="button">Reset</button>
     </div>

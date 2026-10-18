@@ -35,7 +35,7 @@ function styleFor() {
     { selector: "node[kind = 'HealthOutcome']", style: { "background-color": token("--heat-4", "#fa5252"), shape: "ellipse" } },
     { selector: "node[kind = 'Intervention']", style: { "background-color": token("--defeated", "#495057"), shape: "round-rectangle", width: 26, height: 18 } },
     { selector: "node.act", style: { "background-color": token("--act", "#2f9e44") } },
-    { selector: "node.defeated_precedent", style: { "background-color": token("--unprecedented", "#868e96"), "text-decoration": "line-through" } },
+    { selector: "node.defeated_precedent", style: { "background-color": token("--unprecedented", "#868e96"), "border-width": 2, "border-style": "dashed", "border-color": token("--defeated", "#495057"), opacity: 0.75 } },
     { selector: "node.on-unprecedented", style: { "border-width": 2, "border-color": token("--unprecedented", "#868e96") } },
     { selector: "edge", style: { width: 1.4, "line-color": border, "target-arrow-color": border, "target-arrow-shape": "triangle", "curve-style": "bezier", "arrow-scale": 0.7 } },
     { selector: "edge.accepted", style: { width: (ele) => 2.5 + (Number(ele.data("weight")) || 0.5) * 3, "line-color": token("--heat-3", "#e8590c"), "target-arrow-color": token("--heat-4", "#fa5252"), "line-fill": "linear-gradient", "line-gradient-stop-colors": `${token("--heat-3", "#e8590c")} ${token("--heat-4", "#fa5252")}` } },
@@ -117,8 +117,9 @@ export async function draw(elements, unprecedented) {
     container,
     elements: nodes.concat(edges),
     style: styleFor(),
-    layout: { name: "dagre", rankDir: "LR", ranker: "network-simplex", nodeSep: 28, rankSep: 90, padding: 20 },
-    minZoom: 0.4,
+    // portrait phones read the cascade top-to-bottom; wider screens left-to-right
+    layout: { name: "dagre", rankDir: innerWidth < 700 ? "TB" : "LR", ranker: "network-simplex", nodeSep: 28, rankSep: innerWidth < 700 ? 60 : 90, padding: 20 },
+    minZoom: 0.15,
     maxZoom: 2.2,
   });
   applyLayerFilters();
@@ -179,6 +180,16 @@ export function applyLayerFilters() {
 }
 
 export function fit() { cy?.fit(undefined, 24); }
+// Re-measure after the container was hidden (mobile tabs) or resized, then refit.
+export function refit() {
+  if (!cy) return;
+  const host = cy.container();
+  if (!host || host.offsetWidth === 0 || host.offsetHeight === 0) return;
+  cy.resize();
+  cy.fit(undefined, 24);
+}
+let resizeTimer = 0;
+addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(refit, 150); });
 export function zoomBy(delta) { if (cy) cy.zoom(cy.zoom() * delta); }
 
 export function highlightPath(signature) {

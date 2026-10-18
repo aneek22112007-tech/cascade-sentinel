@@ -1,14 +1,20 @@
 import { api, readSSE, el, ApiError, authHeaders } from "../api.js";
 import { state, initTheme, setTheme, getTheme, episodeIdFor } from "./state.js";
-import { draw, fit, zoomBy, applyLayerFilters, renderPathsTable, destroyGraph, highlightPath } from "./graph.js";
+import { draw, fit, refit, zoomBy, applyLayerFilters, renderPathsTable, destroyGraph, highlightPath } from "./graph.js";
 import { resetTimeline, addStep, renderHypotheses, renderRationale } from "./timeline.js";
 import { renderRecs, renderClosePanel } from "./recs.js";
 import { bindExplainClose } from "./explain.js";
 import { bindMemoryTabs, loadMemory } from "./memory.js";
 import { showDiffAfter2025 } from "./diff.js";
-import { showToast, showBanner, setBusy, closeModal, confirmReset } from "./ui.js";
+import { showToast, showBanner, setBusy as setBusyRaw, closeModal, confirmReset } from "./ui.js";
 
 function $(id) { return document.getElementById(id); }
+
+function setBusy(on) {
+  setBusyRaw(on);
+  state.inFlight = !!on;
+  updateStepper();
+}
 
 function setHealthPill(ok, ping) {
   const pill = $("healthPill");
@@ -23,6 +29,7 @@ async function checkHealth() {
     const h = await api("/health");
     state.health = h;
     setHealthPill(!!h.ok, h.ping);
+    if (h.replay) $("healthPill").textContent = "Recorded replay";
     showBanner(false);
     renderMcp(h.tools || []);
     return true;
@@ -52,9 +59,11 @@ async function loadTenants() {
 }
 
 async function refreshEpisodes() {
+  const st = {};
   for (const year of [2024, 2025]) {
     try {
       const info = await api(`/api/${state.tenant}/episode/${year}`);
+      st[year] = info.status || "absent";
       const btn = year === 2024 ? $("btn2024") : $("btn2025");
       if (info.status && info.status !== "absent") btn?.classList.add("done");
       else btn?.classList.remove("done");
@@ -65,8 +74,41 @@ async function refreshEpisodes() {
       }
       if (year === 2024 && info.status === "closed") state.episodeId = info.id;
     } catch {
-      /* episode probe is best-effort */
+      st[year] = "absent"; /* episode probe is best-effort */
     }
+  }
+  state.seasons = st;
+  updateStepper();
+}
+
+// Season flow is strictly 2024 -> close -> 2025 (the double run). Gate the buttons so an
+// out-of-order click is impossible, and say what to do next instead of failing later.
+function updateStepper() {
+  const s24 = state.seasons?.[2024] || "absent";
+  const s25 = state.seasons?.[2025] || "absent";
+  const busy = !!state.inFlight;
+  const set = (id, enabled, why) => {
+    const b = $(id);
+    if (!b) return;
+    b.disabled = busy || !enabled;
+    if (!enabled && why) b.title = why; else b.removeAttribute("title");
+  };
+  set("btn2024", s24 !== "closed", "Season 2024 is closed. Reset to run it again.");
+  set("btnClose", s24 === "open", s24 === "closed" ? "Episode already closed." : "Run Season 2024 first.");
+  set("btn2025", s24 === "closed", "Close the 2024 episode first.");
+  set("btnReset", true);
+  const tenantSel = $("tenant");
+  if (tenantSel) tenantSel.disabled = busy;
+  ["btn2024", "btnClose", "btn2025"].forEach((id) => $(id)?.classList.remove("btn-primary"));
+  const next = s24 === "absent" ? "btn2024" : s24 === "open" ? "btnClose" : s25 === "absent" ? "btn2025" : null;
+  if (next) $(next)?.classList.add("btn-primary");
+  const hint = $("stepHint");
+  if (hint) {
+    hint.textContent = busy ? "Working…"
+      : s24 === "absent" ? "Start with ① Run Season 2024. Day-1 data only; held-out outcomes stay sealed."
+      : s24 === "open" ? "Next: ② Close Episode to write the real outcomes back into memory."
+      : s25 === "absent" ? "Next: ③ Run Season 2025 and see what memory changed."
+      : "Done. Explain any card, or Reset to replay the double run.";
   }
 }
 
@@ -119,9 +161,14 @@ async function runSeason(year) {
   }
 }
 
+function detailOf(err) {
+  try { return JSON.parse(err.body || "{}").detail || ""; } catch { return ""; }
+}
+
 function errorRun(err, retry) {
   const host = $("recs");
-  const msg = err instanceof ApiError ? `Run failed (${err.status || "network"}).` : "Run failed.";
+  const detail = err instanceof ApiError ? detailOf(err) : "";
+  const msg = err instanceof ApiError ? `Run failed (${err.status || "network"}). ${detail}`.trim() : "Run failed.";
   host.replaceChildren();
   host.append(el("div", { class: "error-state" },
     el("p", { text: msg }),
@@ -144,7 +191,7 @@ async function closeEpisode() {
     try { await loadSnapshot(eid); } catch { /* snapshot optional after close */ }
     await refreshEpisodes();
   } catch (err) {
-    const msg = err instanceof ApiError ? `Close failed (${err.status || "network"})` : "Close failed";
+    const msg = err instanceof ApiError ? `Close failed (${err.status || "network"}). ${detailOf(err)}`.trim() : "Close failed";
     showToast(msg);
     $("closePanel").replaceChildren(el("div", { class: "error-state" },
       el("p", { text: msg }),
@@ -157,6 +204,7 @@ async function closeEpisode() {
 }
 
 async function resetGraph({ skipConfirm = false } = {}) {
+  if (state.inFlight) { showToast("Wait for the current step to finish."); return; }
   if (!skipConfirm) {
     const ok = await confirmReset();
     if (!ok) return;
@@ -197,6 +245,7 @@ function bindMobileTabs() {
       $("leftPane")?.classList.toggle("show-memory", pane === "memory");
       if (pane === "memory") $("memoryAnchor")?.setAttribute("open", "");
       document.querySelectorAll(".mobile-tabs [data-pane]").forEach((b) => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
+      if (pane === "graph") requestAnimationFrame(() => refit());
     });
   });
 }
@@ -215,16 +264,23 @@ function localHost() {
   return h === "localhost" || h === "127.0.0.1";
 }
 
+function syncThemeButton() {
+  const b = $("themeToggle");
+  if (!b) return;
+  const other = getTheme() === "dark" ? "Light" : "Dark";
+  b.textContent = other;
+  b.setAttribute("aria-label", `${other} theme`);
+}
+
 async function boot() {
   initTheme();
   $("themeToggle")?.addEventListener("click", () => {
     const next = getTheme() === "dark" ? "light" : "dark";
     setTheme(next);
-    $("themeToggle").textContent = next === "dark" ? "Light" : "Dark";
-    $("themeToggle").setAttribute("aria-pressed", next === "dark" ? "true" : "false");
+    syncThemeButton();
     if (state.lastBundle) loadSnapshot(state.episodeId).catch(() => {});
   });
-  $("themeToggle").textContent = getTheme() === "dark" ? "Light" : "Dark";
+  syncThemeButton();
 
   if (!localHost()) $("browserLink")?.classList.add("hidden");
 
@@ -260,8 +316,10 @@ async function boot() {
     const next = sel.value;
     const prev = state.tenant;
     sel.value = prev;
+    if (state.inFlight) { showToast("Wait for the current step to finish."); return; }
     const ok = await confirmReset();
     if (!ok) return;
+    if (state.inFlight) { showToast("Wait for the current step to finish."); return; }
     state.tenant = next;
     sel.value = next;
     await resetGraph({ skipConfirm: true });
@@ -273,7 +331,6 @@ async function boot() {
     await refreshEpisodes();
     await restoreSession();
   }
-  showToast("Cascade Sentinel ready. Data are synthetic archetypes.");
 }
 
 async function restoreSession() {

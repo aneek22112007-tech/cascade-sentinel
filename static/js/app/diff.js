@@ -2,25 +2,36 @@ import { api, el } from "../api.js";
 import { state, episodeIdFor } from "./state.js";
 import { openModal } from "./ui.js";
 
-function statusOf(h) {
+// Canonical metric: "path-level changes". Mirrors sentinel/backtest.py::diff_seasons
+// exactly, so the dashboard, `make backtest` and the landing page report one number.
+// A change is (a) a hypothesis (agent, path) whose verdict differs between seasons, or
+// (b) a recommendation (kind, intervention, path) gained or lost.
+function verdict(h) {
   if (!h) return "—";
-  if (h.display_status) return h.display_status;
-  return h.status === "proposed" ? "contested" : h.status;
+  return h.status && h.status !== "proposed" ? h.status : "contested";
 }
 
 export function diffBundles(a, b) {
   const rows = [];
-  const ah = Object.fromEntries((a.hypotheses || []).map((h) => [h.agent_id + h.path_signature, h]));
-  const bh = Object.fromEntries((b.hypotheses || []).map((h) => [h.agent_id + h.path_signature, h]));
-  for (const k of new Set([...Object.keys(ah), ...Object.keys(bh)])) {
-    const sa = statusOf(ah[k]);
-    const sb = statusOf(bh[k]);
-    if (sa !== sb) rows.push([k.slice(0, 64), sa, sb]);
+  const key = (h) => h.agent_id + "\u0000" + h.path_signature;
+  const ah = new Map((a.hypotheses || []).map((h) => [key(h), h]));
+  const bh = new Map((b.hypotheses || []).map((h) => [key(h), h]));
+  const keys = [...new Set([...ah.keys(), ...bh.keys()])].sort();
+  for (const k of keys) {
+    const sa = verdict(ah.get(k));
+    const sb = verdict(bh.get(k));
+    const [agent, path] = k.split("\u0000");
+    if (sa !== sb) rows.push({ type: "hyp", label: `hyp ${agent}`, path, a: sa, b: sb });
   }
-  const ar = new Set((a.recommendations || []).map((r) => r.kind + ":" + (r.intervention_id || "esc")));
-  const br = new Set((b.recommendations || []).map((r) => r.kind + ":" + (r.intervention_id || "esc")));
-  for (const x of br) if (!ar.has(x)) rows.push(["+ " + x, "—", x.split(":")[0]]);
-  for (const x of ar) if (!br.has(x)) rows.push(["− " + x, x.split(":")[0], "—"]);
+  const rkey = (r) => [r.kind, r.intervention_id || "", r.path_signature].join("\u0000");
+  const ar = new Set((a.recommendations || []).map(rkey));
+  const br = new Set((b.recommendations || []).map(rkey));
+  const recRow = (k, sign) => {
+    const [kind, iid, path] = k.split("\u0000");
+    return { type: "rec", label: iid ? `${sign} ${kind} · ${iid}` : `${sign} ${kind}`, path, a: sign === "+" ? "—" : kind, b: sign === "+" ? kind : "—" };
+  };
+  [...br].filter((x) => !ar.has(x)).sort().forEach((x) => rows.push(recRow(x, "+")));
+  [...ar].filter((x) => !br.has(x)).sort().forEach((x) => rows.push(recRow(x, "−")));
   return rows;
 }
 
@@ -31,12 +42,17 @@ export async function showDiff(a, b, { recsOnly = false } = {}) {
   if (recsOnly) {
     body.append(el("p", { class: "muted", text: "Hypothesis diffs need a fresh 2024 run in this tab. Showing recommendation changes only. Synthetic data." }));
   } else {
-    body.append(el("p", { text: `${rows.length} changes after write-back. Synthetic data.` }));
+    body.append(
+      el("p", { class: "diff-count" }, [el("strong", { text: `${rows.length} path-level changes` }), document.createTextNode(" after write-back")]),
+      el("p", { class: "muted small", text: "Path-level change = a hypothesis verdict that flipped, or a recommendation gained (+) or lost (−), counted per cascade path. Same metric as make backtest. Synthetic data." }),
+    );
   }
   const grid = el("div", { class: "diff-grid" });
   grid.append(el("strong", { text: "change" }), el("strong", { text: "2024" }), el("strong", { text: "2025" }));
   rows.forEach((r) => {
-    grid.append(el("div", { text: r[0] }), el("div", { text: r[1] }), el("div", { text: r[2] }));
+    const cell = el("div", { class: "diff-what" }, [el("span", { class: "diff-label", text: r.label.replace(/_/g, " ") }), el("code", { class: "diff-path", text: r.path.split(">").join(" › "), title: r.path })]);
+    const nice = (v) => v.replace(/_/g, " ");
+    grid.append(cell, el("div", { class: `diff-st st-${r.a}`, text: nice(r.a) }), el("div", { class: `diff-st st-${r.b}`, text: nice(r.b) }));
   });
   body.append(grid);
   openModal("diffModal", document.getElementById("btn2025"));
