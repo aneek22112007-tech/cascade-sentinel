@@ -2,9 +2,11 @@
 
 **The climate-crisis agent that refuses to act without precedent.**
 
-![Season 2024 graph](docs/screenshots/02-season-2024.png)
+[![3D landing page](docs/screenshots/landing-1440-0-hero.png)](https://aneek22112007-tech.github.io/cascade-sentinel/)
 
-**Live demo:** run locally with `make demo` → http://localhost:8000 · **Video:** _placeholder_ · **Repo:** https://github.com/aneek22112007-tech/cascade-sentinel
+**Live site:** https://aneek22112007-tech.github.io/cascade-sentinel/ (3D landing page) · **Replay demo:** https://aneek22112007-tech.github.io/cascade-sentinel/app/ · **Video:** _placeholder_ · **Repo:** https://github.com/aneek22112007-tech/cascade-sentinel
+
+> The live site is static (GitHub Pages). `/app/` is the real dashboard replaying JSON recorded from real FalkorDB runs by `python -m sentinel.export_static`: Run 2024, Close Episode, Run 2025, What changed, Explain with Cypher, and the tenant switch. For the live graph, run it locally (60 s, below).
 
 > Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent.
 
@@ -20,15 +22,26 @@ All district names are fictional. **Every shipped number is synthetic** (`proven
 
 ## Quickstart
 
+**60 seconds, no Docker** (Python 3.12+; embedded FalkorDB from the `falkordblite` wheel):
+
 ```bash
-git clone <repo> && cd cascade-sentinel
+git clone https://github.com/aneek22112007-tech/cascade-sentinel && cd cascade-sentinel
 python3 -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
-cp .env.example .env
-make up
-make seed
-make demo          # http://localhost:8000
+pip install -e ".[dev,embedded]"
+python -m sentinel.serve      # starts FalkorDB in-process, seeds both tenants, serves :8000
+# landing http://localhost:8000/ · dashboard http://localhost:8000/app · health /healthz
+python -m sentinel.backtest --tenant demo --double-run   # in a second shell
 ```
+
+**Docker, single container:** `docker build -t cascade-sentinel . && docker run -p 8000:8000 cascade-sentinel`.
+**Classic (FalkorDB in Docker Compose):**
+
+```bash
+pip install -e ".[dev]" && cp .env.example .env
+make up && make seed && make demo          # http://localhost:8000
+```
+
+**Rebuild the GitHub Pages site** (records fresh runs from your FalkorDB): `python -m sentinel.build_pages --out site`. See [DEPLOY.md](DEPLOY.md).
 
 If port 8000 is taken: `make demo PORT=8001`.
 

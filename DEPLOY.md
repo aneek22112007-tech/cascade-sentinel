@@ -1,5 +1,24 @@
 # Deploying Cascade Sentinel
 
+## GitHub Pages (live site, static)
+
+https://aneek22112007-tech.github.io/cascade-sentinel/ is served from the `gh-pages` branch:
+
+- `/` is the 3D landing page.
+- `/app/` is the real dashboard plus `static/js/replay.js`, which answers its API calls from JSON.
+- `/data/*.json` holds runs recorded from a real FalkorDB by `python -m sentinel.export_static`. It drives reset → run 2024 → close_episode → run 2025 for both tenants and records graph_snapshot, recommendations, explain (with Cypher) for every recommendation, and every memory layer.
+
+To refresh it:
+
+```bash
+python -m sentinel.build_pages --out site          # needs a reachable FalkorDB (or run sentinel.serve first)
+git worktree add /tmp/ghp gh-pages && cp -a site/. /tmp/ghp/ && cd /tmp/ghp && git add -A && git commit -m "pages: refresh" && git push
+```
+
+`deploy/github-pages-workflow.yml` does the same in CI with a FalkorDB service container. Copy it into `.github/workflows/` to use it; that needs a token with the `workflow` scope.
+
+## Full live app (container)
+
 The Docker image is **self-contained**: FastAPI, the UI, and FalkorDB all run in one container.
 `python -m sentinel.serve` (the image `CMD`) does this:
 

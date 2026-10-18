@@ -4,7 +4,7 @@ Hackathon: WeMakeDevs × FalkorDB Graph Hacks: Context for AI Agents.
 
 - [x] Public GitHub repo — https://github.com/aneek22112007-tech/cascade-sentinel
 - [x] README complete (quickstart, track map, math, MCP, honest limitations)
-- [ ] Live URL — trycloudflare tunnel is down; run locally with `make demo` → http://localhost:8000
+- [x] Live URL: https://aneek22112007-tech.github.io/cascade-sentinel/ (3D landing) and https://aneek22112007-tech.github.io/cascade-sentinel/app/ (static replay of recorded FalkorDB runs; run locally with `python -m sentinel.serve` for the live graph)
 - [ ] Demo video _(placeholder for the submitter)_
 - [x] Tracks entered: **1, 2, and 3**
 - [ ] Blog link _(placeholder; source is BLOG_POST.md)_

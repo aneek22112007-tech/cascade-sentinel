@@ -2,7 +2,7 @@ PYTHON ?= python3
 COMPOSE ?= docker compose
 export PYTHONPATH := .
 
-.PHONY: install up down logs ping seed demo backtest test bench mcp
+.PHONY: install up down logs ping seed demo backtest test bench mcp serve pages
 
 install:
 	$(PYTHON) -m pip install -e ".[dev]"
@@ -50,3 +50,9 @@ bench:
 
 mcp:
 	$(PYTHON) -m sentinel.mcp_server --list
+
+serve:
+	$(PYTHON) -m sentinel.serve
+
+pages:
+	$(PYTHON) -m sentinel.build_pages --out site
