@@ -255,3 +255,16 @@ html.scene-ready #scene { opacity: 1; }
 .cta-note { margin: 12px 0 0; font-size: 13px; color: #b8c2cd; max-width: 520px; }
 .cta-note.center { margin: 14px auto 0; text-align: center; }
 .cta-note a { color: #ffd8a8; }
+
+/* Pages build: "Waking live server…" toast (static/js/wake.js) */
+.wake-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 1000;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; max-width: calc(100vw - 32px);
+  padding: 12px 16px; border-radius: 12px; background: rgba(14, 18, 24, .96); color: #e8edf2;
+  border: 1px solid rgba(255, 170, 90, .45); box-shadow: 0 10px 40px rgba(0, 0, 0, .5); font-size: 14px; }
+.wake-toast[hidden] { display: none; }
+.wake-toast a { color: #ffd8a8; }
+.wake-dot { width: 10px; height: 10px; border-radius: 50%; background: #ff9f43; animation: wakePulse 1s ease-in-out infinite alternate; }
+.wake-x { background: none; border: 0; color: #b8c2cd; font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; min-width: 24px; min-height: 24px; }
+.wake-t { font-variant-numeric: tabular-nums; }
+@keyframes wakePulse { from { opacity: .35; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .wake-dot { animation: none; } }
