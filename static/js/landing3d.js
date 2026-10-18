@@ -203,7 +203,16 @@ async function scene3d(getStoryIndex) {
   } catch (e) {
     return false;
   }
-  let dpr = Math.min(devicePixelRatio || 1, isMobile ? 1.25 : 2);
+  // software rasterisers (no GPU: SwiftShader, llvmpipe) get a lighter budget
+  let softGL = false;
+  try {
+    const gl = renderer.getContext();
+    const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+    const name = String(dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+    softGL = /swiftshader|llvmpipe|software|basic render/i.test(name);
+  } catch { /* keep defaults */ }
+  const lowPower = isMobile || softGL;
+  let dpr = Math.min(devicePixelRatio || 1, softGL ? 1 : isMobile ? 1.25 : 2);
   renderer.setPixelRatio(dpr);
   renderer.setSize(innerWidth, innerHeight, false);
   renderer.setClearColor(0x05070b, 1);
@@ -400,7 +409,7 @@ async function scene3d(getStoryIndex) {
   composer.setPixelRatio(dpr);
   composer.setSize(innerWidth, innerHeight);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth / (isMobile ? 2 : 1), innerHeight / (isMobile ? 2 : 1)), isMobile ? 0.9 : 1.15, 0.65, 0.12);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth / (lowPower ? 2 : 1), innerHeight / (lowPower ? 2 : 1)), isMobile ? 0.9 : 1.15, 0.65, 0.12);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
@@ -449,7 +458,10 @@ async function scene3d(getStoryIndex) {
     outT.set(lerp(a.t[0], b.t[0], t), lerp(a.t[1], b.t[1], t), lerp(a.t[2], b.t[2], t));
   }
 
+  let skip = false;
   function frame(now) {
+    // ~30 fps on software GL: halves main-thread time without changing the look
+    if (softGL && (skip = !skip)) { requestAnimationFrame(frame); return; }
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     if (!reduceMotion) time += dt;
     // adaptive quality: drop DPR once if the first seconds are slow

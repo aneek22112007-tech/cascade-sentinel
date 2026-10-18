@@ -243,8 +243,8 @@ html { overflow-x: clip; }
 .mcard { min-width: 0; } .mcard p { overflow-wrap: anywhere; }
 /* chapter copy stays readable (sticky) while the scene plays underneath */
 @media (min-width: 641px) {
-  .chapter:not(.hero):not(.finale) { align-items: flex-start; padding-top: 18vh; padding-bottom: 30vh; }
-  .chapter:not(.hero):not(.finale) .panel { position: sticky; top: max(96px, calc(50vh - 240px)); }
+  .chapter:not(.hero):not(.finale) { align-items: flex-start; padding-top: 12vh; padding-bottom: 8vh; }
+  .chapter:not(.hero):not(.finale) .panel { position: sticky; top: max(88px, calc(50vh - 290px)); }
 }
 @media (max-width: 1199px) { .chapter-rail { display: none; } }
 .track { background: rgba(8, 11, 17, 0.84); }
