@@ -87,7 +87,7 @@ flowchart TB
 
 | Judge criterion | Feature that proves it | Where shown |
 | --- | --- | --- |
-| Follow connections (multi-hop) | `enumerate_cascade_paths` 4–5 hop typed weighted edges | UI path animation, Explain Cypher |
+| Follow connections (multi-hop) | `enumerate_cascade_paths` ranks 3–5 hop cascades (top K) and lists 1–2 hop direct-exposure separately | UI path animation, Explain Cypher |
 | Graph queries as agent tools via MCP | 11 MCP tools, all graph operations | [`sentinel/mcp_server.py`](sentinel/mcp_server.py) |
 | Actions based on what the graph shows | `recommend_action` only with precedent; else UNPRECEDENTED | Recommendation cards, grey path |
 | Explainable results | `explain()` path, analogs, rates, defeated rivals, Cypher, owner | Explain drawer |

@@ -133,9 +133,16 @@ def run_season(
 
     enumerated = call_tool("enumerate_cascade_paths", tenant=tenant, episode_id=eid, k=config.TOP_K_PATHS)
     paths = enumerated["result"]["paths"]
-    emit("orchestrator", "enumerate_cascade_paths", enumerated["ms"], f"{len(paths)} paths", enumerated["result"])
+    direct = enumerated["result"].get("direct_exposure") or []
+    emit(
+        "orchestrator",
+        "enumerate_cascade_paths",
+        enumerated["ms"],
+        f"{len(paths)} cascade + {len(direct)} direct",
+        enumerated["result"],
+    )
 
-    view = _view(tenant, eid, season_year, paths)
+    view = _view(tenant, eid, season_year, paths + direct)
     agents = _agents()
 
     for agent in agents:
@@ -177,6 +184,7 @@ def run_season(
         "episode_id": eid,
         "run_id": run_id,
         "paths": paths,
+        "direct_exposure": direct,
         "hypotheses": adj["result"]["hypotheses"],
         "path_status": adj["result"]["path_status"],
         "recommendations": recs["result"]["recommendations"],

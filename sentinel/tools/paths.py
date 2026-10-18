@@ -9,13 +9,27 @@ from sentinel.tools.common import CypherBag, district_maps, episode_context
 
 ENUMERATE_CYPHER = """
 MATCH (f:Forecast {id: $fid})-[:INSTANCE_OF]->(h:HazardType)
-MATCH p = (h)-[*2..5]->(o:HealthOutcome)
+MATCH p = (h)-[*1..5]->(o:HealthOutcome)
 WITH p, relationships(p) AS rels, nodes(p) AS ns
 RETURN [n IN ns | n.id] AS ids,
        [r IN rels | type(r)] AS types,
        reduce(s = 1.0, r IN rels | s * r.weight * r.confidence) AS base,
        reduce(l = 0, r IN rels | l + coalesce(r.lag_days, 0)) AS lag
 ORDER BY base DESC LIMIT 50
+"""
+
+PERSIST_PATH = """
+MERGE (p:CascadePath {id: $pid})
+SET p.signature = $sig,
+    p.node_ids = $ids,
+    p.score = $score,
+    p.realized = coalesce(p.realized, false),
+    p.provenance = 'synthetic',
+    p.layer = 'episodic'
+WITH p
+MATCH (e:Episode {id: $eid})
+MERGE (e)-[c:CONSIDERED]->(p)
+SET c.rank = $rank, c.score = $score
 """
 
 
@@ -72,32 +86,35 @@ def enumerate_cascade_paths(tenant: str, episode_id: str, k: int = 6) -> dict:
             }
         )
     scored.sort(key=lambda p: (-p["score"], p["signature"]))
-    top = scored[: int(k or config.TOP_K_PATHS)]
+    cascades = [p for p in scored if len(p["types"]) >= 3]
+    direct = [p for p in scored if len(p["types"]) <= 2]
+    top = cascades[: int(k or config.TOP_K_PATHS)]
     for rank, path in enumerate(top, start=1):
         path["rank"] = rank
-        pid = f"path_{path['signature']}"
-        bag.run(
-            tenant,
-            """
-            MERGE (p:CascadePath {id: $pid})
-            SET p.signature = $sig,
-                p.node_ids = $ids,
-                p.score = $score,
-                p.realized = coalesce(p.realized, false),
-                p.provenance = 'synthetic',
-                p.layer = 'episodic'
-            WITH p
-            MATCH (e:Episode {id: $eid})
-            MERGE (e)-[c:CONSIDERED]->(p)
-            SET c.rank = $rank, c.score = $score
-            """,
-            {
-                "pid": pid,
-                "sig": path["signature"],
-                "ids": path["node_ids"],
-                "score": path["score"],
-                "eid": episode_id,
-                "rank": rank,
-            },
-        )
-    return bag.envelope({"paths": top, "episode_id": episode_id, "k": len(top)})
+        _persist_path(bag, tenant, episode_id, path, rank)
+    for i, path in enumerate(direct, start=1):
+        path["rank"] = i
+        _persist_path(bag, tenant, episode_id, path, 1000 + i)
+    return bag.envelope(
+        {
+            "paths": top,
+            "direct_exposure": direct,
+            "episode_id": episode_id,
+            "k": len(top),
+        }
+    )
+
+
+def _persist_path(bag: CypherBag, tenant: str, episode_id: str, path: dict, rank: int) -> None:
+    bag.run(
+        tenant,
+        PERSIST_PATH,
+        {
+            "pid": f"path_{path['signature']}",
+            "sig": path["signature"],
+            "ids": path["node_ids"],
+            "score": path["score"],
+            "eid": episode_id,
+            "rank": rank,
+        },
+    )

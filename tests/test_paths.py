@@ -29,21 +29,30 @@ def test_enumerate_top_k_and_hops(episode_2024):
     tenant, eid = episode_2024
     out = enumerate_cascade_paths(tenant, eid, k=6)
     paths = out["result"]["paths"]
+    direct = out["result"]["direct_exposure"]
     assert 1 <= len(paths) <= 6
     assert "cypher" in out and out["cypher"]
     assert out["ms"] >= 0
     sigs = {p["signature"] for p in paths}
+    dsigs = {p["signature"] for p in direct}
     assert FODDER in sigs
-    assert DIRECT in sigs
-    assert DAIRY_SHORT in sigs
     assert WHEAT in sigs
+    assert DIRECT not in sigs
+    assert DAIRY_SHORT not in sigs
+    assert DIRECT in dsigs
+    assert DAIRY_SHORT in dsigs
     for p in paths:
         hops = len(p["types"])
-        assert 2 <= hops <= 5
+        assert 3 <= hops <= 5
         assert len(p["node_ids"]) == hops + 1
         assert p["score"] >= 0
         assert p["lag_days"] >= 0
         assert p["rank"] >= 1
+        assert p["signature"].startswith("heatwave>")
+    for p in direct:
+        hops = len(p["types"])
+        assert 1 <= hops <= 2
+        assert p["signature"].startswith("heatwave>")
 
 
 def test_enumerate_deterministic(episode_2024):

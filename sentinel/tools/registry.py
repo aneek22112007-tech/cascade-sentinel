@@ -21,7 +21,7 @@ ToolFn = Callable[..., dict]
 TOOLS: list[dict[str, Any]] = [
     {
         "name": "enumerate_cascade_paths",
-        "description": "Traverse 2–5 hop typed paths from the episode forecast's hazard to health outcomes and score them.",
+        "description": "Rank 3–5 hop cascade paths (top K) and return 1–2 hop direct-exposure paths from the episode forecast's hazard to health outcomes.",
         "fn": enumerate_cascade_paths,
         "params": ["tenant", "episode_id", "k"],
     },

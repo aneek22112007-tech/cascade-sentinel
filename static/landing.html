@@ -120,7 +120,7 @@
         <h2>How it works</h2>
         <p class="intro">Remove FalkorDB and nothing is left. Every agent tool is a graph operation: traversal, precedent matching, adjudication, refusal, and write-back.</p>
         <div class="steps">
-          <article class="card step"><div class="idx">1</div><h3>Enumerate cascade paths</h3><p>2–5 hop typed graph traversal from the forecast hazard to health outcomes. Keep the top K = 6.</p></article>
+          <article class="card step"><div class="idx">1</div><h3>Enumerate cascade paths</h3><p>3–5 hop typed graph traversal from the forecast hazard to health outcomes, ranked top K = 6. 1–2 hop direct-exposure paths are listed separately.</p></article>
           <article class="card step"><div class="idx">2</div><h3>Agents debate</h3><p>Weather, agronomy and health propose hypotheses, then support or attack each other on the same subgraph.</p></article>
           <article class="card step"><div class="idx">3</div><h3>Graph adjudicates</h3><p>Defeat if attack ≥ support + 0.5·eff. Accept if eff + support − attack ≥ 0.6.</p><div class="formula">C = (hits+1)/(hits+misses+2)</div></article>
           <article class="card step"><div class="idx">4</div><h3>Precedent-gated action</h3><p>Act only if analog similarity ≥ 0.5 and P ≥ 0.5. Otherwise UNPRECEDENTED: escalate to district officer.</p><div class="formula">P = ((successes+1)/(trials+2)) × 0.9^max(0, year−last−1)</div></article>
@@ -212,7 +212,7 @@
         <h2>Talk to the graph from any MCP client</h2>
         <p class="intro">stdio, or <code>python -m sentinel.mcp_server --http 8765</code> (streamable HTTP). 11 tools, all graph operations.</p>
         <div class="mcp-grid">
-          <article class="card mcp-item"><h3>enumerate_cascade_paths</h3><p>Traverse 2–5 hop typed paths from the episode forecast's hazard to health outcomes and score them.</p></article>
+          <article class="card mcp-item"><h3>enumerate_cascade_paths</h3><p>Rank 3–5 hop cascade paths (top K) and return 1–2 hop direct-exposure paths from the episode forecast's hazard to health outcomes.</p></article>
           <article class="card mcp-item"><h3>query_precedent</h3><p>Find analog closed episodes and intervention history for a cascade path.</p></article>
           <article class="card mcp-item"><h3>propose_hypothesis</h3><p>Write an agent hypothesis about a path and MERGE the MAY_TRIGGER edge.</p></article>
           <article class="card mcp-item"><h3>support_hypothesis</h3><p>Assert supporting evidence on a hypothesis.</p></article>

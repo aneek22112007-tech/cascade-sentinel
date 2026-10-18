@@ -135,217 +135,76 @@
     {
       "n": "defeated",
       "n_minus_1": "accepted",
-      "what": "hyp agronomy wheat_grainfill>wheat_grain>man\u2026"
+      "what": "hyp agronomy heatwave>wheat_grainfill>wheat_grain>mandi_whea\u2026"
+    },
+    {
+      "n": "defeated",
+      "n_minus_1": "accepted",
+      "what": "hyp agronomy heatwave>wheat_grainfill>wheat_grain>mandi_whea\u2026"
     },
     {
       "n": "contested",
       "n_minus_1": "defeated",
-      "what": "hyp health fodder_jowar_vegetative>fodder>\u2026"
+      "what": "hyp health heatwave>fodder_jowar_vegetative>fodder>mandi_f\u2026"
+    },
+    {
+      "n": "contested",
+      "n_minus_1": "defeated",
+      "what": "hyp weather heatwave>zaid_moong_flowering>zaid_pulse>mandi_\u2026"
     },
     {
       "n": "act",
       "n_minus_1": "\u2014",
-      "what": "+ act worksite_cool_shelters fodder_jowar_vegetative>fod\u2026"
+      "what": "+ act worksite_cool_shelters heatwave>fodder_jowar_vegetative>fodder\u2026"
     },
     {
       "n": "escalate",
       "n_minus_1": "\u2014",
-      "what": "+ escalate escalate wheat_grainfill>wheat_grain\u2026"
+      "what": "+ escalate escalate heatwave>wheat_grainfill>wheat_grain>ma\u2026"
+    },
+    {
+      "n": "escalate",
+      "n_minus_1": "\u2014",
+      "what": "+ escalate escalate heatwave>zaid_moong_flowering>zaid_puls\u2026"
     },
     {
       "n": "\u2014",
       "n_minus_1": "act",
-      "what": "- act work_hour_shift wheat_grainfill>wheat_grain\u2026"
+      "what": "- act work_hour_shift heatwave>wheat_grainfill>wheat_grain>ma\u2026"
     },
     {
       "n": "\u2014",
       "n_minus_1": "defeated_precedent",
-      "what": "- defeated_precedent mandi_price_advisory wheat_grainfill>wheat_grain\u2026"
+      "what": "- defeated_precedent mandi_price_advisory heatwave>wheat_grainfill>wheat_grain>ma\u2026"
     },
     {
       "n": "\u2014",
       "n_minus_1": "defeated_precedent",
-      "what": "- defeated_precedent worksite_cool_shelters farm_laborers>heat_stress_i\u2026"
+      "what": "- defeated_precedent worksite_cool_shelters heatwave>farm_laborers>heat_stress_illn\u2026"
     },
     {
       "n": "\u2014",
       "n_minus_1": "defeated_precedent",
-      "what": "- defeated_precedent worksite_cool_shelters farm_laborers>waterborne_di\u2026"
+      "what": "- defeated_precedent worksite_cool_shelters heatwave>farm_laborers>waterborne_diarr\u2026"
     },
     {
       "n": "\u2014",
       "n_minus_1": "defeated_precedent",
-      "what": "- defeated_precedent worksite_cool_shelters fodder_jowar_vegetative>fod\u2026"
+      "what": "- defeated_precedent worksite_cool_shelters heatwave>fodder_jowar_vegetative>fodder\u2026"
     },
     {
       "n": "\u2014",
       "n_minus_1": "defeated_precedent",
-      "what": "- defeated_precedent worksite_cool_shelters wheat_grainfill>wheat_grain\u2026"
+      "what": "- defeated_precedent worksite_cool_shelters heatwave>wheat_grainfill>wheat_grain>ma\u2026"
+    },
+    {
+      "n": "\u2014",
+      "n_minus_1": "defeated_precedent",
+      "what": "- defeated_precedent worksite_cool_shelters heatwave>wheat_grainfill>wheat_grain>ma\u2026"
     }
   ],
   "season_2024": {
-    "episode_id": "ep_2024_demo",
-    "hypotheses": [
-      {
-        "agent_id": "weather",
-        "attack": 0.0,
-        "claim": "Direct heat exposure: heatwave \u2192 farm labourers \u2192 heat-stress illness.",
-        "confidence": 0.9,
-        "display_status": "accepted",
-        "eff_confidence": 0.6,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_weather_ep_2024_demo_heatwave__farm_laborers__heat_stress_illness",
-        "path_score": 0.55404,
-        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
-        "reason": "accepted: eff 0.60 + support 0.00 \u2212 attack 0.00 \u2265 0.6",
-        "status": "accepted",
-        "support": 0.0
-      },
-      {
-        "agent_id": "weather",
-        "attack": 0.15,
-        "claim": "Heatwave exposes dairy households; livestock heat-stress branch.",
-        "confidence": 0.55,
-        "display_status": "contested",
-        "eff_confidence": 0.36666667,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_weather_ep_2024_demo_heatwave__dairy_households__livestock_heat_stress",
-        "path_score": 0.16065,
-        "path_signature": "heatwave>dairy_households>livestock_heat_stress",
-        "reason": "contested: eff 0.37 + support 0.00 \u2212 attack 0.15 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      },
-      {
-        "agent_id": "weather",
-        "attack": 0.25,
-        "claim": "In-window stage stress on fodder_jowar_vegetative (doy 136 inside window).",
-        "confidence": 0.95,
-        "display_status": "accepted",
-        "eff_confidence": 0.63333333,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_weather_ep_2024_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__heat_stress_illness",
-        "path_score": 0.07630175,
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
-        "reason": "accepted: eff 0.63 + support 0.24 \u2212 attack 0.25 \u2265 0.6",
-        "status": "accepted",
-        "support": 0.24
-      },
-      {
-        "agent_id": "weather",
-        "attack": 0.25,
-        "claim": "In-window stage stress on fodder_jowar_vegetative (doy 136 inside window).",
-        "confidence": 0.95,
-        "display_status": "contested",
-        "eff_confidence": 0.63333333,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_weather_ep_2024_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
-        "path_score": 0.06405579,
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
-        "reason": "contested: eff 0.63 + support 0.00 \u2212 attack 0.25 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      },
-      {
-        "agent_id": "agronomy",
-        "attack": 0.0,
-        "claim": "Wheat grain-price path dominates given area_share.",
-        "confidence": 0.9,
-        "display_status": "accepted",
-        "eff_confidence": 0.45,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_agronomy_ep_2024_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
-        "path_score": 0.05820722,
-        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
-        "reason": "accepted: eff 0.45 + support 0.20 \u2212 attack 0.00 \u2265 0.6",
-        "status": "accepted",
-        "support": 0.2
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.0,
-        "claim": "Labour-heat morbidity along the farm-labour chain.",
-        "confidence": 0.8,
-        "display_status": "contested",
-        "eff_confidence": 0.48,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_health_ep_2024_demo_heatwave__farm_laborers__heat_stress_illness",
-        "path_score": 0.55404,
-        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
-        "reason": "contested: eff 0.48 + support 0.00 \u2212 attack 0.00 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.0,
-        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
-        "confidence": 0.75,
-        "display_status": "accepted",
-        "eff_confidence": 0.45,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_health_ep_2024_demo_heatwave__farm_laborers__waterborne_diarrhoea",
-        "path_score": 0.46512,
-        "path_signature": "heatwave>farm_laborers>waterborne_diarrhoea",
-        "reason": "accepted: eff 0.45 + support 0.24 \u2212 attack 0.00 \u2265 0.6",
-        "status": "accepted",
-        "support": 0.24
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.25,
-        "claim": "Labour-heat morbidity along the farm-labour chain.",
-        "confidence": 0.7,
-        "display_status": "defeated",
-        "eff_confidence": 0.42,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_health_ep_2024_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__heat_stress_illness",
-        "path_score": 0.07630175,
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
-        "reason": "defeated: attack 0.25 \u2265 support 0.00 + 0.5\u00b7eff 0.42 (health credibility 0.60)",
-        "status": "defeated",
-        "support": 0.0
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.25,
-        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
-        "confidence": 0.75,
-        "display_status": "contested",
-        "eff_confidence": 0.45,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_health_ep_2024_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
-        "path_score": 0.06405579,
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
-        "reason": "contested: eff 0.45 + support 0.24 \u2212 attack 0.25 < 0.6",
-        "status": "proposed",
-        "support": 0.24
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.0,
-        "claim": "Labour-heat morbidity along the farm-labour chain.",
-        "confidence": 0.7,
-        "display_status": "contested",
-        "eff_confidence": 0.42,
-        "episode_id": "ep_2024_demo",
-        "id": "hyp_health_ep_2024_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
-        "path_score": 0.05820722,
-        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
-        "reason": "contested: eff 0.42 + support 0.00 \u2212 attack 0.00 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      }
-    ],
-    "path_status": {
-      "heatwave>dairy_households>livestock_heat_stress": "proposed",
-      "heatwave>farm_laborers>heat_stress_illness": "accepted",
-      "heatwave>farm_laborers>waterborne_diarrhoea": "accepted",
-      "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness": "accepted",
-      "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea": "proposed",
-      "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness": "accepted"
-    },
-    "paths": [
+    "direct_exposure": [
       {
         "base": 0.69255,
         "exposure": 0.8,
@@ -402,7 +261,247 @@
           "EXPOSES",
           "AT_RISK_OF"
         ]
+      }
+    ],
+    "episode_id": "ep_2024_demo",
+    "hypotheses": [
+      {
+        "agent_id": "weather",
+        "attack": 0.25,
+        "claim": "In-window stage stress on fodder_jowar_vegetative (doy 136 inside window).",
+        "confidence": 0.95,
+        "display_status": "accepted",
+        "eff_confidence": 0.63333333,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_weather_ep_2024_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__heat_stress_illness",
+        "path_score": 0.07630175,
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
+        "reason": "accepted: eff 0.63 + support 0.24 \u2212 attack 0.25 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.24
       },
+      {
+        "agent_id": "weather",
+        "attack": 0.25,
+        "claim": "In-window stage stress on fodder_jowar_vegetative (doy 136 inside window).",
+        "confidence": 0.95,
+        "display_status": "contested",
+        "eff_confidence": 0.63333333,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_weather_ep_2024_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.06405579,
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
+        "reason": "contested: eff 0.63 + support 0.00 \u2212 attack 0.25 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "weather",
+        "attack": 0.15,
+        "claim": "In-window stage stress on dairy_cattle (doy 136 inside window).",
+        "confidence": 0.8,
+        "display_status": "contested",
+        "eff_confidence": 0.53333333,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_weather_ep_2024_demo_heatwave__dairy_cattle__milk__dairy_collection__dairy_households__livestock_heat_stress",
+        "path_score": 0.04794163,
+        "path_signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
+        "reason": "contested: eff 0.53 + support 0.00 \u2212 attack 0.15 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "weather",
+        "attack": 0.3,
+        "claim": "In-window stage stress on zaid_moong_flowering (doy 136 inside window).",
+        "confidence": 0.8,
+        "display_status": "defeated",
+        "eff_confidence": 0.53333333,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_weather_ep_2024_demo_heatwave__zaid_moong_flowering__zaid_pulse__mandi_pulse__farm_laborers__heat_stress_illness",
+        "path_score": 0.00621831,
+        "path_signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "reason": "defeated: attack 0.30 \u2265 support 0.00 + 0.5\u00b7eff 0.53 (weather credibility 0.67)",
+        "status": "defeated",
+        "support": 0.0
+      },
+      {
+        "agent_id": "weather",
+        "attack": 0.0,
+        "claim": "Direct heat exposure: heatwave \u2192 farm labourers \u2192 heat-stress illness.",
+        "confidence": 0.9,
+        "display_status": "accepted",
+        "eff_confidence": 0.6,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_weather_ep_2024_demo_heatwave__farm_laborers__heat_stress_illness",
+        "path_score": 0.55404,
+        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
+        "reason": "accepted: eff 0.60 + support 0.00 \u2212 attack 0.00 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.0
+      },
+      {
+        "agent_id": "weather",
+        "attack": 0.15,
+        "claim": "Heatwave exposes dairy households; livestock heat-stress branch.",
+        "confidence": 0.55,
+        "display_status": "contested",
+        "eff_confidence": 0.36666667,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_weather_ep_2024_demo_heatwave__dairy_households__livestock_heat_stress",
+        "path_score": 0.16065,
+        "path_signature": "heatwave>dairy_households>livestock_heat_stress",
+        "reason": "contested: eff 0.37 + support 0.00 \u2212 attack 0.15 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "agronomy",
+        "attack": 0.0,
+        "claim": "Wheat grain-price path dominates given area_share.",
+        "confidence": 0.9,
+        "display_status": "accepted",
+        "eff_confidence": 0.45,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_agronomy_ep_2024_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
+        "path_score": 0.05820722,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
+        "reason": "accepted: eff 0.45 + support 0.20 \u2212 attack 0.00 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.2
+      },
+      {
+        "agent_id": "agronomy",
+        "attack": 0.0,
+        "claim": "Wheat grain-price path dominates given area_share.",
+        "confidence": 0.9,
+        "display_status": "accepted",
+        "eff_confidence": 0.45,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_agronomy_ep_2024_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.04886532,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "reason": "accepted: eff 0.45 + support 0.20 \u2212 attack 0.00 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.2
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.25,
+        "claim": "Labour-heat morbidity along the farm-labour chain.",
+        "confidence": 0.7,
+        "display_status": "defeated",
+        "eff_confidence": 0.42,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_health_ep_2024_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__heat_stress_illness",
+        "path_score": 0.07630175,
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
+        "reason": "defeated: attack 0.25 \u2265 support 0.00 + 0.5\u00b7eff 0.42 (health credibility 0.60)",
+        "status": "defeated",
+        "support": 0.0
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.25,
+        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
+        "confidence": 0.75,
+        "display_status": "contested",
+        "eff_confidence": 0.45,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_health_ep_2024_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.06405579,
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
+        "reason": "contested: eff 0.45 + support 0.24 \u2212 attack 0.25 < 0.6",
+        "status": "proposed",
+        "support": 0.24
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.0,
+        "claim": "Labour-heat morbidity along the farm-labour chain.",
+        "confidence": 0.7,
+        "display_status": "contested",
+        "eff_confidence": 0.42,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_health_ep_2024_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
+        "path_score": 0.05820722,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
+        "reason": "contested: eff 0.42 + support 0.00 \u2212 attack 0.00 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.0,
+        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
+        "confidence": 0.75,
+        "display_status": "accepted",
+        "eff_confidence": 0.45,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_health_ep_2024_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.04886532,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "reason": "accepted: eff 0.45 + support 0.24 \u2212 attack 0.00 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.24
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.3,
+        "claim": "Labour-heat morbidity along the farm-labour chain.",
+        "confidence": 0.7,
+        "display_status": "defeated",
+        "eff_confidence": 0.42,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_health_ep_2024_demo_heatwave__zaid_moong_flowering__zaid_pulse__mandi_pulse__farm_laborers__heat_stress_illness",
+        "path_score": 0.00621831,
+        "path_signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "reason": "defeated: attack 0.30 \u2265 support 0.00 + 0.5\u00b7eff 0.42 (health credibility 0.60)",
+        "status": "defeated",
+        "support": 0.0
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.0,
+        "claim": "Labour-heat morbidity along the farm-labour chain.",
+        "confidence": 0.8,
+        "display_status": "contested",
+        "eff_confidence": 0.48,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_health_ep_2024_demo_heatwave__farm_laborers__heat_stress_illness",
+        "path_score": 0.55404,
+        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
+        "reason": "contested: eff 0.48 + support 0.00 \u2212 attack 0.00 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.0,
+        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
+        "confidence": 0.75,
+        "display_status": "accepted",
+        "eff_confidence": 0.45,
+        "episode_id": "ep_2024_demo",
+        "id": "hyp_health_ep_2024_demo_heatwave__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.46512,
+        "path_signature": "heatwave>farm_laborers>waterborne_diarrhoea",
+        "reason": "accepted: eff 0.45 + support 0.24 \u2212 attack 0.00 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.24
+      }
+    ],
+    "path_status": {
+      "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress": "proposed",
+      "heatwave>dairy_households>livestock_heat_stress": "proposed",
+      "heatwave>farm_laborers>heat_stress_illness": "accepted",
+      "heatwave>farm_laborers>waterborne_diarrhoea": "accepted",
+      "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness": "accepted",
+      "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea": "proposed",
+      "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness": "accepted",
+      "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea": "accepted"
+    },
+    "paths": [
       {
         "base": 0.31792395,
         "exposure": 0.24,
@@ -416,7 +515,7 @@
           "farm_laborers",
           "heat_stress_illness"
         ],
-        "rank": 4,
+        "rank": 1,
         "score": 0.07630175,
         "signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
         "timing": 1.0,
@@ -441,7 +540,7 @@
           "farm_laborers",
           "waterborne_diarrhoea"
         ],
-        "rank": 5,
+        "rank": 2,
         "score": 0.06405579,
         "signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
         "timing": 1.0,
@@ -466,10 +565,85 @@
           "farm_laborers",
           "heat_stress_illness"
         ],
-        "rank": 6,
+        "rank": 3,
         "score": 0.05820722,
         "signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
         "timing": 0.6,
+        "types": [
+          "STRESSES",
+          "REDUCES_YIELD_OF",
+          "SHOCKS_PRICE_AT",
+          "PRESSURES",
+          "AT_RISK_OF"
+        ]
+      },
+      {
+        "base": 0.22622832,
+        "exposure": 0.36,
+        "intensity": 1.0,
+        "lag_days": 33,
+        "node_ids": [
+          "heatwave",
+          "wheat_grainfill",
+          "wheat_grain",
+          "mandi_wheat",
+          "farm_laborers",
+          "waterborne_diarrhoea"
+        ],
+        "rank": 4,
+        "score": 0.04886532,
+        "signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "timing": 0.6,
+        "types": [
+          "STRESSES",
+          "REDUCES_YIELD_OF",
+          "SHOCKS_PRICE_AT",
+          "PRESSURES",
+          "AT_RISK_OF"
+        ]
+      },
+      {
+        "base": 0.10653696,
+        "exposure": 0.45,
+        "intensity": 1.0,
+        "lag_days": 15,
+        "node_ids": [
+          "heatwave",
+          "dairy_cattle",
+          "milk",
+          "dairy_collection",
+          "dairy_households",
+          "livestock_heat_stress"
+        ],
+        "rank": 5,
+        "score": 0.04794163,
+        "signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
+        "timing": 1.0,
+        "types": [
+          "STRESSES",
+          "REDUCES_YIELD_OF",
+          "SHOCKS_PRICE_AT",
+          "PRESSURES",
+          "AT_RISK_OF"
+        ]
+      },
+      {
+        "base": 0.0777289,
+        "exposure": 0.08,
+        "intensity": 1.0,
+        "lag_days": 24,
+        "node_ids": [
+          "heatwave",
+          "zaid_moong_flowering",
+          "zaid_pulse",
+          "mandi_pulse",
+          "farm_laborers",
+          "heat_stress_illness"
+        ],
+        "rank": 6,
+        "score": 0.00621831,
+        "signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "timing": 1.0,
         "types": [
           "STRESSES",
           "REDUCES_YIELD_OF",
@@ -575,20 +749,21 @@
       },
       {
         "analog_episode_ids": [
-          "ep_lib_2019_direct"
+          "ep_lib_2020_grain",
+          "ep_lib_2022_grain"
         ],
         "episode_id": "ep_2024_demo",
-        "id": "rec_ep_2024_demo_worksite_cool_shelters_defeated_precedent_heatwave__farm_laborers__heat_stress_illness",
-        "intervention_id": "worksite_cool_shelters",
-        "intervention_name": "Shaded rest + water points at worksites",
-        "kind": "defeated_precedent",
-        "lead_time_days": 12,
+        "id": "rec_ep_2024_demo_work_hour_shift_act_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "intervention_id": "work_hour_shift",
+        "intervention_name": "Shift field/MGNREGA work to before 11:00 and after 16:00",
+        "kind": "act",
+        "lead_time_days": 7,
         "message": null,
-        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
-        "precedent_weight": 0.27,
-        "score": 0.27,
-        "successes": 0,
-        "trials": 1
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "precedent_weight": 0.66666667,
+        "score": 0.03257688,
+        "successes": 3,
+        "trials": 4
       },
       {
         "analog_episode_ids": [
@@ -612,6 +787,23 @@
       },
       {
         "analog_episode_ids": [
+          "ep_lib_2019_direct"
+        ],
+        "episode_id": "ep_2024_demo",
+        "id": "rec_ep_2024_demo_worksite_cool_shelters_defeated_precedent_heatwave__farm_laborers__heat_stress_illness",
+        "intervention_id": "worksite_cool_shelters",
+        "intervention_name": "Shaded rest + water points at worksites",
+        "kind": "defeated_precedent",
+        "lead_time_days": 12,
+        "message": null,
+        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
+        "precedent_weight": 0.27,
+        "score": 0.27,
+        "successes": 0,
+        "trials": 1
+      },
+      {
+        "analog_episode_ids": [
           "ep_lib_2020_grain",
           "ep_lib_2022_grain"
         ],
@@ -623,6 +815,24 @@
         "lead_time_days": 12,
         "message": null,
         "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
+        "precedent_weight": 0.27,
+        "score": 0.27,
+        "successes": 0,
+        "trials": 1
+      },
+      {
+        "analog_episode_ids": [
+          "ep_lib_2020_grain",
+          "ep_lib_2022_grain"
+        ],
+        "episode_id": "ep_2024_demo",
+        "id": "rec_ep_2024_demo_worksite_cool_shelters_defeated_precedent_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "intervention_id": "worksite_cool_shelters",
+        "intervention_name": "Shaded rest + water points at worksites",
+        "kind": "defeated_precedent",
+        "lead_time_days": 12,
+        "message": null,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
         "precedent_weight": 0.27,
         "score": 0.27,
         "successes": 0,
@@ -664,6 +874,24 @@
         "trials": 2
       },
       {
+        "analog_episode_ids": [
+          "ep_lib_2020_grain",
+          "ep_lib_2022_grain"
+        ],
+        "episode_id": "ep_2024_demo",
+        "id": "rec_ep_2024_demo_mandi_price_advisory_defeated_precedent_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "intervention_id": "mandi_price_advisory",
+        "intervention_name": "Mandi price-cap advisory",
+        "kind": "defeated_precedent",
+        "lead_time_days": 3,
+        "message": null,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "precedent_weight": 0.225,
+        "score": 0.225,
+        "successes": 0,
+        "trials": 2
+      },
+      {
         "analog_episode_ids": [],
         "episode_id": "ep_2024_demo",
         "escalated_to": "officer_rajpur_dm",
@@ -699,6 +927,22 @@
         "score": 0.06405579,
         "successes": null,
         "trials": null
+      },
+      {
+        "analog_episode_ids": [],
+        "episode_id": "ep_2024_demo",
+        "escalated_to": "officer_rajpur_dm",
+        "escalated_to_name": "A. Sharma",
+        "id": "rec_ep_2024_demo_escalate_heatwave__dairy_cattle__milk__dairy_collection__dairy_households__livestock_heat_stress",
+        "intervention_id": null,
+        "intervention_name": null,
+        "kind": "escalate",
+        "message": "UNPRECEDENTED: escalate to district officer",
+        "path_signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
+        "precedent_weight": null,
+        "score": 0.04794163,
+        "successes": null,
+        "trials": null
       }
     ],
     "run_id": "run_demo_2024",
@@ -706,168 +950,7 @@
     "tenant": "demo"
   },
   "season_2025": {
-    "episode_id": "ep_2025_demo",
-    "hypotheses": [
-      {
-        "agent_id": "weather",
-        "attack": 0.0,
-        "claim": "Direct heat exposure: heatwave \u2192 farm labourers \u2192 heat-stress illness.",
-        "confidence": 0.9,
-        "display_status": "accepted",
-        "eff_confidence": 0.64285714,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_weather_ep_2025_demo_heatwave__farm_laborers__heat_stress_illness",
-        "path_score": 0.55404,
-        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
-        "reason": "accepted: eff 0.64 + support 0.00 \u2212 attack 0.00 \u2265 0.6",
-        "status": "accepted",
-        "support": 0.0
-      },
-      {
-        "agent_id": "weather",
-        "attack": 0.16666667,
-        "claim": "Heatwave exposes dairy households; livestock heat-stress branch.",
-        "confidence": 0.55,
-        "display_status": "contested",
-        "eff_confidence": 0.39285714,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_weather_ep_2025_demo_heatwave__dairy_households__livestock_heat_stress",
-        "path_score": 0.16065,
-        "path_signature": "heatwave>dairy_households>livestock_heat_stress",
-        "reason": "contested: eff 0.39 + support 0.00 \u2212 attack 0.17 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      },
-      {
-        "agent_id": "weather",
-        "attack": 0.2,
-        "claim": "In-window stage stress on fodder_jowar_vegetative (doy 136 inside window).",
-        "confidence": 0.95,
-        "display_status": "accepted",
-        "eff_confidence": 0.67857143,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_weather_ep_2025_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__heat_stress_illness",
-        "path_score": 0.07630175,
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
-        "reason": "accepted: eff 0.68 + support 0.27 \u2212 attack 0.20 \u2265 0.6",
-        "status": "accepted",
-        "support": 0.26666667
-      },
-      {
-        "agent_id": "weather",
-        "attack": 0.2,
-        "claim": "In-window stage stress on fodder_jowar_vegetative (doy 136 inside window).",
-        "confidence": 0.95,
-        "display_status": "contested",
-        "eff_confidence": 0.67857143,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_weather_ep_2025_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
-        "path_score": 0.06405579,
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
-        "reason": "contested: eff 0.68 + support 0.00 \u2212 attack 0.20 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      },
-      {
-        "agent_id": "agronomy",
-        "attack": 0.46666667,
-        "claim": "Wheat grain-price path dominates given area_share.",
-        "confidence": 0.9,
-        "display_status": "defeated",
-        "eff_confidence": 0.36,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_agronomy_ep_2025_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
-        "path_score": 0.05820722,
-        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
-        "reason": "defeated: attack 0.47 \u2265 support 0.16 + 0.5\u00b7eff 0.36 (agronomy credibility 0.40)",
-        "status": "defeated",
-        "support": 0.16
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.0,
-        "claim": "Labour-heat morbidity along the farm-labour chain.",
-        "confidence": 0.8,
-        "display_status": "contested",
-        "eff_confidence": 0.53333333,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_health_ep_2025_demo_heatwave__farm_laborers__heat_stress_illness",
-        "path_score": 0.55404,
-        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
-        "reason": "contested: eff 0.53 + support 0.00 \u2212 attack 0.00 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.0,
-        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
-        "confidence": 0.75,
-        "display_status": "accepted",
-        "eff_confidence": 0.5,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_health_ep_2025_demo_heatwave__farm_laborers__waterborne_diarrhoea",
-        "path_score": 0.46512,
-        "path_signature": "heatwave>farm_laborers>waterborne_diarrhoea",
-        "reason": "accepted: eff 0.50 + support 0.27 \u2212 attack 0.00 \u2265 0.6",
-        "status": "accepted",
-        "support": 0.26666667
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.2,
-        "claim": "Labour-heat morbidity along the farm-labour chain.",
-        "confidence": 0.7,
-        "display_status": "contested",
-        "eff_confidence": 0.46666667,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_health_ep_2025_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__heat_stress_illness",
-        "path_score": 0.07630175,
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
-        "reason": "contested: eff 0.47 + support 0.00 \u2212 attack 0.20 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.2,
-        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
-        "confidence": 0.75,
-        "display_status": "contested",
-        "eff_confidence": 0.5,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_health_ep_2025_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
-        "path_score": 0.06405579,
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
-        "reason": "contested: eff 0.50 + support 0.27 \u2212 attack 0.20 < 0.6",
-        "status": "proposed",
-        "support": 0.26666667
-      },
-      {
-        "agent_id": "health",
-        "attack": 0.0,
-        "claim": "Labour-heat morbidity along the farm-labour chain.",
-        "confidence": 0.7,
-        "display_status": "contested",
-        "eff_confidence": 0.46666667,
-        "episode_id": "ep_2025_demo",
-        "id": "hyp_health_ep_2025_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
-        "path_score": 0.05820722,
-        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
-        "reason": "contested: eff 0.47 + support 0.00 \u2212 attack 0.00 < 0.6",
-        "status": "proposed",
-        "support": 0.0
-      }
-    ],
-    "path_status": {
-      "heatwave>dairy_households>livestock_heat_stress": "proposed",
-      "heatwave>farm_laborers>heat_stress_illness": "accepted",
-      "heatwave>farm_laborers>waterborne_diarrhoea": "accepted",
-      "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness": "accepted",
-      "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea": "proposed",
-      "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness": "proposed"
-    },
-    "paths": [
+    "direct_exposure": [
       {
         "base": 0.69255,
         "exposure": 0.8,
@@ -924,7 +1007,248 @@
           "EXPOSES",
           "AT_RISK_OF"
         ]
+      }
+    ],
+    "episode_id": "ep_2025_demo",
+    "hypotheses": [
+      {
+        "agent_id": "weather",
+        "attack": 0.2,
+        "claim": "In-window stage stress on fodder_jowar_vegetative (doy 136 inside window).",
+        "confidence": 0.95,
+        "display_status": "accepted",
+        "eff_confidence": 0.67857143,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_weather_ep_2025_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__heat_stress_illness",
+        "path_score": 0.07630175,
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
+        "reason": "accepted: eff 0.68 + support 0.27 \u2212 attack 0.20 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.26666667
       },
+      {
+        "agent_id": "weather",
+        "attack": 0.2,
+        "claim": "In-window stage stress on fodder_jowar_vegetative (doy 136 inside window).",
+        "confidence": 0.95,
+        "display_status": "contested",
+        "eff_confidence": 0.67857143,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_weather_ep_2025_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.06405579,
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
+        "reason": "contested: eff 0.68 + support 0.00 \u2212 attack 0.20 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "weather",
+        "attack": 0.16666667,
+        "claim": "In-window stage stress on dairy_cattle (doy 136 inside window).",
+        "confidence": 0.8,
+        "display_status": "contested",
+        "eff_confidence": 0.57142857,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_weather_ep_2025_demo_heatwave__dairy_cattle__milk__dairy_collection__dairy_households__livestock_heat_stress",
+        "path_score": 0.04794163,
+        "path_signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
+        "reason": "contested: eff 0.57 + support 0.00 \u2212 attack 0.17 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "weather",
+        "attack": 0.24,
+        "claim": "In-window stage stress on zaid_moong_flowering (doy 136 inside window).",
+        "confidence": 0.8,
+        "display_status": "contested",
+        "eff_confidence": 0.57142857,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_weather_ep_2025_demo_heatwave__zaid_moong_flowering__zaid_pulse__mandi_pulse__farm_laborers__heat_stress_illness",
+        "path_score": 0.00621831,
+        "path_signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "reason": "contested: eff 0.57 + support 0.00 \u2212 attack 0.24 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "weather",
+        "attack": 0.0,
+        "claim": "Direct heat exposure: heatwave \u2192 farm labourers \u2192 heat-stress illness.",
+        "confidence": 0.9,
+        "display_status": "accepted",
+        "eff_confidence": 0.64285714,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_weather_ep_2025_demo_heatwave__farm_laborers__heat_stress_illness",
+        "path_score": 0.55404,
+        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
+        "reason": "accepted: eff 0.64 + support 0.00 \u2212 attack 0.00 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.0
+      },
+      {
+        "agent_id": "weather",
+        "attack": 0.16666667,
+        "claim": "Heatwave exposes dairy households; livestock heat-stress branch.",
+        "confidence": 0.55,
+        "display_status": "contested",
+        "eff_confidence": 0.39285714,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_weather_ep_2025_demo_heatwave__dairy_households__livestock_heat_stress",
+        "path_score": 0.16065,
+        "path_signature": "heatwave>dairy_households>livestock_heat_stress",
+        "reason": "contested: eff 0.39 + support 0.00 \u2212 attack 0.17 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "agronomy",
+        "attack": 0.46666667,
+        "claim": "Wheat grain-price path dominates given area_share.",
+        "confidence": 0.9,
+        "display_status": "defeated",
+        "eff_confidence": 0.36,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_agronomy_ep_2025_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
+        "path_score": 0.05820722,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
+        "reason": "defeated: attack 0.47 \u2265 support 0.16 + 0.5\u00b7eff 0.36 (agronomy credibility 0.40)",
+        "status": "defeated",
+        "support": 0.16
+      },
+      {
+        "agent_id": "agronomy",
+        "attack": 0.46666667,
+        "claim": "Wheat grain-price path dominates given area_share.",
+        "confidence": 0.9,
+        "display_status": "defeated",
+        "eff_confidence": 0.36,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_agronomy_ep_2025_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.04886532,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "reason": "defeated: attack 0.47 \u2265 support 0.16 + 0.5\u00b7eff 0.36 (agronomy credibility 0.40)",
+        "status": "defeated",
+        "support": 0.16
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.2,
+        "claim": "Labour-heat morbidity along the farm-labour chain.",
+        "confidence": 0.7,
+        "display_status": "contested",
+        "eff_confidence": 0.46666667,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_health_ep_2025_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__heat_stress_illness",
+        "path_score": 0.07630175,
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
+        "reason": "contested: eff 0.47 + support 0.00 \u2212 attack 0.20 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.2,
+        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
+        "confidence": 0.75,
+        "display_status": "contested",
+        "eff_confidence": 0.5,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_health_ep_2025_demo_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.06405579,
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
+        "reason": "contested: eff 0.50 + support 0.27 \u2212 attack 0.20 < 0.6",
+        "status": "proposed",
+        "support": 0.26666667
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.0,
+        "claim": "Labour-heat morbidity along the farm-labour chain.",
+        "confidence": 0.7,
+        "display_status": "contested",
+        "eff_confidence": 0.46666667,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_health_ep_2025_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
+        "path_score": 0.05820722,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
+        "reason": "contested: eff 0.47 + support 0.00 \u2212 attack 0.00 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.0,
+        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
+        "confidence": 0.75,
+        "display_status": "accepted",
+        "eff_confidence": 0.5,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_health_ep_2025_demo_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.04886532,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "reason": "accepted: eff 0.50 + support 0.27 \u2212 attack 0.00 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.26666667
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.24,
+        "claim": "Labour-heat morbidity along the farm-labour chain.",
+        "confidence": 0.7,
+        "display_status": "defeated",
+        "eff_confidence": 0.46666667,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_health_ep_2025_demo_heatwave__zaid_moong_flowering__zaid_pulse__mandi_pulse__farm_laborers__heat_stress_illness",
+        "path_score": 0.00621831,
+        "path_signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "reason": "defeated: attack 0.24 \u2265 support 0.00 + 0.5\u00b7eff 0.47 (health credibility 0.67)",
+        "status": "defeated",
+        "support": 0.0
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.0,
+        "claim": "Labour-heat morbidity along the farm-labour chain.",
+        "confidence": 0.8,
+        "display_status": "contested",
+        "eff_confidence": 0.53333333,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_health_ep_2025_demo_heatwave__farm_laborers__heat_stress_illness",
+        "path_score": 0.55404,
+        "path_signature": "heatwave>farm_laborers>heat_stress_illness",
+        "reason": "contested: eff 0.53 + support 0.00 \u2212 attack 0.00 < 0.6",
+        "status": "proposed",
+        "support": 0.0
+      },
+      {
+        "agent_id": "health",
+        "attack": 0.0,
+        "claim": "Water-stress 0.85 plus heat drives water-borne diarrhoea.",
+        "confidence": 0.75,
+        "display_status": "accepted",
+        "eff_confidence": 0.5,
+        "episode_id": "ep_2025_demo",
+        "id": "hyp_health_ep_2025_demo_heatwave__farm_laborers__waterborne_diarrhoea",
+        "path_score": 0.46512,
+        "path_signature": "heatwave>farm_laborers>waterborne_diarrhoea",
+        "reason": "accepted: eff 0.50 + support 0.27 \u2212 attack 0.00 \u2265 0.6",
+        "status": "accepted",
+        "support": 0.26666667
+      }
+    ],
+    "path_status": {
+      "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress": "proposed",
+      "heatwave>dairy_households>livestock_heat_stress": "proposed",
+      "heatwave>farm_laborers>heat_stress_illness": "accepted",
+      "heatwave>farm_laborers>waterborne_diarrhoea": "accepted",
+      "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness": "accepted",
+      "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea": "proposed",
+      "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness": "proposed",
+      "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea": "accepted",
+      "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness": "proposed"
+    },
+    "paths": [
       {
         "base": 0.31792395,
         "exposure": 0.24,
@@ -938,7 +1262,7 @@
           "farm_laborers",
           "heat_stress_illness"
         ],
-        "rank": 4,
+        "rank": 1,
         "score": 0.07630175,
         "signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness",
         "timing": 1.0,
@@ -963,7 +1287,7 @@
           "farm_laborers",
           "waterborne_diarrhoea"
         ],
-        "rank": 5,
+        "rank": 2,
         "score": 0.06405579,
         "signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
         "timing": 1.0,
@@ -988,7 +1312,7 @@
           "farm_laborers",
           "heat_stress_illness"
         ],
-        "rank": 6,
+        "rank": 3,
         "score": 0.05820722,
         "signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
         "timing": 0.6,
@@ -999,9 +1323,84 @@
           "PRESSURES",
           "AT_RISK_OF"
         ]
+      },
+      {
+        "base": 0.22622832,
+        "exposure": 0.36,
+        "intensity": 1.0,
+        "lag_days": 33,
+        "node_ids": [
+          "heatwave",
+          "wheat_grainfill",
+          "wheat_grain",
+          "mandi_wheat",
+          "farm_laborers",
+          "waterborne_diarrhoea"
+        ],
+        "rank": 4,
+        "score": 0.04886532,
+        "signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "timing": 0.6,
+        "types": [
+          "STRESSES",
+          "REDUCES_YIELD_OF",
+          "SHOCKS_PRICE_AT",
+          "PRESSURES",
+          "AT_RISK_OF"
+        ]
+      },
+      {
+        "base": 0.10653696,
+        "exposure": 0.45,
+        "intensity": 1.0,
+        "lag_days": 15,
+        "node_ids": [
+          "heatwave",
+          "dairy_cattle",
+          "milk",
+          "dairy_collection",
+          "dairy_households",
+          "livestock_heat_stress"
+        ],
+        "rank": 5,
+        "score": 0.04794163,
+        "signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
+        "timing": 1.0,
+        "types": [
+          "STRESSES",
+          "REDUCES_YIELD_OF",
+          "SHOCKS_PRICE_AT",
+          "PRESSURES",
+          "AT_RISK_OF"
+        ]
+      },
+      {
+        "base": 0.0777289,
+        "exposure": 0.08,
+        "intensity": 1.0,
+        "lag_days": 24,
+        "node_ids": [
+          "heatwave",
+          "zaid_moong_flowering",
+          "zaid_pulse",
+          "mandi_pulse",
+          "farm_laborers",
+          "heat_stress_illness"
+        ],
+        "rank": 6,
+        "score": 0.00621831,
+        "signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "timing": 1.0,
+        "types": [
+          "STRESSES",
+          "REDUCES_YIELD_OF",
+          "SHOCKS_PRICE_AT",
+          "PRESSURES",
+          "AT_RISK_OF"
+        ]
       }
     ],
-    "rationale": "Precedent supports acting on: ORS stocking + water chlorination drive, Open fodder banks + fodder transport subsidy, Shaded rest + water points at worksites, Shift field/MGNREGA work to before 11:00 and after 16:00. At least one accepted or contested path is UNPRECEDENTED and is escalated to the district officer. All figures are synthetic archetype data.",
+    "rationale": "Precedent supports acting on: ORS stocking + water chlorination drive, Open fodder banks + fodder transport subsidy, Shaded rest + water points at worksites, Shift field/MGNREGA work to before 11:00 and after 16:00. Struck through (weak precedent): Mandi price-cap advisory. At least one accepted or contested path is UNPRECEDENTED and is escalated to the district officer. All figures are synthetic archetype data.",
     "recommendations": [
       {
         "analog_episode_ids": [
@@ -1101,6 +1500,42 @@
         "trials": 2
       },
       {
+        "analog_episode_ids": [
+          "ep_lib_2020_grain",
+          "ep_lib_2022_grain"
+        ],
+        "episode_id": "ep_2025_demo",
+        "id": "rec_ep_2025_demo_work_hour_shift_act_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "intervention_id": "work_hour_shift",
+        "intervention_name": "Shift field/MGNREGA work to before 11:00 and after 16:00",
+        "kind": "act",
+        "lead_time_days": 7,
+        "message": null,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "precedent_weight": 0.71428571,
+        "score": 0.0349038,
+        "successes": 4,
+        "trials": 5
+      },
+      {
+        "analog_episode_ids": [
+          "ep_lib_2020_grain",
+          "ep_lib_2022_grain"
+        ],
+        "episode_id": "ep_2025_demo",
+        "id": "rec_ep_2025_demo_mandi_price_advisory_defeated_precedent_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__waterborne_diarrhoea",
+        "intervention_id": "mandi_price_advisory",
+        "intervention_name": "Mandi price-cap advisory",
+        "kind": "defeated_precedent",
+        "lead_time_days": 3,
+        "message": null,
+        "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>waterborne_diarrhoea",
+        "precedent_weight": 0.2025,
+        "score": 0.2025,
+        "successes": 0,
+        "trials": 2
+      },
+      {
         "analog_episode_ids": [],
         "episode_id": "ep_2025_demo",
         "escalated_to": "officer_rajpur_dm",
@@ -1154,6 +1589,38 @@
         "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
         "precedent_weight": null,
         "score": 0.05820722,
+        "successes": null,
+        "trials": null
+      },
+      {
+        "analog_episode_ids": [],
+        "episode_id": "ep_2025_demo",
+        "escalated_to": "officer_rajpur_dm",
+        "escalated_to_name": "A. Sharma",
+        "id": "rec_ep_2025_demo_escalate_heatwave__dairy_cattle__milk__dairy_collection__dairy_households__livestock_heat_stress",
+        "intervention_id": null,
+        "intervention_name": null,
+        "kind": "escalate",
+        "message": "UNPRECEDENTED: escalate to district officer",
+        "path_signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
+        "precedent_weight": null,
+        "score": 0.04794163,
+        "successes": null,
+        "trials": null
+      },
+      {
+        "analog_episode_ids": [],
+        "episode_id": "ep_2025_demo",
+        "escalated_to": "officer_rajpur_dm",
+        "escalated_to_name": "A. Sharma",
+        "id": "rec_ep_2025_demo_escalate_heatwave__zaid_moong_flowering__zaid_pulse__mandi_pulse__farm_laborers__heat_stress_illness",
+        "intervention_id": null,
+        "intervention_name": null,
+        "kind": "escalate",
+        "message": "UNPRECEDENTED: escalate to district officer",
+        "path_signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "precedent_weight": null,
+        "score": 0.00621831,
         "successes": null,
         "trials": null
       }

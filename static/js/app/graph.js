@@ -195,14 +195,7 @@ export function highlightPath(signature) {
   });
 }
 
-export function renderPathsTable(paths, pathStatus) {
-  const host = document.getElementById("pathsTable");
-  if (!host) return;
-  host.replaceChildren();
-  if (!paths?.length) {
-    host.append(el("p", { class: "muted", text: "Run a season to list cascade paths." }));
-    return;
-  }
+function pathTable(paths, pathStatus) {
   const table = el("table", { class: "paths-table" });
   const thead = el("thead");
   const hr = el("tr");
@@ -226,7 +219,23 @@ export function renderPathsTable(paths, pathStatus) {
     tb.append(tr);
   }
   table.append(tb);
-  host.append(table);
+  return table;
+}
+
+export function renderPathsTable(paths, pathStatus, direct) {
+  const host = document.getElementById("pathsTable");
+  if (!host) return;
+  host.replaceChildren();
+  if (!paths?.length && !direct?.length) {
+    host.append(el("p", { class: "muted", text: "Run a season to list cascade paths." }));
+    return;
+  }
+  host.append(el("h3", { text: "Cascade paths (3+ hops)" }));
+  if (paths?.length) host.append(pathTable(paths, pathStatus));
+  else host.append(el("p", { class: "muted", text: "none" }));
+  host.append(el("h3", { text: "Direct exposure (1–2 hops)" }));
+  if (direct?.length) host.append(pathTable(direct, pathStatus));
+  else host.append(el("p", { class: "muted", text: "none" }));
 }
 
 export function destroyGraph() {

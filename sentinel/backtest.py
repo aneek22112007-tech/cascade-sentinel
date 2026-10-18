@@ -24,8 +24,8 @@ console = Console()
 PITCH = "Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent."
 
 
-def _short_path(sig: str, width: int = 52) -> str:
-    s = sig.replace("heatwave>", "")
+def _fmt_path(sig: str, width: int = 88) -> str:
+    s = str(sig)
     return s if len(s) <= width else s[: width - 1] + "…"
 
 
@@ -51,23 +51,30 @@ def print_banner() -> None:
     )
 
 
-def print_season(bundle: dict[str, Any], title: str) -> None:
-    console.rule(f"[bold]{title}[/bold]")
-    paths = Table(title="Top cascade paths", show_lines=False)
+def _path_table(title: str, rows: list[dict[str, Any]]) -> Table:
+    paths = Table(title=title, show_lines=False)
     paths.add_column("#", justify="right")
     paths.add_column("path")
     paths.add_column("score", justify="right")
     paths.add_column("lag_d", justify="right")
     paths.add_column("T", justify="right")
-    for p in bundle["paths"]:
+    for p in rows:
         paths.add_row(
-            str(p["rank"]),
-            _short_path(p["signature"]),
+            str(p.get("rank") or ""),
+            _fmt_path(p["signature"]),
             f"{p['score']:.3f}",
             str(p["lag_days"]),
             f"{p['timing']:.1f}",
         )
-    console.print(paths)
+    return paths
+
+
+def print_season(bundle: dict[str, Any], title: str) -> None:
+    console.rule(f"[bold]{title}[/bold]")
+    console.print(_path_table("Top cascade paths (3+ hops)", bundle["paths"]))
+    direct = bundle.get("direct_exposure") or []
+    if direct:
+        console.print(_path_table("Direct exposure (1–2 hops)", direct))
 
     hyps = Table(title="Hypotheses (adjudicated)", show_lines=False)
     hyps.add_column("agent")
@@ -79,7 +86,7 @@ def print_season(bundle: dict[str, Any], title: str) -> None:
         st = h["status"] if h["status"] != "proposed" else "contested"
         hyps.add_row(
             h["agent_id"],
-            _short_path(h["path_signature"], 40),
+            _fmt_path(h["path_signature"], 56),
             f"{h['eff_confidence']:.2f}",
             Text(st, style=_status_style(st)),
             (h.get("reason") or "")[:80],
@@ -104,7 +111,7 @@ def print_season(bundle: dict[str, Any], title: str) -> None:
             kind_t = Text("ESCALATE", style="bold white on grey39")
             name = r.get("message") or "UNPRECEDENTED"
         pval = "" if r.get("precedent_weight") is None else f"{r['precedent_weight']:.2f}"
-        recs.add_row(kind_t, name, pval, f"{r['score']:.3f}", _short_path(r["path_signature"], 36))
+        recs.add_row(kind_t, name, pval, f"{r['score']:.3f}", _fmt_path(r["path_signature"], 56))
     console.print(recs)
     if bundle.get("rationale"):
         console.print(Panel(bundle["rationale"], title="Rationale (prose only)", border_style="dim"))
@@ -159,7 +166,7 @@ def diff_seasons(a: dict[str, Any], b: dict[str, Any]) -> list[dict[str, str]]:
         if sa != sb:
             rows.append(
                 {
-                    "what": f"hyp {key[0]} {_short_path(key[1], 32)}",
+                    "what": f"hyp {key[0]} {_fmt_path(key[1], 48)}",
                     "n_minus_1": sa,
                     "n": sb,
                 }
@@ -169,9 +176,9 @@ def diff_seasons(a: dict[str, Any], b: dict[str, Any]) -> list[dict[str, str]]:
     lost = a_r - b_r
     gained = b_r - a_r
     for kind, iid, sig in sorted(gained, key=str):
-        rows.append({"what": f"+ {kind} {iid or 'escalate'} {_short_path(sig, 28)}", "n_minus_1": "—", "n": kind})
+        rows.append({"what": f"+ {kind} {iid or 'escalate'} {_fmt_path(sig, 40)}", "n_minus_1": "—", "n": kind})
     for kind, iid, sig in sorted(lost, key=str):
-        rows.append({"what": f"- {kind} {iid or 'escalate'} {_short_path(sig, 28)}", "n_minus_1": kind, "n": "—"})
+        rows.append({"what": f"- {kind} {iid or 'escalate'} {_fmt_path(sig, 40)}", "n_minus_1": kind, "n": "—"})
     return rows
 
 

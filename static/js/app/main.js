@@ -79,7 +79,7 @@ function applyBundle(bundle, year) {
   renderRecs(bundle);
   renderHypotheses(bundle.hypotheses);
   renderRationale(bundle.rationale);
-  renderPathsTable(bundle.paths, bundle.path_status);
+  renderPathsTable(bundle.paths, bundle.path_status, bundle.direct_exposure);
 }
 
 async function loadSnapshot(eid) {
