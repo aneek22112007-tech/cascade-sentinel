@@ -15,6 +15,9 @@ services:
         value: none
       - key: SEED_ON_START
         value: if-empty
+      # per-visitor sandbox graphs: each costs ~4 MB in FalkorDB, so stay well inside 512 MB
+      - key: SESSION_MAX
+        value: "30"
       # Optional: lock the mutating POST routes for a public demo.
       # - key: SENTINEL_ADMIN_TOKEN
       #   generateValue: true
