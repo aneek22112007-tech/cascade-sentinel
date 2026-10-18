@@ -57,7 +57,7 @@ TOOLS: list[dict[str, Any]] = [
     },
     {
         "name": "recommend_action",
-        "description": "Recommend interventions with precedent, or escalate UNPRECEDENTED paths.",
+        "description": "Recommend interventions with precedent; weak analog when analogs exist but cannot act; escalate UNPRECEDENTED paths.",
         "fn": recommend_action,
         "params": ["tenant", "episode_id"],
     },

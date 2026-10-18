@@ -121,8 +121,10 @@ section.band + section.band { border-top: 1px solid var(--border); }
 .debate pre { margin: 0; }
 
 .rec-demo { display: grid; gap: 12px; }
-@media (min-width: 800px) { .rec-demo { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 800px) { .rec-demo { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .rec-demo { grid-template-columns: repeat(4, 1fr); } }
 .rec-demo .card.defeated_precedent h3 { text-decoration: line-through; color: var(--text-muted); }
+.rec-demo .card.weak_analog { border-color: var(--contested); }
 .rec-demo .card.escalate { opacity: 0.92; border-color: var(--unprecedented); }
 
 .ba { display: grid; gap: 12px; }

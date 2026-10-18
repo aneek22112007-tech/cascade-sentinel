@@ -40,6 +40,7 @@ function styleFor() {
     { selector: "edge", style: { width: 1.4, "line-color": border, "target-arrow-color": border, "target-arrow-shape": "triangle", "curve-style": "bezier", "arrow-scale": 0.7 } },
     { selector: "edge.accepted", style: { width: (ele) => 2.5 + (Number(ele.data("weight")) || 0.5) * 3, "line-color": token("--heat-3", "#e8590c"), "target-arrow-color": token("--heat-4", "#fa5252"), "line-fill": "linear-gradient", "line-gradient-stop-colors": `${token("--heat-3", "#e8590c")} ${token("--heat-4", "#fa5252")}` } },
     { selector: "edge.contested", style: { "line-style": "dashed", "line-color": token("--contested", "#fcc419"), "target-arrow-color": token("--contested", "#fcc419"), width: 2 } },
+    { selector: "edge.weak_analog", style: { "line-style": "dashed", "line-color": token("--contested", "#fcc419"), "target-arrow-color": token("--contested", "#fcc419"), width: 2 } },
     { selector: "edge.defeated", style: { "line-style": "dashed", width: 1, "line-color": token("--defeated", "#495057"), "target-arrow-color": token("--defeated", "#495057") } },
     { selector: "edge.unprecedented", style: { "line-color": token("--unprecedented", "#868e96"), "target-arrow-color": token("--unprecedented", "#868e96"), width: 2, opacity: 0.55 } },
     { selector: "node.dim, edge.dim", style: { opacity: 0.18 } },

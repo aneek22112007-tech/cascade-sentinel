@@ -15,7 +15,8 @@ INSTRUCTIONS = (
     "Cascade Sentinel graph tools. Every tool is a FalkorDB operation: "
     "traversal, precedent matching, adjudication, refusal, or write-back. "
     "All figures are synthetic archetype data unless a Source node says provenance=real. "
-    "Do not invent interventions. If recommend_action returns escalate, the path is UNPRECEDENTED."
+    "Do not invent interventions. If recommend_action returns escalate, the path is UNPRECEDENTED. "
+    "If it returns weak_analog, similar episodes exist but the path cannot be acted on."
 )
 
 

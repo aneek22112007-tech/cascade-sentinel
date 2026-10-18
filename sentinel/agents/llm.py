@@ -12,6 +12,7 @@ def templated_rationale(payload: dict[str, Any]) -> str:
     recs = payload.get("recommendations") or []
     acts = [r for r in recs if r.get("kind") == "act"]
     dead = [r for r in recs if r.get("kind") == "defeated_precedent"]
+    weak = [r for r in recs if r.get("kind") == "weak_analog"]
     esc = [r for r in recs if r.get("kind") == "escalate"]
     bits = []
     if acts:
@@ -20,6 +21,8 @@ def templated_rationale(payload: dict[str, Any]) -> str:
     if dead:
         names = ", ".join(sorted({r.get("intervention_name") or r.get("intervention_id") for r in dead}))
         bits.append(f"Struck through (weak precedent): {names}.")
+    if weak:
+        bits.append("Some paths have a weak analog (similar episodes exist) and are not acted on.")
     if esc:
         bits.append("At least one accepted or contested path is UNPRECEDENTED and is escalated to the district officer.")
     if not bits:

@@ -18,11 +18,11 @@ export function renderRecs(bundle) {
   const filters = document.getElementById("recFilters");
   if (!host) return;
   const recs = bundle?.recommendations || [];
-  const counts = { all: recs.length, act: 0, defeated_precedent: 0, escalate: 0 };
+  const counts = { all: recs.length, act: 0, defeated_precedent: 0, weak_analog: 0, escalate: 0 };
   recs.forEach((r) => { if (counts[r.kind] != null) counts[r.kind] += 1; });
   if (filters) {
     filters.replaceChildren();
-    [["all", "All"], ["act", "Act"], ["defeated_precedent", "Weak precedent"], ["escalate", "Escalate"]].forEach(([id, label]) => {
+    [["all", "All"], ["act", "Act"], ["defeated_precedent", "Weak precedent"], ["weak_analog", "Weak analog"], ["escalate", "Escalate"]].forEach(([id, label]) => {
       const btn = el("button", {
         class: "btn btn-ghost",
         type: "button",
@@ -54,7 +54,9 @@ function recCard(r) {
 
   const title = r.kind === "escalate"
     ? (r.message || "UNPRECEDENTED: escalate to district officer")
-    : (r.intervention_name || r.intervention_id || "Recommendation");
+    : r.kind === "weak_analog"
+      ? (r.message || "WEAK ANALOG")
+      : (r.intervention_name || r.intervention_id || "Recommendation");
   const h3 = el("h3", { text: title });
   card.append(h3);
 
@@ -63,6 +65,9 @@ function recCard(r) {
   }
   if (r.kind === "act") {
     card.append(el("span", { class: "chip chip-act", text: "act" }));
+  }
+  if (r.kind === "weak_analog") {
+    card.append(el("span", { class: "chip chip-weak-analog", text: "weak analog" }));
   }
   if (r.kind === "escalate") {
     card.append(el("span", { class: "chip chip-escalate", text: "UNPRECEDENTED" }));

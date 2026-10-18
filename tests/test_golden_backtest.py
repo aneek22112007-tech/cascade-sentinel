@@ -58,6 +58,13 @@ def test_double_run_roles_and_diffs(tmp_path):
     kinds_2024 = {r["kind"] for r in payload["season_2024"]["recommendations"]}
     kinds_2025 = {r["kind"] for r in payload["season_2025"]["recommendations"]}
     assert "escalate" in kinds_2024 and "escalate" in kinds_2025
+    esc_2025 = [
+        r["path_signature"]
+        for r in payload["season_2025"]["recommendations"]
+        if r["kind"] == "escalate"
+    ]
+    assert esc_2025 == ["heatwave>dairy_households>livestock_heat_stress"]
+    assert "weak_analog" in kinds_2025
     assert len(payload["diffs"]) >= 3
     wheat = [
         h

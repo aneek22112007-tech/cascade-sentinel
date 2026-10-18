@@ -5,7 +5,8 @@
     "direct": ["heatwave", "farm_laborers", "heat_stress_illness"],
     "waterborne": ["heatwave", "farm_laborers", "waterborne_diarrhoea"],
     "rice": ["heatwave", "rice_reproductive", "rice_paddy", "mandi_rice", "farm_laborers", "heat_stress_illness"],
-    "dairy": ["heatwave", "dairy_cattle", "milk", "dairy_collection", "dairy_households", "livestock_heat_stress"]
+    "dairy": ["heatwave", "dairy_cattle", "milk", "dairy_collection", "dairy_households", "livestock_heat_stress"],
+    "zaid": ["heatwave", "zaid_moong_flowering", "zaid_pulse", "mandi_pulse", "farm_laborers", "heat_stress_illness"]
   },
   "episodes": [
     {
@@ -224,6 +225,53 @@
       "outcomes": [
         {"intervention_id": "ors_chlorination", "success": true, "effect_size": 0.44, "description": "ORS + chlorination on a water-borne episode."}
       ]
+    },
+    {
+      "id": "ep_lib_2017_dairy",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2017,
+      "opened_at": "2017-05-15T00:00:00Z",
+      "closed_at": "2017-06-18T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2017_dairy",
+        "issued_date": "2017-05-13",
+        "valid_from": "2017-05-15",
+        "valid_to": "2017-05-22",
+        "doy": 135,
+        "tmax_c": 45.5,
+        "anomaly_c": 6.5,
+        "duration_days": 7
+      },
+      "realized_path": "dairy",
+      "observations": [
+        {"node": "milk", "date": "2017-05-22", "value": 0.82, "unit": "relative_yield", "source": "src_synthetic_episode"},
+        {"node": "livestock_heat_stress", "date": "2017-05-20", "value": 1.0, "unit": "signal_present", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": []
+    },
+    {
+      "id": "ep_lib_2017_zaid",
+      "tenant": "demo",
+      "district": "rajpur",
+      "season_year": 2017,
+      "opened_at": "2017-05-16T00:00:00Z",
+      "closed_at": "2017-06-16T00:00:00Z",
+      "forecast": {
+        "id": "fc_lib_2017_zaid",
+        "issued_date": "2017-05-14",
+        "valid_from": "2017-05-16",
+        "valid_to": "2017-05-22",
+        "doy": 136,
+        "tmax_c": 44.8,
+        "anomaly_c": 6.0,
+        "duration_days": 6
+      },
+      "realized_path": "zaid",
+      "observations": [
+        {"node": "zaid_pulse", "date": "2017-05-24", "value": 0.72, "unit": "relative_yield", "source": "src_synthetic_episode"}
+      ],
+      "outcomes": []
     },
     {
       "id": "ep_lib_2021_kalinagar",

@@ -141,6 +141,7 @@ html:has(.app-body), .app-body { height: 100%; overflow: hidden; }
 
 .rec-card { padding: 14px; margin-bottom: 10px; }
 .rec-card.defeated_precedent h3 { text-decoration: line-through; color: var(--text-muted); }
+.rec-card.weak_analog { border-color: var(--contested); }
 .rec-card.escalate { border-color: var(--unprecedented); }
 .rec-card .path-chips { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0; }
 .rec-card.approved { outline: 1px solid var(--act); }

@@ -13,7 +13,7 @@ Hackathon: WeMakeDevs × FalkorDB Graph Hacks: Context for AI Agents.
 
 ## Tracks (one line each)
 
-1. **Agents that act on connected data.** `enumerate_cascade_paths` ranks 3–5 hop cascades (top K) and lists 1–2 hop direct-exposure separately; `recommend_action` only fires with analog precedent, otherwise UNPRECEDENTED.
+1. **Agents that act on connected data.** `enumerate_cascade_paths` ranks 3–5 hop cascades (top K) and lists 1–2 hop direct-exposure separately; `recommend_action` only fires with analog precedent, otherwise weak analog or UNPRECEDENTED.
 2. **Agent memory and coordination.** Episodic / semantic / procedural layers in one FalkorDB graph; agents share a hypothesis subgraph; the double-run proves write-back changes next season.
 3. **Company brain.** `(:Officer)-[:OWNS]->`, approvals, escalations, every recommendation traces to `(:Source)` chips in Explain.
 

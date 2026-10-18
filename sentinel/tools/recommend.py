@@ -88,27 +88,51 @@ def recommend_action(tenant: str, episode_id: str) -> dict:
                 recs.append(rec)
                 _write_rec(bag, tenant, rec, officer_id=None)
         if not has_act:
-            rid = f"rec_{episode_id}_escalate_{sig}".replace(">", "__")
-            rec = {
-                "id": rid,
-                "episode_id": episode_id,
-                "path_signature": sig,
-                "kind": "escalate",
-                "score": float(S),
-                "intervention_id": None,
-                "intervention_name": None,
-                "message": "UNPRECEDENTED: escalate to district officer",
-                "precedent_weight": None,
-                "trials": None,
-                "successes": None,
-                "analog_episode_ids": analog_ids,
-                "escalated_to": officer_id,
-                "escalated_to_name": officer_name,
-            }
-            recs.append(rec)
-            _write_rec(bag, tenant, rec, officer_id=officer_id)
+            if analogs:
+                rid = f"rec_{episode_id}_weak_analog_{sig}".replace(">", "__")
+                rec = {
+                    "id": rid,
+                    "episode_id": episode_id,
+                    "path_signature": sig,
+                    "kind": "weak_analog",
+                    "score": float(S),
+                    "intervention_id": None,
+                    "intervention_name": None,
+                    "message": "WEAK ANALOG: similar episodes exist but this path cannot be acted on",
+                    "precedent_weight": None,
+                    "trials": None,
+                    "successes": None,
+                    "analog_episode_ids": analog_ids,
+                }
+                recs.append(rec)
+                _write_rec(bag, tenant, rec, officer_id=None)
+            else:
+                rid = f"rec_{episode_id}_escalate_{sig}".replace(">", "__")
+                rec = {
+                    "id": rid,
+                    "episode_id": episode_id,
+                    "path_signature": sig,
+                    "kind": "escalate",
+                    "score": float(S),
+                    "intervention_id": None,
+                    "intervention_name": None,
+                    "message": "UNPRECEDENTED: escalate to district officer",
+                    "precedent_weight": None,
+                    "trials": None,
+                    "successes": None,
+                    "analog_episode_ids": analog_ids,
+                    "escalated_to": officer_id,
+                    "escalated_to_name": officer_name,
+                }
+                recs.append(rec)
+                _write_rec(bag, tenant, rec, officer_id=officer_id)
 
-    recs.sort(key=lambda r: ({"act": 0, "defeated_precedent": 1, "escalate": 2}[r["kind"]], -r["score"]))
+    recs.sort(
+        key=lambda r: (
+            {"act": 0, "defeated_precedent": 1, "weak_analog": 2, "escalate": 3}[r["kind"]],
+            -r["score"],
+        )
+    )
     _prune_stale_recs(bag, tenant, episode_id, {r["id"] for r in recs})
     return bag.envelope({"episode_id": episode_id, "recommendations": recs, "officer_id": officer_id})
 

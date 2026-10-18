@@ -5,6 +5,7 @@ from sentinel.tools.recommend import recommend_action
 FODDER = "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>heat_stress_illness"
 WHEAT = "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness"
 DAIRY = "heatwave>dairy_households>livestock_heat_stress"
+DAIRY_LONG = "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress"
 DIRECT = "heatwave>farm_laborers>heat_stress_illness"
 
 
@@ -14,6 +15,7 @@ def _setup(episode_2024):
     propose_hypothesis(tenant, "weather", eid, FODDER, "Fodder cascade.", 0.95)
     propose_hypothesis(tenant, "weather", eid, DIRECT, "Direct exposure.", 0.9)
     propose_hypothesis(tenant, "weather", eid, DAIRY, "Dairy branch.", 0.55)
+    propose_hypothesis(tenant, "weather", eid, DAIRY_LONG, "Five-hop dairy cascade.", 0.55)
     wheat = propose_hypothesis(tenant, "agronomy", eid, WHEAT, "Wheat grain path.", 0.9)["result"]
     support_hypothesis(
         tenant,
@@ -42,9 +44,13 @@ def test_act_defeated_precedent_and_escalate(episode_2024):
     assert by_iv["mandi_price_advisory"]["kind"] == "defeated_precedent"
 
     escalates = [r for r in recs if r["kind"] == "escalate"]
-    assert escalates
-    assert any(r["path_signature"] == DAIRY for r in escalates)
+    assert {r["path_signature"] for r in escalates} == {DAIRY}
     assert all("UNPRECEDENTED" in (r.get("message") or "") for r in escalates)
+
+    weak = [r for r in recs if r["kind"] == "weak_analog"]
+    assert any(r["path_signature"] == DAIRY_LONG for r in weak)
+    assert all("WEAK ANALOG" in (r.get("message") or "") for r in weak)
+    assert all(r.get("analog_episode_ids") for r in weak)
 
 
 def test_never_invents_action_on_dairy(episode_2024):

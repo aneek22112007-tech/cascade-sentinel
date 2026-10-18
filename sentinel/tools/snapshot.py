@@ -22,6 +22,11 @@ def graph_snapshot(tenant: str, episode_id: str) -> dict:
         for r in recs["result"]["recommendations"]
         if r["kind"] == "escalate"
     }
+    weak = {
+        r["path_signature"]
+        for r in recs["result"]["recommendations"]
+        if r["kind"] == "weak_analog"
+    }
     act_iv = {
         r["intervention_id"]
         for r in recs["result"]["recommendations"]
@@ -36,6 +41,8 @@ def graph_snapshot(tenant: str, episode_id: str) -> dict:
     def path_class(sig: str) -> str:
         if sig in unprec:
             return "unprecedented"
+        if sig in weak:
+            return "weak_analog"
         st = path_status.get(sig)
         if st == "accepted":
             return "accepted"
@@ -51,7 +58,7 @@ def graph_snapshot(tenant: str, episode_id: str) -> dict:
         ids = split_signature(sig)
         for a, b in zip(ids, ids[1:]):
             prev = edge_class.get((a, b), "")
-            rank = {"accepted": 4, "unprecedented": 3, "contested": 2, "defeated": 1, "": 0}
+            rank = {"accepted": 4, "unprecedented": 3, "weak_analog": 2, "contested": 2, "defeated": 1, "": 0}
             if rank.get(cls, 0) >= rank.get(prev, 0):
                 edge_class[(a, b)] = cls
 

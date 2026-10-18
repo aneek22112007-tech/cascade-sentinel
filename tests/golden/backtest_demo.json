@@ -158,14 +158,14 @@
       "what": "+ act worksite_cool_shelters heatwave>fodder_jowar_vegetative>fodder\u2026"
     },
     {
-      "n": "escalate",
+      "n": "weak_analog",
       "n_minus_1": "\u2014",
-      "what": "+ escalate escalate heatwave>wheat_grainfill>wheat_grain>ma\u2026"
+      "what": "+ weak_analog weak_analog heatwave>wheat_grainfill>wheat_grain>ma\u2026"
     },
     {
-      "n": "escalate",
+      "n": "weak_analog",
       "n_minus_1": "\u2014",
-      "what": "+ escalate escalate heatwave>zaid_moong_flowering>zaid_puls\u2026"
+      "what": "+ weak_analog weak_analog heatwave>zaid_moong_flowering>zaid_puls\u2026"
     },
     {
       "n": "\u2014",
@@ -653,7 +653,7 @@
         ]
       }
     ],
-    "rationale": "Precedent supports acting on: ORS stocking + water chlorination drive, Open fodder banks + fodder transport subsidy, Shift field/MGNREGA work to before 11:00 and after 16:00. Struck through (weak precedent): Mandi price-cap advisory, Shaded rest + water points at worksites. At least one accepted or contested path is UNPRECEDENTED and is escalated to the district officer. All figures are synthetic archetype data.",
+    "rationale": "Precedent supports acting on: ORS stocking + water chlorination drive, Open fodder banks + fodder transport subsidy, Shift field/MGNREGA work to before 11:00 and after 16:00. Struck through (weak precedent): Mandi price-cap advisory, Shaded rest + water points at worksites. Some paths have a weak analog (similar episodes exist) and are not acted on. At least one accepted or contested path is UNPRECEDENTED and is escalated to the district officer. All figures are synthetic archetype data.",
     "recommendations": [
       {
         "analog_episode_ids": [
@@ -892,6 +892,41 @@
         "trials": 2
       },
       {
+        "analog_episode_ids": [
+          "ep_lib_2018_rajpur",
+          "ep_lib_2019_rajpur",
+          "ep_lib_2021_shelters",
+          "ep_lib_2023_rajpur"
+        ],
+        "episode_id": "ep_2024_demo",
+        "id": "rec_ep_2024_demo_weak_analog_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
+        "intervention_id": null,
+        "intervention_name": null,
+        "kind": "weak_analog",
+        "message": "WEAK ANALOG: similar episodes exist but this path cannot be acted on",
+        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
+        "precedent_weight": null,
+        "score": 0.06405579,
+        "successes": null,
+        "trials": null
+      },
+      {
+        "analog_episode_ids": [
+          "ep_lib_2017_dairy"
+        ],
+        "episode_id": "ep_2024_demo",
+        "id": "rec_ep_2024_demo_weak_analog_heatwave__dairy_cattle__milk__dairy_collection__dairy_households__livestock_heat_stress",
+        "intervention_id": null,
+        "intervention_name": null,
+        "kind": "weak_analog",
+        "message": "WEAK ANALOG: similar episodes exist but this path cannot be acted on",
+        "path_signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
+        "precedent_weight": null,
+        "score": 0.04794163,
+        "successes": null,
+        "trials": null
+      },
+      {
         "analog_episode_ids": [],
         "episode_id": "ep_2024_demo",
         "escalated_to": "officer_rajpur_dm",
@@ -904,43 +939,6 @@
         "path_signature": "heatwave>dairy_households>livestock_heat_stress",
         "precedent_weight": null,
         "score": 0.16065,
-        "successes": null,
-        "trials": null
-      },
-      {
-        "analog_episode_ids": [
-          "ep_lib_2018_rajpur",
-          "ep_lib_2019_rajpur",
-          "ep_lib_2021_shelters",
-          "ep_lib_2023_rajpur"
-        ],
-        "episode_id": "ep_2024_demo",
-        "escalated_to": "officer_rajpur_dm",
-        "escalated_to_name": "A. Sharma",
-        "id": "rec_ep_2024_demo_escalate_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
-        "intervention_id": null,
-        "intervention_name": null,
-        "kind": "escalate",
-        "message": "UNPRECEDENTED: escalate to district officer",
-        "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
-        "precedent_weight": null,
-        "score": 0.06405579,
-        "successes": null,
-        "trials": null
-      },
-      {
-        "analog_episode_ids": [],
-        "episode_id": "ep_2024_demo",
-        "escalated_to": "officer_rajpur_dm",
-        "escalated_to_name": "A. Sharma",
-        "id": "rec_ep_2024_demo_escalate_heatwave__dairy_cattle__milk__dairy_collection__dairy_households__livestock_heat_stress",
-        "intervention_id": null,
-        "intervention_name": null,
-        "kind": "escalate",
-        "message": "UNPRECEDENTED: escalate to district officer",
-        "path_signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
-        "precedent_weight": null,
-        "score": 0.04794163,
         "successes": null,
         "trials": null
       }
@@ -1400,7 +1398,7 @@
         ]
       }
     ],
-    "rationale": "Precedent supports acting on: ORS stocking + water chlorination drive, Open fodder banks + fodder transport subsidy, Shaded rest + water points at worksites, Shift field/MGNREGA work to before 11:00 and after 16:00. Struck through (weak precedent): Mandi price-cap advisory. At least one accepted or contested path is UNPRECEDENTED and is escalated to the district officer. All figures are synthetic archetype data.",
+    "rationale": "Precedent supports acting on: ORS stocking + water chlorination drive, Open fodder banks + fodder transport subsidy, Shaded rest + water points at worksites, Shift field/MGNREGA work to before 11:00 and after 16:00. Struck through (weak precedent): Mandi price-cap advisory. Some paths have a weak analog (similar episodes exist) and are not acted on. At least one accepted or contested path is UNPRECEDENTED and is escalated to the district officer. All figures are synthetic archetype data.",
     "recommendations": [
       {
         "analog_episode_ids": [
@@ -1536,22 +1534,6 @@
         "trials": 2
       },
       {
-        "analog_episode_ids": [],
-        "episode_id": "ep_2025_demo",
-        "escalated_to": "officer_rajpur_dm",
-        "escalated_to_name": "A. Sharma",
-        "id": "rec_ep_2025_demo_escalate_heatwave__dairy_households__livestock_heat_stress",
-        "intervention_id": null,
-        "intervention_name": null,
-        "kind": "escalate",
-        "message": "UNPRECEDENTED: escalate to district officer",
-        "path_signature": "heatwave>dairy_households>livestock_heat_stress",
-        "precedent_weight": null,
-        "score": 0.16065,
-        "successes": null,
-        "trials": null
-      },
-      {
         "analog_episode_ids": [
           "ep_2024_demo",
           "ep_lib_2018_rajpur",
@@ -1560,13 +1542,11 @@
           "ep_lib_2023_rajpur"
         ],
         "episode_id": "ep_2025_demo",
-        "escalated_to": "officer_rajpur_dm",
-        "escalated_to_name": "A. Sharma",
-        "id": "rec_ep_2025_demo_escalate_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
+        "id": "rec_ep_2025_demo_weak_analog_heatwave__fodder_jowar_vegetative__fodder__mandi_fodder__farm_laborers__waterborne_diarrhoea",
         "intervention_id": null,
         "intervention_name": null,
-        "kind": "escalate",
-        "message": "UNPRECEDENTED: escalate to district officer",
+        "kind": "weak_analog",
+        "message": "WEAK ANALOG: similar episodes exist but this path cannot be acted on",
         "path_signature": "heatwave>fodder_jowar_vegetative>fodder>mandi_fodder>farm_laborers>waterborne_diarrhoea",
         "precedent_weight": null,
         "score": 0.06405579,
@@ -1579,13 +1559,11 @@
           "ep_lib_2022_grain"
         ],
         "episode_id": "ep_2025_demo",
-        "escalated_to": "officer_rajpur_dm",
-        "escalated_to_name": "A. Sharma",
-        "id": "rec_ep_2025_demo_escalate_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
+        "id": "rec_ep_2025_demo_weak_analog_heatwave__wheat_grainfill__wheat_grain__mandi_wheat__farm_laborers__heat_stress_illness",
         "intervention_id": null,
         "intervention_name": null,
-        "kind": "escalate",
-        "message": "UNPRECEDENTED: escalate to district officer",
+        "kind": "weak_analog",
+        "message": "WEAK ANALOG: similar episodes exist but this path cannot be acted on",
         "path_signature": "heatwave>wheat_grainfill>wheat_grain>mandi_wheat>farm_laborers>heat_stress_illness",
         "precedent_weight": null,
         "score": 0.05820722,
@@ -1593,18 +1571,34 @@
         "trials": null
       },
       {
-        "analog_episode_ids": [],
+        "analog_episode_ids": [
+          "ep_lib_2017_dairy"
+        ],
         "episode_id": "ep_2025_demo",
-        "escalated_to": "officer_rajpur_dm",
-        "escalated_to_name": "A. Sharma",
-        "id": "rec_ep_2025_demo_escalate_heatwave__dairy_cattle__milk__dairy_collection__dairy_households__livestock_heat_stress",
+        "id": "rec_ep_2025_demo_weak_analog_heatwave__dairy_cattle__milk__dairy_collection__dairy_households__livestock_heat_stress",
         "intervention_id": null,
         "intervention_name": null,
-        "kind": "escalate",
-        "message": "UNPRECEDENTED: escalate to district officer",
+        "kind": "weak_analog",
+        "message": "WEAK ANALOG: similar episodes exist but this path cannot be acted on",
         "path_signature": "heatwave>dairy_cattle>milk>dairy_collection>dairy_households>livestock_heat_stress",
         "precedent_weight": null,
         "score": 0.04794163,
+        "successes": null,
+        "trials": null
+      },
+      {
+        "analog_episode_ids": [
+          "ep_lib_2017_zaid"
+        ],
+        "episode_id": "ep_2025_demo",
+        "id": "rec_ep_2025_demo_weak_analog_heatwave__zaid_moong_flowering__zaid_pulse__mandi_pulse__farm_laborers__heat_stress_illness",
+        "intervention_id": null,
+        "intervention_name": null,
+        "kind": "weak_analog",
+        "message": "WEAK ANALOG: similar episodes exist but this path cannot be acted on",
+        "path_signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "precedent_weight": null,
+        "score": 0.00621831,
         "successes": null,
         "trials": null
       },
@@ -1613,14 +1607,14 @@
         "episode_id": "ep_2025_demo",
         "escalated_to": "officer_rajpur_dm",
         "escalated_to_name": "A. Sharma",
-        "id": "rec_ep_2025_demo_escalate_heatwave__zaid_moong_flowering__zaid_pulse__mandi_pulse__farm_laborers__heat_stress_illness",
+        "id": "rec_ep_2025_demo_escalate_heatwave__dairy_households__livestock_heat_stress",
         "intervention_id": null,
         "intervention_name": null,
         "kind": "escalate",
         "message": "UNPRECEDENTED: escalate to district officer",
-        "path_signature": "heatwave>zaid_moong_flowering>zaid_pulse>mandi_pulse>farm_laborers>heat_stress_illness",
+        "path_signature": "heatwave>dairy_households>livestock_heat_stress",
         "precedent_weight": null,
-        "score": 0.00621831,
+        "score": 0.16065,
         "successes": null,
         "trials": null
       }

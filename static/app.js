@@ -133,7 +133,11 @@
     recs.forEach((r) => {
       const card = document.createElement("article");
       card.className = `card ${r.kind}`;
-      const title = r.kind === "escalate" ? (r.message || "UNPRECEDENTED") : (r.intervention_name || r.intervention_id);
+      const title = r.kind === "escalate"
+        ? (r.message || "UNPRECEDENTED")
+        : r.kind === "weak_analog"
+          ? (r.message || "WEAK ANALOG")
+          : (r.intervention_name || r.intervention_id);
       const trials = r.trials || 0;
       const succ = r.successes || 0;
       const p = r.precedent_weight;

@@ -92,6 +92,7 @@ button, select, input { font: inherit; color: inherit; }
 .chip-contested, .status-contested { background: color-mix(in srgb, var(--contested) 22%, var(--surface)); border-color: var(--contested); color: var(--text); }
 .chip-defeated, .status-defeated { background: var(--surface-2); border-color: var(--defeated); color: var(--text-muted); }
 .chip-escalate, .status-escalate, .chip-unprecedented { background: color-mix(in srgb, var(--unprecedented) 18%, var(--surface)); border-color: var(--unprecedented); color: var(--text-muted); }
+.chip-weak-analog, .status-weak_analog { background: color-mix(in srgb, var(--contested) 22%, var(--surface)); border-color: var(--contested); color: var(--text); }
 .chip-act { background: color-mix(in srgb, var(--act) 20%, var(--surface)); border-color: var(--act); color: var(--act-text); }
 
 /* Card */

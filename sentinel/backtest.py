@@ -107,6 +107,9 @@ def print_season(bundle: dict[str, Any], title: str) -> None:
         elif kind == "defeated_precedent":
             kind_t = Text("DEFEATED", style="dim")
             name = Text(str(r.get("intervention_name") or r.get("intervention_id")), style="strike dim")
+        elif kind == "weak_analog":
+            kind_t = Text("WEAK ANALOG", style="bold yellow")
+            name = r.get("message") or "weak analog"
         else:
             kind_t = Text("ESCALATE", style="bold white on grey39")
             name = r.get("message") or "UNPRECEDENTED"
@@ -176,9 +179,9 @@ def diff_seasons(a: dict[str, Any], b: dict[str, Any]) -> list[dict[str, str]]:
     lost = a_r - b_r
     gained = b_r - a_r
     for kind, iid, sig in sorted(gained, key=str):
-        rows.append({"what": f"+ {kind} {iid or 'escalate'} {_fmt_path(sig, 40)}", "n_minus_1": "—", "n": kind})
+        rows.append({"what": f"+ {kind} {iid or kind} {_fmt_path(sig, 40)}", "n_minus_1": "—", "n": kind})
     for kind, iid, sig in sorted(lost, key=str):
-        rows.append({"what": f"- {kind} {iid or 'escalate'} {_fmt_path(sig, 40)}", "n_minus_1": kind, "n": "—"})
+        rows.append({"what": f"- {kind} {iid or kind} {_fmt_path(sig, 40)}", "n_minus_1": kind, "n": "—"})
     return rows
 
 

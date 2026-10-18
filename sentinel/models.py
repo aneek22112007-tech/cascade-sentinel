@@ -113,7 +113,7 @@ class RecommendationOut(BaseModel):
     id: str
     episode_id: str
     path_signature: str
-    kind: Literal["act", "escalate", "defeated_precedent"]
+    kind: Literal["act", "escalate", "defeated_precedent", "weak_analog"]
     score: float
     intervention_id: str | None = None
     intervention_name: str | None = None
