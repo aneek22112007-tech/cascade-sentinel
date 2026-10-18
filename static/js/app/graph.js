@@ -68,9 +68,9 @@ function loadScript(src) {
 
 async function ensureDagre() {
   if (!window.cytoscape) {
-    await loadScript("/static/vendor/cytoscape.min.js");
-    await loadScript("/static/vendor/dagre.min.js");
-    await loadScript("/static/vendor/cytoscape-dagre.js");
+    await loadScript((window.SENTINEL_STATIC || "/static") + "/vendor/cytoscape.min.js");
+    await loadScript((window.SENTINEL_STATIC || "/static") + "/vendor/dagre.min.js");
+    await loadScript((window.SENTINEL_STATIC || "/static") + "/vendor/cytoscape-dagre.js");
   }
   const cytoscape = window.cytoscape;
   const ext = window.cytoscapeDagre;
