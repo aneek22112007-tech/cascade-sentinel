@@ -1,0 +1,67 @@
+# Optional CI alternative to the gh-pages branch deploy. Copy to .github/workflows/pages.yml
+# (needs a token with the `workflow` scope) and switch Pages "Source" to "GitHub Actions".
+name: Pages (landing + static replay)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      falkordb:
+        image: falkordb/falkordb:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 30
+    env:
+      FALKORDB_HOST: localhost
+      FALKORDB_PORT: "6379"
+      LLM_PROVIDER: none
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - name: Tests against real FalkorDB
+        run: python -m pytest -q
+      - name: Backtest twice (must be identical)
+        run: |
+          python -m sentinel.backtest --tenant demo --double-run > bt1.txt
+          python -m sentinel.backtest --tenant demo --double-run > bt2.txt
+          grep -E "PASS|diffs" bt1.txt
+          diff <(grep -vE "ms|elapsed" bt1.txt) <(grep -vE "ms|elapsed" bt2.txt)
+      - name: Record real FalkorDB runs + build static site
+        run: python -m sentinel.build_pages --out site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

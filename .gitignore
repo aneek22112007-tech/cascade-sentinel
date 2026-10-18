@@ -22,3 +22,4 @@ htmlcov/
 docs/screenshots/.keep
 backtest_out.json
 /tmp/
+site/
