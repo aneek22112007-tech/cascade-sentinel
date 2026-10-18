@@ -80,3 +80,15 @@ Fixed in `73bdf62`:
 ## Lighthouse (headless, SwiftShader; WebGL is CPU-emulated, so landing TBT is pessimistic)
 
 Accessibility, Best practices and SEO score 100 on both pages. Performance numbers are in the final report section below.
+
+Live GitHub Pages: landing mobile 59 / desktop 65 performance (TBT comes from CPU-emulated WebGL: 2.1 s mobile, 0.97 s desktop before the software-GL budget, 0.48 s desktop after it). Dashboard 100 / 100. Accessibility, Best practices and SEO are 100 everywhere.
+
+## Final pass (Oct 18, 2026)
+
+- **GitHub Pages:** landing + /app at all 6 viewports, plus 404. 0 harness issues, 0 console errors/warnings, 0 failed requests, 0 axe violations of any impact. Reduced motion, no WebGL, light theme and keyboard-only all pass.
+- **Render, live FalkorDB** (https://cascade-sentinel.onrender.com):
+  - Landing + /app at 1440 and 390: 0 issues.
+  - The header pill reads "Live FalkorDB".
+  - API end to end for both tenants: reset → run 2024 → close (J = 1.00 PASS) → run 2025 → explain (9 Cypher) → snapshot.
+  - Demo has 14 path-level changes; district_b has 5.
+  - Instance memory is about 80 MB of 512 MB.
