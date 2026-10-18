@@ -194,7 +194,10 @@ def print_diff(rows: list[dict[str, str]]) -> None:
     for r in rows:
         t.add_row(r["what"], r["n_minus_1"], r["n"])
     console.print(t)
-    console.print(f"[bold]{len(rows)} diffs[/bold]")
+    console.print(
+        f"[bold]{len(rows)} path-level changes[/bold] "
+        "(hypothesis verdict flips + recommendations gained/lost, per path)"
+    )
 
 
 def print_footer(tenant: str) -> None:

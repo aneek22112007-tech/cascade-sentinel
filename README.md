@@ -69,7 +69,7 @@ db = FalkorDB("/tmp/falkordb.db")
 Optional `SENTINEL_ADMIN_TOKEN` in `.env`: when set, mutating POST routes (`/api/{tenant}/reset`, `/run/{year}`, `/close/{episode_id}`, `/approve/{recommendation_id}`) require header `X-Sentinel-Token`. Leave it unset for local demo. The UI sends `localStorage.sentinelToken` when present.
 
 ```bash
-make backtest      # double-run, PASS, memory diffs
+make backtest      # double-run, PASS, 14 path-level memory changes
 python -m pytest -q
 python -m sentinel.mcp_server --list
 ```
@@ -123,7 +123,7 @@ flowchart TB
 | Graph queries as agent tools via MCP | 11 MCP tools, all graph operations | [`sentinel/mcp_server.py`](sentinel/mcp_server.py) |
 | Actions based on what the graph shows | `recommend_action` only with precedent; weak analog (amber) if analogs exist but cannot act; else UNPRECEDENTED | Recommendation cards, grey path |
 | Explainable results | `explain()` path, analogs, rates, defeated rivals, Cypher, owner | Explain drawer |
-| Remember across sessions | Double-run write-back | What-changed diff |
+| Remember across sessions | Double-run write-back | What-changed diff (14 path-level changes) |
 | Episodic / semantic / procedural | Labelled layers, legend toggles | Graph legend |
 | Share state / handoffs | Shared hypothesis subgraph; `(:Run)-[:STEP]->` | Run Timeline |
 | High-concurrency R/W | `bench/concurrency.py` | table below |
