@@ -182,7 +182,7 @@ html:has(.app-body), .app-body { height: 100%; overflow: hidden; }
 
 .diff-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 6px 10px;
   font-size: 13px;
 }
@@ -194,3 +194,81 @@ html:has(.app-body), .app-body { height: 100%; overflow: hidden; }
 .bar-list .row { display: grid; grid-template-columns: 120px 1fr auto; gap: 8px; align-items: center; }
 .bar-list .meter { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
 .bar-list .meter > span { display: block; height: 100%; background: var(--heat-3); }
+
+/* path-level diff rows */
+.diff-count { margin: 0 0 4px; }
+.diff-body .muted, #diffBody .muted { color: var(--text-muted); }
+#diffBody .small { font-size: 12px; margin: 0 0 10px; }
+.diff-what { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.diff-label { font-weight: 600; }
+.diff-path { font-size: 11px; color: var(--text-muted); white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+.diff-st { font-family: var(--font-mono, ui-monospace, monospace); font-size: 12px; overflow-wrap: anywhere; }
+.diff-st.st-accepted, .diff-st.st-act { color: var(--act); }
+.diff-st.st-defeated, .diff-st.st-defeated_precedent { color: var(--heat-4); }
+
+/* ---------- QA fixes: layout, contrast, mobile ---------- */
+body.app-body { display: flex; flex-direction: column; height: 100%; margin: 0; }
+body.app-body > .app-shell { flex: 1 1 auto; height: auto; min-height: 0; }
+.app-main { display: contents; }
+.app-top select#tenant {
+  background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; min-height: 36px; padding: 4px 28px 4px 10px; margin-left: 4px;
+  -webkit-appearance: none; appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 15px) 55%, calc(100% - 10px) 55%;
+  background-size: 5px 5px; background-repeat: no-repeat;
+}
+.app-top select#tenant:disabled { opacity: 0.6; cursor: progress; }
+.app-top select#tenant option { background: var(--surface); color: var(--text); }
+.avatar.orchestrator { background: #c2410c; }
+.stepper .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.stepper .btn[data-busy]:disabled.btn-primary { opacity: 0.7; }
+.step-hint { font-size: 13px; }
+.drawer-panel .dlg-head, .modal-panel .dlg-head {
+  position: sticky; top: -20px; z-index: 2; background: var(--surface);
+  margin: -20px -24px 16px; padding: 16px 24px 12px; border-bottom: 1px solid var(--border);
+}
+.drawer-panel { overscroll-behavior: contain; }
+.legend { flex: 0 0 auto; }
+
+@media (max-width: 1100px) {
+  .app-shell { grid-template-rows: auto auto 1fr auto; }
+  .col-center.active { min-height: 0; }
+  .graph-stage { min-height: 0; }
+  #graph { min-height: 260px; }
+}
+@media (max-width: 640px) {
+  .app-top { flex-wrap: nowrap; gap: 8px; padding: 6px 10px; min-height: 48px; }
+  .app-top .brand { font-size: 0; gap: 0; }
+  .app-top .brand img { width: 28px; height: 28px; }
+  .app-top label.muted { font-size: 0; flex: 1 1 auto; min-width: 0; }
+  .app-top select#tenant { font-size: 13px; width: 100%; max-width: 100%; margin: 0; }
+  .app-top .badge-synthetic { font-size: 11px; padding: 2px 8px; white-space: nowrap; }
+  .app-top .health-pill { display: none; }
+  .app-top #themeToggle { min-height: 36px; padding: 4px 10px; font-size: 12px; }
+  .stepper { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 6px; padding: 6px 10px; }
+  .stepper .btn { min-height: 44px; padding: 4px 6px; font-size: 12.5px; white-space: nowrap; }
+  .stepper .lbl-long { display: none; }
+  .step-hint { grid-column: 1 / -1; font-size: 12px; line-height: 1.35; }
+  .graph-toolbar { gap: 4px 8px; padding: 6px 8px; }
+  .graph-toolbar label { white-space: nowrap; font-size: 12px; }
+  .legend { gap: 8px; font-size: 11px; padding: 4px 8px; }
+  .unprec-badge { font-size: 11px; top: 8px; right: 8px; }
+  .drawer-panel { border-radius: 0; padding: 16px 16px 40px; }
+  .drawer-panel .dlg-head { top: -16px; margin: -16px -16px 12px; padding: 12px 16px 10px; }
+  .modal { padding: 10px; }
+  .modal-panel { padding: 16px; max-height: 92vh; }
+  .modal-panel .dlg-head { top: -16px; margin: -16px -16px 12px; padding: 12px 16px 10px; }
+  .diff-grid { font-size: 12px; gap: 6px 8px; }
+}
+@media (max-width: 1100px) {
+  .app-grid > .col-center.active { display: flex; }
+}
+@media (max-width: 380px) {
+  .app-top { gap: 6px; padding: 6px 8px; }
+  .app-top .badge-synthetic { font-size: 10px; padding: 2px 6px; }
+  .app-top select#tenant { font-size: 12px; padding-right: 24px; }
+}
+[data-theme="light"] .phase-label { color: #a84300; }
+[data-theme="light"] .diff-st.st-accepted, [data-theme="light"] .diff-st.st-act { color: #1e6b32; }
+[data-theme="light"] .diff-st.st-defeated, [data-theme="light"] .diff-st.st-defeated_precedent { color: #b02a2a; }

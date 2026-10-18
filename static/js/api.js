@@ -97,8 +97,10 @@ export async function readSSE(res, { onStep, onDone }) {
 }
 
 export function trapFocus(root, onClose) {
-  const sel = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-  const nodes = () => [...root.querySelectorAll(sel)].filter((n) => !n.disabled);
+  const sel = 'button, [href], input, select, textarea, summary, [tabindex]:not([tabindex="-1"])';
+  // only elements that can really take focus: enabled and rendered (not inside a closed <details>)
+  const nodes = () => [...root.querySelectorAll(sel)].filter((n) => !n.disabled && n.getClientRects().length > 0
+    && !(n.closest("details:not([open])") && n.tagName !== "SUMMARY"));
   function onKey(e) {
     if (e.key === "Escape") {
       e.preventDefault();
@@ -110,17 +112,25 @@ export function trapFocus(root, onClose) {
     if (!list.length) return;
     const first = list[0];
     const last = list[list.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
+    const inside = root.contains(document.activeElement);
+    if (e.shiftKey && (document.activeElement === first || !inside)) {
       e.preventDefault();
       last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
+    } else if (!e.shiftKey && (document.activeElement === last || !inside)) {
       e.preventDefault();
       first.focus();
     }
   }
-  root.addEventListener("keydown", onKey);
+  function onFocusIn(e) {
+    if (!root.contains(e.target)) nodes()[0]?.focus();
+  }
+  document.addEventListener("keydown", onKey, true);
+  document.addEventListener("focusin", onFocusIn);
   queueMicrotask(() => nodes()[0]?.focus());
-  return () => root.removeEventListener("keydown", onKey);
+  return () => {
+    document.removeEventListener("keydown", onKey, true);
+    document.removeEventListener("focusin", onFocusIn);
+  };
 }
 
 export function fmtP(p) {

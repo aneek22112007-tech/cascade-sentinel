@@ -43,18 +43,20 @@
       <span id="healthPill" class="health-pill bad">API…</span>
       <span class="badge badge-synthetic">Synthetic data</span>
       <a class="btn btn-ghost" id="browserLink" href="http://localhost:3000" target="_blank" rel="noopener">FalkorDB Browser</a>
-      <button class="btn btn-ghost" type="button" id="themeToggle" aria-pressed="true">Light</button>
+      <button class="btn btn-ghost" type="button" id="themeToggle">Light</button>
     </header>
+    <main id="main" class="app-main">
+    <h1 class="visually-hidden">Cascade Sentinel dashboard</h1>
     <div class="stepper" role="group" aria-label="Season controls">
-      <button class="btn btn-primary" type="button" id="btn2024" data-busy>① Run Season 2024</button>
-      <button class="btn" type="button" id="btnClose" data-busy>② Close Episode (reveal history)</button>
-      <button class="btn" type="button" id="btn2025" data-busy>③ Run Season 2025</button>
+      <button class="btn btn-primary" type="button" id="btn2024" data-busy><span>① Run<span class="lbl-long"> Season</span> 2024</span></button>
+      <button class="btn" type="button" id="btnClose" data-busy><span>② Close<span class="lbl-long"> Episode (reveal history)</span></span></button>
+      <button class="btn" type="button" id="btn2025" data-busy><span>③ Run<span class="lbl-long"> Season</span> 2025</span></button>
       <button class="btn btn-ghost" type="button" id="btnReset" data-busy>Reset</button>
-      <span class="muted">Day-1 data only until you close. Held-out outcomes are sealed.</span>
+      <span class="muted step-hint" id="stepHint" aria-live="polite">Start with ① Run Season 2024. Day-1 data only; held-out outcomes stay sealed.</span>
     </div>
 
     <div class="app-grid">
-      <aside class="col-left pane active" data-pane="debate" id="leftPane">
+      <aside class="col-left pane" data-pane="debate" id="leftPane" aria-label="Debate and memory">
         <div class="debate-block">
           <h2 class="pane-title">Debate timeline <span id="stepCount" class="muted">0 steps</span></h2>
           <div id="timelineLog" role="log" aria-live="polite">
@@ -104,13 +106,14 @@
         </details>
       </section>
 
-      <aside class="col-right pane" data-pane="actions">
+      <aside class="col-right pane" data-pane="actions" aria-label="Recommendations">
         <h2 class="pane-title">Recommendations</h2>
         <div id="recFilters" class="tabs" role="tablist"></div>
         <div id="recs"></div>
         <div id="closePanel"></div>
       </aside>
     </div>
+    </main>
 
     <nav class="mobile-tabs" aria-label="Dashboard regions">
       <button class="btn" type="button" data-pane="graph" aria-pressed="true">Graph</button>
@@ -122,30 +125,30 @@
 
   <div id="drawer" class="drawer hidden">
     <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="explainTitle">
-      <header>
+      <div class="dlg-head">
         <h2 id="explainTitle">Explain</h2>
         <button id="drawerClose" class="btn btn-ghost" type="button">Close</button>
-      </header>
+      </div>
       <div id="drawerBody"></div>
     </div>
   </div>
 
   <div id="diffModal" class="modal hidden">
     <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="diffTitle">
-      <header>
+      <div class="dlg-head">
         <h2 id="diffTitle">What changed because of memory</h2>
         <button id="diffClose" class="btn btn-ghost" type="button">Close</button>
-      </header>
+      </div>
       <div id="diffBody"></div>
     </div>
   </div>
 
   <div id="confirmModal" class="modal hidden">
     <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
-      <header>
+      <div class="dlg-head">
         <h2 id="confirmTitle">Reset tenant graph?</h2>
         <button id="confirmNo" class="btn btn-ghost" type="button">Cancel</button>
-      </header>
+      </div>
       <p>This reseeds the tenant graph. All in-session hypotheses and recommendations for this tenant are replaced with the synthetic seed.</p>
       <button id="confirmYes" class="btn btn-danger" type="button">Reset</button>
     </div>

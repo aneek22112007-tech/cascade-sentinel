@@ -2,6 +2,17 @@ import { api, el, fmtP, ApiError } from "../api.js";
 import { state } from "./state.js";
 import { openDrawer, closeDrawer, showToast } from "./ui.js";
 
+async function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  const ta = el("textarea", { readonly: true, style: "position:fixed;left:-9999px;top:0" });
+  ta.value = text;
+  document.body.append(ta);
+  ta.select();
+  const ok = document.execCommand("copy");
+  ta.remove();
+  if (!ok) throw new Error("copy failed");
+}
+
 function codeBlock(text) {
   const pre = el("pre", { class: "codeblock" });
   pre.append(document.createTextNode(text || ""));
@@ -9,9 +20,10 @@ function codeBlock(text) {
     class: "btn copy",
     type: "button",
     text: "Copy",
+    "aria-label": "Copy Cypher query",
     onclick: async () => {
       try {
-        await navigator.clipboard.writeText(text || "");
+        await copyText(text || "");
         btn.textContent = "Copied";
         showToast("Cypher copied");
         setTimeout(() => { btn.textContent = "Copy"; }, 1200);
