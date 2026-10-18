@@ -1,332 +1,249 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cascade Sentinel — the climate-crisis agent that refuses to act without precedent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Cascade Sentinel: the climate agent that refuses to act without precedent</title>
   <meta name="description" content="Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent." />
-  <meta name="theme-color" content="#0b0f14" />
+  <meta name="theme-color" content="#05070b" />
   <meta property="og:title" content="Cascade Sentinel" />
-  <meta property="og:description" content="Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent." />
-  <meta property="og:image" content="/static/img/og.webp" />
+  <meta property="og:description" content="Precedent-compelled climate cascade agent. FalkorDB adjudicates hypotheses, remembers what worked, and refuses to act without precedent." />
+  <meta property="og:image" content="static/img/og.webp" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Cascade Sentinel" />
-  <meta name="twitter:description" content="The climate-crisis agent that refuses to act without precedent." />
-  <meta name="twitter:image" content="/static/img/og.webp" />
-  <link rel="icon" href="/static/logo.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/static/css/tokens.css" />
-  <link rel="stylesheet" href="/static/css/base.css" />
-  <link rel="stylesheet" href="/static/css/landing.css" />
-  <script>
-    (function () {
-      var t = localStorage.getItem("sentinelTheme");
-      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
-      else document.documentElement.setAttribute("data-theme", matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-      var origin = location.origin;
-      var l = document.createElement("link");
-      l.rel = "canonical";
-      l.href = origin + "/";
-      document.head.appendChild(l);
-      document.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]').forEach(function (m) {
-        var c = m.getAttribute("content") || "";
-        if (c.charAt(0) === "/") m.setAttribute("content", origin + c);
-      });
-      var ou = document.createElement("meta");
-      ou.setAttribute("property", "og:url");
-      ou.setAttribute("content", origin + "/");
-      document.head.appendChild(ou);
-    })();
+  <link rel="icon" href="static/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="static/css/landing3d.css" />
+  <script>document.documentElement.classList.replace("no-js", "js");</script>
+  <script type="importmap">
+  { "imports": {
+      "three": "static/vendor/three/three.module.min.js",
+      "three/addons/": "static/vendor/three/addons/"
+  } }
   </script>
 </head>
-<body class="landing-body">
+<body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="site-nav">
-    <div class="wrap">
-      <a class="brand" href="/">
-        <img src="/static/logo.svg" width="36" height="36" alt="" />
-        Cascade Sentinel
-      </a>
-      <nav class="nav-links" aria-label="Page">
-        <a href="#problem">Problem</a>
-        <a href="#how">How it works</a>
-        <a href="#agents">Agents</a>
-        <a href="#proof">Proof</a>
-        <a href="#mcp">MCP</a>
-        <a href="#stack">Stack</a>
-      </nav>
-      <div class="nav-actions">
-        <button class="btn btn-ghost" type="button" id="themeToggle" aria-pressed="true">Light</button>
-        <a class="btn btn-ghost" href="https://github.com/aneek22112007-tech/cascade-sentinel">GitHub</a>
-        <a class="btn btn-primary" href="/app">Open live demo</a>
-      </div>
+
+  <!-- 3D stage: fixed behind the story -->
+  <div class="stage" aria-hidden="true">
+    <canvas id="scene"></canvas>
+    <div class="stage-fallback">
+      <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="fbOrb" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#fff3bf"/><stop offset=".35" stop-color="#ff922b"/><stop offset=".7" stop-color="#e8590c" stop-opacity=".5"/><stop offset="1" stop-color="#e8590c" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="fbEdge" x1="0" x2="1"><stop offset="0" stop-color="#ffd43b"/><stop offset="1" stop-color="#fa5252"/></linearGradient>
+        </defs>
+        <circle cx="170" cy="300" r="150" fill="url(#fbOrb)"/>
+        <path d="M200 300 C 330 220, 380 220, 430 250 S 560 330, 640 300 S 800 220, 880 270 S 1000 360, 1060 320" fill="none" stroke="url(#fbEdge)" stroke-width="3"/>
+        <path d="M640 300 C 700 400, 760 450, 860 470" fill="none" stroke="#5c6670" stroke-width="2" stroke-dasharray="6 8"/>
+        <g fill="#ffd8a8"><circle cx="430" cy="250" r="8"/><circle cx="640" cy="300" r="8"/><circle cx="880" cy="270" r="8"/><circle cx="1060" cy="320" r="10" fill="#fa5252"/></g>
+        <circle cx="860" cy="470" r="8" fill="#868e96"/>
+      </svg>
+    </div>
+    <div class="labels" id="labels"></div>
+    <div class="vignette"></div>
+    <div class="grain"></div>
+  </div>
+
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-orb"></div>
+      <p class="mono">tracing cascade <span id="loaderPct">0</span>%</p>
+    </div>
+  </div>
+
+  <header class="nav" id="nav">
+    <a class="brand" href="./" aria-label="Cascade Sentinel home">
+      <svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true"><path d="M12 40 L32 12 L52 40" fill="none" stroke="#ff7a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="47" r="6" fill="#ffd43b"/></svg>
+      <span>Cascade<b>Sentinel</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Chapters">
+      <a href="#ch1">Chain</a><a href="#ch2">Adjudicate</a><a href="#ch3">Memory</a><a href="#ch4">Refusal</a><a href="#proof">Proof</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn ghost" href="https://github.com/aneek22112007-tech/cascade-sentinel" rel="noopener">GitHub</a>
+      <a class="btn hot" href="app">Launch live demo <span aria-hidden="true">→</span></a>
     </div>
   </header>
 
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <ol class="chapter-rail" aria-hidden="true">
+    <li data-ch="0"><span>00</span></li><li data-ch="1"><span>01</span></li><li data-ch="2"><span>02</span></li><li data-ch="3"><span>03</span></li><li data-ch="4"><span>04</span></li><li data-ch="5"><span>05</span></li>
+  </ol>
+
   <main id="main" tabindex="-1">
-    <section class="hero wrap">
-      <div>
-        <span class="badge badge-synthetic">Synthetic data · fictional districts</span>
-        <h1>The climate-crisis agent that refuses to act without precedent.</h1>
-        <p class="lede">Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="/app">Open live demo</a>
-          <a class="btn" href="https://github.com/aneek22112007-tech/cascade-sentinel">View on GitHub</a>
+    <!-- HERO -->
+    <section class="hero chapter" data-ch="0" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow mono"><span class="dot"></span> WeMakeDevs × FalkorDB Graph Hacks · Tracks 1 · 2 · 3</p>
+        <h1 class="display split">The climate agent that <em>refuses</em> to act without precedent.</h1>
+        <p class="pitch">Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent.</p>
+        <div class="cta-row">
+          <a class="btn hot lg" href="app">Launch live demo <span aria-hidden="true">→</span></a>
+          <a class="btn ghost lg" href="#ch1">Watch the cascade</a>
         </div>
+        <ul class="hero-meta mono">
+          <li><b data-count="1.000" data-dec="3">1.000</b> held-out path reconstruction</li>
+          <li><b data-count="11">11</b> MCP graph tools</li>
+          <li><b data-count="0">0</b> lost writes under concurrency</li>
+        </ul>
       </div>
-      <div aria-hidden="true">
-        <svg class="cascade-svg" viewBox="0 0 640 220" role="img" aria-label="Heatwave to heat-stress illness cascade">
-          <path class="edge e1" d="M70 110 H150" />
-          <path class="edge e2" d="M210 110 H290" />
-          <path class="edge e3" d="M350 110 H430" />
-          <path class="edge e4" d="M490 110 H545" />
-          <path class="edge exposes" d="M70 130 C 200 200, 400 200, 545 130" />
-          <rect class="hop n1" x="20" y="88" width="50" height="44" rx="8" />
-          <rect class="hop n2" x="150" y="80" width="60" height="60" rx="8" />
-          <rect class="hop n3" x="290" y="88" width="60" height="44" rx="8" />
-          <rect class="hop n4" x="430" y="88" width="60" height="44" rx="8" />
-          <rect class="hop n5" x="545" y="80" width="70" height="60" rx="8" />
-          <text class="lab" x="24" y="114">Heatwave</text>
-          <text class="lab" x="156" y="106">Fodder</text>
-          <text class="lab" x="156" y="122">jowar</text>
-          <text class="lab" x="300" y="114">Fodder</text>
-          <text class="lab" x="436" y="114">Mandi</text>
-          <text class="lab" x="552" y="106">Farm</text>
-          <text class="lab" x="552" y="122">labour</text>
-          <text class="lab" x="548" y="196">Heat-stress illness</text>
-          <circle class="hop n6" cx="580" cy="186" r="10" />
-        </svg>
+      <div class="scroll-cue mono" aria-hidden="true"><span></span>scroll to follow the heat</div>
+    </section>
+
+    <!-- CH1 -->
+    <section class="chapter" data-ch="1" id="ch1">
+      <div class="panel">
+        <p class="kicker mono">01 / The chain nobody sees</p>
+        <h2 class="split">A heatwave doesn’t cause a health crisis. <em>A chain does.</em></h2>
+        <p>Heat stresses fodder jowar in its vegetative stage. Fodder yield falls, the fodder mandi price jumps, debt-stressed farm labourers work longer in unsafe heat, and about three weeks later it shows up as heat-stress illness. Every department sees only its own link.</p>
+        <ol class="hops mono">
+          <li><i style="--c:#ffd43b"></i>heatwave <small>STRESSES</small></li>
+          <li><i style="--c:#ffa94d"></i>fodder_jowar_vegetative <small>REDUCES_YIELD_OF</small></li>
+          <li><i style="--c:#ff922b"></i>fodder <small>SHOCKS_PRICE_AT</small></li>
+          <li><i style="--c:#fd7e14"></i>mandi_fodder <small>PRESSURES</small></li>
+          <li><i style="--c:#f76707"></i>farm_laborers <small>AT_RISK_OF</small></li>
+          <li><i style="--c:#fa5252"></i>heat_stress_illness</li>
+        </ol>
+        <p class="note">5 hops, typed, weighted and sourced edges in FalkorDB. Lag along the corridor: 21 days.</p>
       </div>
     </section>
 
-    <section class="band" id="problem">
-      <div class="wrap">
-        <h2>How a cascade becomes a crisis</h2>
-        <p class="intro">Climate shocks become human crises through chains. A heatwave stresses a crop at a specific growth stage, which cuts fodder, prices move, debt-stressed farm labourers work longer in unsafe heat, and about 3 weeks later it shows up as heat-stress and water-borne illness. Each department sees only its own link, so by the time health data shows the signal, the cheap intervention windows 15–45 days earlier have closed.</p>
-        <div class="hop-grid">
-          <article class="hop-card"><div class="n">01</div><h3>Heatwave</h3><div class="edge-name">STRESSES</div></article>
-          <article class="hop-card"><div class="n">02</div><h3>Fodder jowar (vegetative)</h3><div class="edge-name">REDUCES_YIELD_OF</div></article>
-          <article class="hop-card"><div class="n">03</div><h3>Fodder</h3><div class="edge-name">SHOCKS_PRICE_AT</div></article>
-          <article class="hop-card"><div class="n">04</div><h3>Fodder mandi</h3><div class="edge-name">PRESSURES</div></article>
-          <article class="hop-card"><div class="n">05</div><h3>Farm labourers</h3><div class="edge-name">AT_RISK_OF</div></article>
-          <article class="hop-card"><div class="n">06</div><h3>Heat-stress illness</h3><div class="edge-name">plus EXPOSES</div></article>
+    <!-- CH2 -->
+    <section class="chapter right" data-ch="2" id="ch2">
+      <div class="panel">
+        <p class="kicker mono">02 / Agents propose. The graph disposes.</p>
+        <h2 class="split">Hypotheses are graph writes, <em>not chat messages.</em></h2>
+        <p>Weather, agronomy and health agents write <code>(:Hypothesis)</code> nodes, then support or attack each other’s with evidence edges. An in-graph fixpoint decides what survives. An agent that was wrong last season is discounted automatically.</p>
+        <div class="agents">
+          <span class="agent a-weather">weather</span><span class="agent a-agro">agronomy</span><span class="agent a-health">health</span>
         </div>
-        <p class="lag-note">Lag along the fodder path is about three weeks. A dairy branch has no targeting intervention — that is the designed UNPRECEDENTED path.</p>
+        <pre class="formula mono">defeated  if attack ≥ support + 0.5·eff
+accepted  if eff + support − attack ≥ 0.6</pre>
+        <p class="note">Season 2025 (synthetic): agronomy’s wheat hypothesis is <b class="hot-t">defeated</b>. Attack 0.47 and its credibility fell 0.50 → 0.40 after a 2024 miss.</p>
       </div>
     </section>
 
-    <section class="band" id="how">
-      <div class="wrap">
-        <h2>How it works</h2>
-        <p class="intro">Remove FalkorDB and nothing is left. Every agent tool is a graph operation: traversal, precedent matching, adjudication, refusal, and write-back.</p>
-        <div class="steps">
-          <article class="card step"><div class="idx">1</div><h3>Enumerate cascade paths</h3><p>3–5 hop typed graph traversal from the forecast hazard to health outcomes, ranked top K = 6. 1–2 hop direct-exposure paths are listed separately.</p></article>
-          <article class="card step"><div class="idx">2</div><h3>Agents debate</h3><p>Weather, agronomy and health propose hypotheses, then support or attack each other on the same subgraph.</p></article>
-          <article class="card step"><div class="idx">3</div><h3>Graph adjudicates</h3><p>Defeat if attack ≥ support + 0.5·eff. Accept if eff + support − attack ≥ 0.6.</p><div class="formula">C = (hits+1)/(hits+misses+2)</div></article>
-          <article class="card step"><div class="idx">4</div><h3>Precedent-gated action</h3><p>Act only if analog similarity ≥ 0.5 and P ≥ 0.5. Analogs without a qualifying act are weak analog (amber). No analog is UNPRECEDENTED (grey): escalate to district officer.</p><div class="formula">P = ((successes+1)/(trials+2)) × 0.9^max(0, year−last−1)</div></article>
+    <!-- CH3 -->
+    <section class="chapter" data-ch="3" id="ch3">
+      <div class="panel">
+        <p class="kicker mono">03 / Memory that rewires</p>
+        <h2 class="split"><code>close_episode()</code> writes outcomes back, <em>so next season changes.</em></h2>
+        <p>Every recommendation is an <code>(:Intervention)</code> wired to its observed outcome. When a season closes, success rates update, failed precedents are visibly defeated, and agent credibility moves. Run 2024, close it, and run 2025: the recommendations change because of memory.</p>
+        <div class="memory-cards">
+          <div class="mcard">
+            <p class="mono">worksite_cool_shelters · P</p>
+            <p class="big"><span data-tween="0.27:0.50" class="tw">0.27</span></p>
+            <p class="mono dim">trials 1 → 2 · <b class="ok-t">2025: act</b></p>
+          </div>
+          <div class="mcard">
+            <p class="mono">agronomy · credibility</p>
+            <p class="big"><span data-tween="0.50:0.40" class="tw">0.50</span></p>
+            <p class="mono dim">verdict: miss · <b class="hot-t">discounted</b></p>
+          </div>
+          <div class="mcard">
+            <p class="mono">memory diff 2024 → 2025</p>
+            <p class="big"><span data-tween="0:14" data-dec="0" class="tw">0</span></p>
+            <p class="mono dim">changes · identical on every rerun</p>
+          </div>
         </div>
-        <p class="intro" style="margin-top:24px">Close the episode to write held-out outcomes back (intervention trials/successes/P, agent hits/misses/credibility). The next season changes because of memory.</p>
+        <p class="note">Three layers: <b>episodic</b> (season subgraphs), <b>semantic</b> (district profiles), <b>procedural</b> (interventions with outcomes).</p>
       </div>
     </section>
 
-    <section class="band" id="agents">
-      <div class="wrap">
-        <h2>Three agents, one graph</h2>
-        <div class="agent-grid">
-          <article class="card agent-card weather"><div class="row"><span class="avatar weather">WE</span><h3>weather</h3></div><p class="muted">Proposes direct-exposure and in-window stage-stress paths. Attacks hypotheses whose crop window misses the forecast.</p></article>
-          <article class="card agent-card agronomy"><div class="row"><span class="avatar agronomy">AG</span><h3>agronomy</h3></div><p class="muted">Proposes stage → yield → price paths, ranked by area share. Designed to be overconfident on wheat grain.</p></article>
-          <article class="card agent-card health"><div class="row"><span class="avatar health">HE</span><h3>health</h3></div><p class="muted">Proposes labour → morbidity paths, including a water-stress waterborne path, and attacks low outdoor-hour groups.</p></article>
+    <!-- CH4 -->
+    <section class="chapter right" data-ch="4" id="ch4">
+      <div class="panel">
+        <p class="kicker mono">04 / Refusal as a feature</p>
+        <h2 class="split">No precedent, no evidence. <em>No action.</em></h2>
+        <p>The dairy branch has no targeting intervention in the precedent graph. Sentinel won’t make one up. It turns the path grey and hands it to a human.</p>
+        <div class="refusal mono">
+          <span class="stamp">UNPRECEDENTED</span>
+          <span>heatwave › dairy_cattle › milk › dairy_collection › dairy_households</span>
+          <span class="dim">→ escalate to district officer</span>
         </div>
-        <div class="debate card">
-          <p class="muted">Sample adjudication reason (synthetic)</p>
-          <pre class="codeblock">accepted: eff 0.60 + support 0.00 − attack 0.00 ≥ 0.6</pre>
-        </div>
-      </div>
-    </section>
-
-    <section class="band" id="recs">
-      <div class="wrap">
-        <h2>Precedent-gated recommendations</h2>
-        <p class="intro">Kinds are act, defeated_precedent, weak_analog, and escalate. Every card can open Explain: path hops with weights and sources, analogs, defeated rivals, owner, and the Cypher behind the answer.</p>
-        <div class="rec-demo">
-          <article class="card">
-            <span class="chip chip-act">act</span>
-            <h3>Shift field/MGNREGA work to before 11:00 and after 16:00</h3>
-            <div class="progress"><span style="width:71%"></span></div>
-            <p class="muted tabular">3 of 4 past seasons, P=0.67</p>
-          </article>
-          <article class="card defeated_precedent">
-            <span class="chip chip-defeated">defeated_precedent</span>
-            <h3>Mandi price-cap advisory</h3>
-            <div class="progress weak"><span style="width:30%"></span></div>
-            <p class="muted">Struck through. Weak precedent (P &lt; 0.5).</p>
-          </article>
-          <article class="card weak_analog">
-            <span class="chip chip-weak-analog">weak analog</span>
-            <h3>WEAK ANALOG: similar episodes exist but this path cannot be acted on</h3>
-            <p class="muted">Amber. Analogs exist; the agent still refuses to invent an intervention.</p>
-          </article>
-          <article class="card escalate">
-            <span class="chip chip-escalate">escalate</span>
-            <h3>UNPRECEDENTED: escalate to district officer</h3>
-            <p class="muted">Dairy branch — no targeting intervention. Owner: district officer.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="band" id="memory">
-      <div class="wrap">
-        <h2>Memory that changes decisions</h2>
-        <p class="intro">Closing 2024 writes held-out outcomes into FalkorDB. Semantic = who this district is; episodic = what happened this season; procedural = which interventions were tried and how they scored. Layers also include corridor, signal, and governance. Two tenants: Rajpur (demo) and Kalinagar (district_b) on graphs sentinel_&lt;tenant&gt;.</p>
-        <div class="ba">
-          <article class="card">
-            <p class="muted">Worksite cool shelters (synthetic)</p>
-            <div class="delta">P 0.27 <span>→ 0.50</span></div>
-            <p>trials 1 → 2 after close. Season 2025: cool shelters become act.</p>
-          </article>
-          <article class="card">
-            <p class="muted">Agronomy credibility (synthetic)</p>
-            <div class="delta">C 0.5 <span>→ 0.4</span></div>
-            <p>verdict: miss. Season 2025: agronomy’s wheat path is defeated. Dairy stays UNPRECEDENTED.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="band" id="proof">
-      <div class="wrap">
-        <h2>Proof</h2>
-        <p class="intro">All figures synthetic; same seed, same output.</p>
-        <div class="stats">
-          <article class="card stat"><div class="num">1.000</div><div class="lbl">path-reconstruction Jaccard (PASS ≥ 0.6)</div><div class="cap">make backtest</div></article>
-          <article class="card stat"><div class="num">0</div><div class="lbl">lost writes (75/75, 3 agents × 25 parallel)</div><div class="cap">python bench/concurrency.py</div></article>
-          <article class="card stat"><div class="num">11</div><div class="lbl">MCP graph tools</div><div class="cap">python -m sentinel.mcp_server --list</div></article>
-          <article class="card stat"><div class="num">23</div><div class="lbl">passing tests</div><div class="cap">python -m pytest -q</div></article>
-          <article class="card stat"><div class="num">2</div><div class="lbl">isolated tenant graphs</div><div class="cap">sentinel_demo · sentinel_district_b</div></article>
-        </div>
-        <p class="muted" style="margin-top:16px">Demo seed after reset: 91 nodes, 148 edges. Top K = 6 cascade paths per season.</p>
-        <figure class="card" style="margin-top:24px;padding:0;overflow:hidden">
-          <img src="/static/img/02-season-2024.webp" width="1400" height="875" alt="Season 2024 cascade graph in the dashboard" />
-        </figure>
-      </div>
-    </section>
-
-    <section class="band" id="mcp">
-      <div class="wrap">
-        <h2>Talk to the graph from any MCP client</h2>
-        <p class="intro">stdio, or <code>python -m sentinel.mcp_server --http 8765</code> (streamable HTTP). 11 tools, all graph operations.</p>
-        <div class="mcp-grid">
-          <article class="card mcp-item"><h3>enumerate_cascade_paths</h3><p>Rank 3–5 hop cascade paths (top K) and return 1–2 hop direct-exposure paths from the episode forecast's hazard to health outcomes.</p></article>
-          <article class="card mcp-item"><h3>query_precedent</h3><p>Find analog closed episodes and intervention history for a cascade path.</p></article>
-          <article class="card mcp-item"><h3>propose_hypothesis</h3><p>Write an agent hypothesis about a path and MERGE the MAY_TRIGGER edge.</p></article>
-          <article class="card mcp-item"><h3>support_hypothesis</h3><p>Assert supporting evidence on a hypothesis.</p></article>
-          <article class="card mcp-item"><h3>attack_hypothesis</h3><p>Assert attacking evidence on a hypothesis.</p></article>
-          <article class="card mcp-item"><h3>compute_accepted_risk</h3><p>Adjudicate hypotheses to accepted / contested / defeated by the in-graph fixpoint.</p></article>
-          <article class="card mcp-item"><h3>recommend_action</h3><p>Recommend interventions with precedent; weak analog when analogs exist but cannot act; escalate UNPRECEDENTED paths.</p></article>
-          <article class="card mcp-item"><h3>close_episode</h3><p>Reveal held-out outcomes, write back trials and credibility. Idempotent.</p></article>
-          <article class="card mcp-item"><h3>explain</h3><p>Explain a recommendation: path, analogs, precedents, defeated rivals, Cypher, owner.</p></article>
-          <article class="card mcp-item"><h3>memory_view</h3><p>Counts and samples of an episodic, semantic, or procedural memory layer.</p></article>
-          <article class="card mcp-item"><h3>graph_snapshot</h3><p>Cytoscape elements for the episode graph with status and layer classes.</p></article>
-        </div>
-        <h3 style="margin-top:28px">Claude Desktop mcp.json</h3>
-        <pre class="codeblock"><button class="btn copy" type="button" data-copy>Copy</button>{
-  "mcpServers": {
-    "cascade-sentinel": {
-      "command": "python",
-      "args": ["-m", "sentinel.mcp_server"],
-      "cwd": "/absolute/path/to/cascade-sentinel",
-      "env": { "FALKORDB_HOST": "localhost", "FALKORDB_PORT": "6379" }
-    }
-  }
-}</pre>
-      </div>
-    </section>
-
-    <section class="band" id="tracks">
-      <div class="wrap">
-        <h2>Judge track map</h2>
-        <div style="overflow:auto">
-          <table class="track">
-            <thead><tr><th>Judge criterion</th><th>Feature that proves it</th><th>Where shown</th></tr></thead>
-            <tbody>
-              <tr><td>Follow connections (multi-hop)</td><td><code>enumerate_cascade_paths</code> 4–5 hop typed weighted edges</td><td>UI path animation, Explain Cypher</td></tr>
-              <tr><td>Graph queries as agent tools via MCP</td><td>11 MCP tools, all graph operations</td><td>sentinel/mcp_server.py</td></tr>
-              <tr><td>Actions based on what the graph shows</td><td><code>recommend_action</code> only with precedent; weak analog if analogs exist but cannot act; else UNPRECEDENTED</td><td>Recommendation cards, grey path</td></tr>
-              <tr><td>Explainable results</td><td><code>explain()</code> path, analogs, rates, defeated rivals, Cypher, owner</td><td>Explain drawer</td></tr>
-              <tr><td>Remember across sessions</td><td>Double-run write-back</td><td>What-changed diff</td></tr>
-              <tr><td>Episodic / semantic / procedural</td><td>Labelled layers, legend toggles</td><td>Graph legend</td></tr>
-              <tr><td>Share state / handoffs</td><td>Shared hypothesis subgraph; <code>(:Run)-[:STEP]-&gt;</code></td><td>Run Timeline</td></tr>
-              <tr><td>High-concurrency R/W</td><td>bench/concurrency.py</td><td>0 lost writes (75/75)</td></tr>
-              <tr><td>Separate memory per tenant</td><td><code>sentinel_&lt;tenant&gt;</code> graphs</td><td>Tenant switcher</td></tr>
-              <tr><td>Company brain</td><td><code>(:Officer)-[:OWNS]-&gt;</code>, approvals</td><td>Explain owner</td></tr>
-              <tr><td>Keeping knowledge current</td><td><code>close_episode</code> rewires weights + credibility</td><td>Diff panel</td></tr>
-              <tr><td>Answers with sources</td><td>Every edge <code>source</code>; <code>(:Source)</code> nodes</td><td>Explain chips</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="band" id="stack">
-      <div class="wrap">
-        <h2>Stack</h2>
-        <div class="chips-row">
-          <span class="chip">Python 3.11</span>
-          <span class="chip">FastAPI</span>
-          <span class="chip">FalkorDB</span>
-          <span class="chip">Cypher</span>
-          <span class="chip">MCP</span>
-          <span class="chip">cytoscape.js</span>
-          <span class="chip">Docker Compose</span>
-          <span class="chip">pytest</span>
-          <span class="chip">optional Bedrock / OpenAI-compatible for prose only</span>
-        </div>
-        <p class="muted" style="margin-top:16px">Production target (AWS) — target, not what docker-compose runs.</p>
-        <pre class="aws">User → CloudFront → S3
-                 ↘ ALB → ECS Fargate API → ECS Fargate FalkorDB
-                                   ↘ Bedrock (optional prose)
-                                   ↘ CloudWatch</pre>
-      </div>
-    </section>
-
-    <section class="band" id="limits">
-      <div class="wrap">
-        <h2>Honest limitations</h2>
-        <ul class="limits">
-          <li>One corridor (heat → labour → illness) plus a dairy distractor.</li>
-          <li>Synthetic archetype data, not a live district feed.</li>
-          <li>Prototype adjudication (fixpoint, Gauss–Seidel by credibility).</li>
-          <li>No production season of write-backs yet.</li>
-          <li>LLM (optional) writes a rationale paragraph only; default provider is <code>none</code>.</li>
+        <ul class="legend mono">
+          <li><i class="l-act"></i>act: precedent P ≥ 0.5</li>
+          <li><i class="l-weak"></i>weak analog: similar episodes, nothing to act on (amber)</li>
+          <li><i class="l-def"></i>defeated precedent: struck through</li>
+          <li><i class="l-unp"></i>unprecedented: grey, escalated</li>
         </ul>
       </div>
     </section>
 
-    <section class="band" id="quickstart">
+    <!-- CH5 -->
+    <section class="chapter finale" data-ch="5" id="ch5">
+      <div class="finale-inner">
+        <p class="kicker mono">05 / Built on FalkorDB</p>
+        <h2 class="display-2 split">Remove the graph and <em>nothing is left.</em></h2>
+        <p class="lead">Traversal, precedent matching, adjudication, refusal and write-back are all Cypher on FalkorDB, exposed to any agent as MCP tools.</p>
+        <div class="tracks">
+          <article class="track"><span class="mono">TRACK 1</span><h3>Graph-powered agents</h3><p>Multi-hop <code>enumerate_cascade_paths</code>, 11 MCP tools, Explain shows the Cypher.</p></article>
+          <article class="track"><span class="mono">TRACK 2</span><h3>Agent memory</h3><p>Episodic, semantic and procedural layers. Write-back across sessions. One graph per tenant.</p></article>
+          <article class="track"><span class="mono">TRACK 3</span><h3>Company brain</h3><p><code>(:Officer)-[:OWNS]-&gt;</code>, approvals, sources on every edge, decision traceability.</p></article>
+        </div>
+        <div class="cta-row center">
+          <a class="btn hot lg" href="app">Launch live demo <span aria-hidden="true">→</span></a>
+          <a class="btn ghost lg" href="https://github.com/aneek22112007-tech/cascade-sentinel" rel="noopener">Star on GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROOF / DETAILS (plain, readable) -->
+    <section class="details" id="proof">
       <div class="wrap">
-        <h2>Quickstart</h2>
-        <pre class="codeblock"><button class="btn copy" type="button" data-copy>Copy</button>git clone https://github.com/aneek22112007-tech/cascade-sentinel.git
+        <p class="kicker mono">Proof · synthetic archetype data · same seed, same output</p>
+        <h2>Correct outputs on held-out history.</h2>
+        <div class="stats">
+          <div class="stat"><b>1.000</b><span>path-reconstruction Jaccard (PASS ≥ 0.6)</span><code>make backtest</code></div>
+          <div class="stat"><b>0.27 → 0.50</b><span>cool-shelter precedent after write-back</span><code>close_episode()</code></div>
+          <div class="stat"><b>1</b><span>UNPRECEDENTED path in 2025 (dairy)</span><code>recommend_action</code></div>
+          <div class="stat"><b>0</b><span>lost writes, 3 agents × 25 parallel</span><code>bench/concurrency.py</code></div>
+          <div class="stat"><b>36</b><span>passing tests</span><code>pytest -q</code></div>
+          <div class="stat"><b>2</b><span>isolated tenant graphs</span><code>sentinel_demo · sentinel_district_b</code></div>
+        </div>
+
+        <div class="grid2">
+          <div>
+            <h3>MCP tools: every one is a graph operation</h3>
+            <ul class="tools mono">
+              <li>enumerate_cascade_paths</li><li>query_precedent</li><li>propose_hypothesis</li><li>support_hypothesis</li><li>attack_hypothesis</li><li>compute_accepted_risk</li><li>recommend_action</li><li>close_episode</li><li>explain</li><li>memory_view</li><li>graph_snapshot</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Run it in 60 seconds</h3>
+<pre class="code mono"><button class="copy" type="button" data-copy>Copy</button>git clone https://github.com/aneek22112007-tech/cascade-sentinel
 cd cascade-sentinel
-python3 -m venv .venv &amp;&amp; source .venv/bin/activate
-pip install -e ".[dev]"
-cp .env.example .env
-make up
-make seed
-make demo          # http://localhost:8000</pre>
+pip install -e ".[dev,embedded]"   # Python 3.12+
+python -m sentinel.serve           # embedded FalkorDB, auto-seed
+open http://localhost:8000</pre>
+            <p class="dim">Or <code>docker build -t sentinel . &amp;&amp; docker run -p 8000:8000 sentinel</code>. Deploy notes are in <a href="https://github.com/aneek22112007-tech/cascade-sentinel/blob/main/DEPLOY.md">DEPLOY.md</a>.</p>
+          </div>
+        </div>
+
+        <div class="honest">
+          <h3>Honest limits</h3>
+          <p>One corridor (heat → labour → illness) plus a dairy branch. The districts and data are synthetic archetypes, not a live feed. Adjudication is a prototype. There hasn’t been a production season of write-backs yet. The optional LLM only writes the rationale paragraph; decisions never read it.</p>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="foot">
     <div class="wrap">
-      <div>
-        <p>Built for WeMakeDevs × FalkorDB Graph Hacks</p>
-        <p>Tracks 1 · 2 · 3 · MIT license · <a href="https://github.com/aneek22112007-tech/cascade-sentinel">GitHub</a></p>
-      </div>
-      <a class="btn btn-primary" href="/app">Open live demo</a>
+      <span>Cascade Sentinel · MIT · Built for WeMakeDevs × FalkorDB Graph Hacks</span>
+      <span><a href="app">Live demo</a> · <a href="https://github.com/aneek22112007-tech/cascade-sentinel">GitHub</a> · <a href="health">/health</a></span>
     </div>
   </footer>
-  <script type="module" src="/static/js/landing.js"></script>
+
+  <script src="static/vendor/gsap.min.js" defer></script>
+  <script src="static/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="static/vendor/lenis.min.js" defer></script>
+  <script type="module" src="static/js/landing3d.js"></script>
 </body>
 </html>
