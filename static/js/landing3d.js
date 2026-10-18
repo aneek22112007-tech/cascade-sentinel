@@ -203,7 +203,7 @@ async function scene3d(getStoryIndex) {
   } catch (e) {
     return false;
   }
-  let dpr = Math.min(devicePixelRatio || 1, isMobile ? 1.5 : 2);
+  let dpr = Math.min(devicePixelRatio || 1, isMobile ? 1.25 : 2);
   renderer.setPixelRatio(dpr);
   renderer.setSize(innerWidth, innerHeight, false);
   renderer.setClearColor(0x05070b, 1);
@@ -299,7 +299,7 @@ async function scene3d(getStoryIndex) {
   });
 
   /* ---------------- particle streams */
-  const PCOUNT = isMobile ? 900 : 3200;
+  const PCOUNT = isMobile ? 700 : 3200;
   const weights = edges.map((e) => (e.group === "main" ? 3 : e.group === "direct" ? 0.8 : e.group === "shelter" ? 1.2 : 1.4));
   const wsum = weights.reduce((a, b) => a + b, 0);
   const pEdge = new Uint16Array(PCOUNT), pT = new Float32Array(PCOUNT), pSpd = new Float32Array(PCOUNT), pJit = new Float32Array(PCOUNT * 3);
@@ -331,7 +331,7 @@ async function scene3d(getStoryIndex) {
   world.add(particles);
 
   /* ---------------- dust (heat shimmer) */
-  const DCOUNT = isMobile ? 500 : 1600;
+  const DCOUNT = isMobile ? 360 : 1600;
   const dPos = new Float32Array(DCOUNT * 3), dCol = new Float32Array(DCOUNT * 3), dSize = new Float32Array(DCOUNT);
   for (let i = 0; i < DCOUNT; i++) {
     dPos.set([(Math.random() - 0.5) * 50, (Math.random() - 0.5) * 24, (Math.random() - 0.5) * 30 - 4], i * 3);
@@ -411,6 +411,17 @@ async function scene3d(getStoryIndex) {
     el.className = "nlabel " + (l.cls || ""); el.textContent = l.text; labelLayer.appendChild(el);
     return { ...l, el, v: new THREE.Vector3() };
   });
+  const remeasure = () => labels.forEach((l) => { l.w = 0; });
+  addEventListener("resize", remeasure);
+  document.fonts?.ready?.then(remeasure);
+  const panels = $$(".chapter .panel, .finale-inner");
+  const activePanelRect = () => {
+    for (const p of panels) {
+      const r = p.getBoundingClientRect();
+      if (r.bottom > innerHeight * 0.15 && r.top < innerHeight * 0.85) return r;
+    }
+    return null;
+  };
 
   /* ---------------- interaction */
   const mouse = { x: 0, y: 0, sx: 0, sy: 0 };
@@ -551,13 +562,23 @@ async function scene3d(getStoryIndex) {
 
     composer.render();
 
-    // labels (project after render so they track the camera)
+    // labels (project after render so they track the camera). Reads first, then writes:
+    // label sizes are cached, the active copy panel is read once per frame.
+    const W = innerWidth, H = innerHeight;
+    const panelR = activePanelRect();
     labels.forEach((l) => {
       const node = l.id === "heatwave" ? orb : nodeMeshes[l.id].g;
       l.v.setFromMatrixPosition(node.matrixWorld).project(camera);
-      const vis = !!l.show(s) && l.v.z < 1;
-      const x = (l.v.x * 0.5 + 0.5) * innerWidth, y = (-l.v.y * 0.5 + 0.5) * innerHeight;
-      l.el.style.transform = `translate3d(${x + 14}px, ${y - 10}px, 0)`;
+      const x = (l.v.x * 0.5 + 0.5) * W, y = (-l.v.y * 0.5 + 0.5) * H;
+      if (!l.w) { l.w = l.el.offsetWidth; l.h = l.el.offsetHeight; }
+      // flip to the left of the node near the right edge, then clamp inside the viewport
+      let lx = x + 14 + l.w > W - 8 ? x - 14 - l.w : x + 14;
+      lx = Math.min(Math.max(lx, 8), W - l.w - 8);
+      const ly = Math.min(Math.max(y - 10, 72), H - l.h - 8);
+      const onScreen = l.v.z < 1 && x > -10 && x < W + 10 && y > 40 && y < H + 10;
+      const underPanel = panelR && lx < panelR.right && lx + l.w > panelR.left && ly < panelR.bottom && ly + l.h > panelR.top;
+      const vis = !!l.show(s) && onScreen && !underPanel;
+      l.el.style.transform = `translate3d(${lx}px, ${ly}px, 0)`;
       l.el.classList.toggle("show", vis);
       if (l.defeatAt) l.el.classList.toggle("defeated", s > l.defeatAt);
     });
@@ -594,6 +615,10 @@ async function boot() {
   let p = 0; const tick = setInterval(() => { p = Math.min(96, p + 7 + Math.random() * 9); pct.textContent = Math.round(p); }, 60);
   const finish = () => { clearInterval(tick); pct.textContent = "100"; loader.classList.add("done"); };
   const lenis = motionText();
+  const cap = setTimeout(finish, 1600); // never hold the copy hostage to the 3D scene
+  // lazy-init: let the hero copy paint first, then build the scene when the main thread is idle
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  await new Promise((r) => ("requestIdleCallback" in window ? requestIdleCallback(r, { timeout: 700 }) : setTimeout(r, 120)));
   let ok = false;
   try {
     const gl = document.createElement("canvas").getContext("webgl2") || document.createElement("canvas").getContext("webgl");
@@ -603,7 +628,9 @@ async function boot() {
     ok = false;
   }
   if (!ok) document.documentElement.classList.add("no-webgl");
-  setTimeout(finish, ok ? 350 : 0);
+  else document.documentElement.classList.add("scene-ready");
+  clearTimeout(cap);
+  setTimeout(finish, ok ? 250 : 0);
   window.__sentinel = { webgl: ok, lenis: !!lenis, reduceMotion, isMobile };
 }
 

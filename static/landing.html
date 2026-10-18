@@ -8,13 +8,24 @@
   <meta name="theme-color" content="#05070b" />
   <meta property="og:title" content="Cascade Sentinel" />
   <meta property="og:description" content="Precedent-compelled climate cascade agent. FalkorDB adjudicates hypotheses, remembers what worked, and refuses to act without precedent." />
-  <meta property="og:image" content="static/img/og.webp" />
+  <link rel="canonical" href="./" />
+  <meta property="og:url" content="./" />
+  <meta property="og:site_name" content="Cascade Sentinel" />
+  <meta property="og:image" content="static/img/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Cascade Sentinel: a heatwave cascading through a glowing FalkorDB graph" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cascade Sentinel" />
+  <meta name="twitter:description" content="The climate agent that refuses to act without precedent. Built on FalkorDB." />
+  <meta name="twitter:image" content="static/img/og.png" />
   <link rel="icon" href="static/logo.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" /></noscript>
   <link rel="stylesheet" href="static/css/landing3d.css" />
   <script>document.documentElement.classList.replace("no-js", "js");</script>
   <script type="importmap">
@@ -58,9 +69,9 @@
   </div>
 
   <header class="nav" id="nav">
-    <a class="brand" href="./" aria-label="Cascade Sentinel home">
+    <a class="brand" href="./">
       <svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true"><path d="M12 40 L32 12 L52 40" fill="none" stroke="#ff7a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="47" r="6" fill="#ffd43b"/></svg>
-      <span>Cascade<b>Sentinel</b></span>
+      <span>Cascade <b>Sentinel</b></span>
     </a>
     <nav class="nav-links" aria-label="Chapters">
       <a href="#ch1">Chain</a><a href="#ch2">Adjudicate</a><a href="#ch3">Memory</a><a href="#ch4">Refusal</a><a href="#proof">Proof</a>
@@ -147,12 +158,12 @@ accepted  if eff + support − attack ≥ 0.6</pre>
             <p class="mono dim">verdict: miss · <b class="hot-t">discounted</b></p>
           </div>
           <div class="mcard">
-            <p class="mono">memory diff 2024 → 2025</p>
+            <p class="mono">memory changes 2024 → 2025</p>
             <p class="big"><span data-tween="0:14" data-dec="0" class="tw">0</span></p>
-            <p class="mono dim">diff rows in make backtest · identical on every rerun</p>
+            <p class="mono dim">path-level changes<span class="m-long"> after write-back · same count in the dashboard and <code>make backtest</code></span></p>
           </div>
         </div>
-        <p class="note">Three layers: <b>episodic</b> (season subgraphs), <b>semantic</b> (district profiles), <b>procedural</b> (interventions with outcomes).</p>
+        <p class="note m-hide">Three layers: <b>episodic</b> (season subgraphs), <b>semantic</b> (district profiles), <b>procedural</b> (interventions with outcomes).</p>
       </div>
     </section>
 
@@ -204,7 +215,7 @@ accepted  if eff + support − attack ≥ 0.6</pre>
           <div class="stat"><b>0.27 → 0.50</b><span>cool-shelter precedent after write-back</span><code>close_episode()</code></div>
           <div class="stat"><b>1</b><span>UNPRECEDENTED path in 2025 (dairy)</span><code>recommend_action</code></div>
           <div class="stat"><b>0</b><span>lost writes, 3 agents × 25 parallel</span><code>bench/concurrency.py</code></div>
-          <div class="stat"><b>36</b><span>passing tests</span><code>pytest -q</code></div>
+          <div class="stat"><b>37</b><span>passing tests</span><code>pytest -q</code></div>
           <div class="stat"><b>2</b><span>isolated tenant graphs</span><code>sentinel_demo · sentinel_district_b</code></div>
         </div>
 
