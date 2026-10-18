@@ -69,7 +69,9 @@ def build(out: Path, skip_export: bool = False) -> None:
     landing = (static / "landing.html").read_text()
     landing = landing.replace('href="health"', 'href="data/meta.json"')
     # Pages: "Launch live demo" goes to the real FalkorDB app on Render; the replay stays one click away
-    landing = landing.replace('href="app"', f'href="{LIVE_URL}app"')
+    landing = landing.replace('href="app"', f'href="{LIVE_URL}app" data-live-cta')
+    # cold-start UX: ping the sleeping free instance before navigating (static/js/wake.js)
+    landing = landing.replace("</body>", '  <script src="static/js/wake.js" defer></script>\n</body>', 1)
     landing = landing.replace(" data-pages-note hidden", " data-pages-note")
     # social cards need absolute URLs
     landing = landing.replace('content="static/img/og.png"', f'content="{PAGES_URL}static/img/og.png"')

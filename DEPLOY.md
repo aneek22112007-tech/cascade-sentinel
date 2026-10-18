@@ -48,6 +48,12 @@ There's no separate DB service and no persistent disk. A free-tier restart simpl
 
 You can also skip the Blueprint and create a manual **New > Web Service** with Runtime Docker, Instance Free, and Health Check Path `/healthz`.
 
+**Cold start and keep-warm.** On the Pages landing, "Launch live demo" runs `static/js/wake.js`. It shows "Waking live server…", polls `https://cascade-sentinel.onrender.com/healthz` (CORS-open, read-only) every ~2.5 s, and navigates once it answers `{"ok":true}`. After 60 s it also offers the recorded replay. To skip the wait before a demo or judging slot, open `/healthz` yourself a minute ahead; any request in the last 15 min keeps the instance awake. This repo deliberately uses no external cron or uptime pinger. If you need it always-on, use a paid instance.
+
+**Auto-deploy.** The service was created through the Render API from the public repo URL, so GitHub has no Render webhook on it, and pushes do **not** deploy on their own even though `autoDeploy` is `yes`. To get push-to-deploy, connect the repo once with the Render GitHub app (Dashboard → service → Settings → Repository → connect GitHub). Until then, deploy with `curl -X POST -H "Authorization: Bearer $RENDER_API_KEY" -H 'Content-Type: application/json' -d '{"clearCache":"do_not_clear"}' https://api.render.com/v1/services/<service-id>/deploys`, or click **Manual Deploy**.
+
+**Per-visitor sandbox.** Each browser sends `X-Sentinel-Session` (a random id kept in localStorage). The server serves that browser a private copy of the tenant graph, `sentinel_<tenant>__<session>`, seeded lazily on the first request. So two judges can run, close and reset at the same time without touching each other. At most `SESSION_MAX` (default 50) sandboxes are kept, and any idle longer than `SESSION_TTL_S` (default 7200 s) is dropped, oldest first. Requests with no header (CLI, backtest, curl, MCP) still use the plain `sentinel_<tenant>` graph.
+
 ## Railway
 
 1. Go to https://railway.com/new, then **Deploy from GitHub repo** > `cascade-sentinel`. Railway detects the `Dockerfile` automatically.

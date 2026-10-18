@@ -59,12 +59,18 @@ async def _value_error(_request: Request, exc: ValueError) -> JSONResponse:
 
 @app.get("/healthz", response_model=None)
 def healthz():
-    """Cheap liveness + DB probe for Render/Railway/Fly/HF health checks."""
+    """Cheap liveness + DB probe for Render/Railway/Fly/HF health checks.
+
+    CORS-open (read-only, no data) so the static Pages landing can poll it while the
+    free instance wakes up before sending the visitor over.
+    """
+    cors = {"Access-Control-Allow-Origin": "*", "Cache-Control": "no-store"}
     try:
         db = ping() == 1
     except Exception as exc:  # noqa: BLE001
-        return JSONResponse(status_code=503, content={"ok": False, "db": False, "error": str(exc)[:200]})
-    return {"ok": True, "db": db}
+        return JSONResponse(status_code=503, headers=cors,
+                            content={"ok": False, "db": False, "error": str(exc)[:200]})
+    return JSONResponse({"ok": True, "db": db}, headers=cors)
 
 
 @app.get("/health")
