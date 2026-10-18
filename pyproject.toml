@@ -24,10 +24,13 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
 llm = ["boto3>=1.35.0"]
+# Single-container mode: redis-server + FalkorDB module bundled in the wheel (Python 3.12+, glibc 2.39+).
+embedded = ["falkordblite>=0.10.0; python_version >= '3.12'"]
 
 [project.scripts]
 sentinel-backtest = "sentinel.backtest:main"
 sentinel-mcp = "sentinel.mcp_server:main"
+sentinel-serve = "sentinel.serve:main"
 
 [tool.setuptools]
 include-package-data = true

@@ -19,11 +19,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      FALKORDB_HOST: falkordb
-      FALKORDB_PORT: "6379"
+      FALKORDB_URL: redis://falkordb:6379
       LLM_PROVIDER: none
-      API_HOST: 0.0.0.0
-      API_PORT: "8000"
+      PORT: "8000"
     depends_on:
       falkordb:
         condition: service_healthy

@@ -15,7 +15,24 @@ SEED_DIR = Path(__file__).resolve().parent / "seed"
 # --- connection ---
 FALKORDB_HOST = os.getenv("FALKORDB_HOST", "localhost")
 FALKORDB_PORT = int(os.getenv("FALKORDB_PORT", "6379"))
+FALKORDB_USERNAME = os.getenv("FALKORDB_USERNAME", "") or None
 FALKORDB_PASSWORD = os.getenv("FALKORDB_PASSWORD", "") or None
+# One-string external DB (FalkorDB Cloud, a sidecar, compose): redis://[user:pass@]host:port
+# When set it wins over FALKORDB_HOST/PORT/PASSWORD.
+FALKORDB_URL = os.getenv("FALKORDB_URL", "") or ""
+FALKORDB_SSL = os.getenv("FALKORDB_SSL", "0") == "1"
+if FALKORDB_URL:
+    from urllib.parse import unquote, urlparse
+
+    _u = urlparse(FALKORDB_URL)
+    FALKORDB_HOST = _u.hostname or FALKORDB_HOST
+    FALKORDB_PORT = int(_u.port or FALKORDB_PORT)
+    if _u.username and _u.username != "default":
+        FALKORDB_USERNAME = unquote(_u.username)
+    if _u.password:
+        FALKORDB_PASSWORD = unquote(_u.password)
+    if _u.scheme == "rediss":
+        FALKORDB_SSL = True
 # Embedded FalkorDBLite db file. When set, db.py skips host/port Docker Redis.
 FALKORDB_LITE = os.getenv("FALKORDB_LITE", "") or ""
 

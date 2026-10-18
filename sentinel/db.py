@@ -60,6 +60,10 @@ def get_client() -> FalkorDB:
             }
             if config.FALKORDB_PASSWORD:
                 kwargs["password"] = config.FALKORDB_PASSWORD
+            if getattr(config, "FALKORDB_USERNAME", None):
+                kwargs["username"] = config.FALKORDB_USERNAME
+            if getattr(config, "FALKORDB_SSL", False):
+                kwargs["ssl"] = True
             _client = FalkorDB(**kwargs)
     return _client
 

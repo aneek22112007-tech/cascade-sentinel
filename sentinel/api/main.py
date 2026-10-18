@@ -53,6 +53,16 @@ async def _value_error(_request: Request, exc: ValueError) -> JSONResponse:
     return JSONResponse(status_code=400, content={"detail": str(exc)})
 
 
+@app.get("/healthz", response_model=None)
+def healthz():
+    """Cheap liveness + DB probe for Render/Railway/Fly/HF health checks."""
+    try:
+        db = ping() == 1
+    except Exception as exc:  # noqa: BLE001
+        return JSONResponse(status_code=503, content={"ok": False, "db": False, "error": str(exc)[:200]})
+    return {"ok": True, "db": db}
+
+
 @app.get("/health")
 def health() -> dict[str, Any]:
     return {
