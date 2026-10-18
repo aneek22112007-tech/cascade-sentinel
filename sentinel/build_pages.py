@@ -17,17 +17,18 @@ from pathlib import Path
 from sentinel import config
 
 PAGES_URL = "https://aneek22112007-tech.github.io/cascade-sentinel/"
+LIVE_URL = "https://cascade-sentinel.onrender.com/"
 
 BANNER = (
-    '<style>.replay-banner{flex:0 0 auto;background:#3b2f14;color:#ffe8a3;border-bottom:1px solid #7a651f;'
-    "font:500 13px/1.4 system-ui,sans-serif;padding:7px 16px;text-align:center}"
-    ".replay-banner a{color:#ffd8a8}.replay-banner code{font-size:12px}"
-    "@media (max-width:640px){.replay-banner{font-size:12px;padding:5px 10px}.replay-banner .rb-long{display:none}}"
-    "</style>"
-    '<aside class="replay-banner" aria-label="Replay notice"><strong>Static replay</strong> of recorded FalkorDB runs.'
-    '<span class="rb-long"> Run locally for the live graph: '
-    '<code>pip install -e ".[embedded]" &amp;&amp; python -m sentinel.serve</code></span> · '
-    '<a href="https://github.com/aneek22112007-tech/cascade-sentinel#quickstart">Run it live</a></aside>'
+    '<style>.badge-replay{background:#3b2f14;color:#ffe8a3;border:1px solid #7a651f;cursor:help;white-space:nowrap}'
+    ".btn-live{white-space:nowrap;border-color:var(--heat-3)}.btn-live .s{display:none}"
+    "@media (max-width:640px){.badge-replay{display:none}.btn-live .l{display:none}.btn-live .s{display:inline}"
+    ".app-top .btn-live{min-height:36px;padding:4px 10px;font-size:12px}}</style>"
+    '<span class="badge badge-replay" tabindex="0" title="Static replay of FalkorDB runs recorded by '
+    'sentinel.export_static. Same dashboard, no database: open the live version for the real graph.">'
+    "Recorded replay</span>"
+    '<a class="btn btn-live" href="LIVE_APP" title="Real FalkorDB on a free Render instance; '
+    'the first load can take 30-60 s to wake"><span class="l">Open live version ↗</span><span class="s">Live ↗</span></a>'
 )
 
 NOT_FOUND = """<!doctype html>
@@ -67,6 +68,9 @@ def build(out: Path, skip_export: bool = False) -> None:
 
     landing = (static / "landing.html").read_text()
     landing = landing.replace('href="health"', 'href="data/meta.json"')
+    # Pages: "Launch live demo" goes to the real FalkorDB app on Render; the replay stays one click away
+    landing = landing.replace('href="app"', f'href="{LIVE_URL}app"')
+    landing = landing.replace(" data-pages-note hidden", " data-pages-note")
     # social cards need absolute URLs
     landing = landing.replace('content="static/img/og.png"', f'content="{PAGES_URL}static/img/og.png"')
     landing = landing.replace('<link rel="canonical" href="./" />', f'<link rel="canonical" href="{PAGES_URL}" />')
@@ -75,7 +79,10 @@ def build(out: Path, skip_export: bool = False) -> None:
 
     app = (static / "app.html").read_text()
     app = app.replace('"/static/', '"../static/').replace('href="/"', 'href="../"')
-    app = re.sub(r'(<a class="skip"[^>]*>[^<]*</a>)', lambda m: m.group(1) + "\n  " + BANNER, app, count=1)
+    badge = BANNER.replace("LIVE_APP", f"{LIVE_URL}app")
+    app = app.replace('<span class="badge badge-synthetic">Synthetic data</span>',
+                      '<span class="badge badge-synthetic">Synthetic data</span>\n      ' + badge, 1)
+    app = app.replace('<span id="healthPill" class="health-pill bad">', '<span id="healthPill" class="health-pill bad" hidden>')
     # no local FalkorDB Browser on Pages; canonical points at the Pages URL
     app = app.replace('id="browserLink"', 'id="browserLink" hidden')
     app = re.sub(r'l\.href = location\.origin \+ "/app";', f'l.href = "{PAGES_URL}app/";', app)

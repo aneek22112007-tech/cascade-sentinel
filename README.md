@@ -4,9 +4,9 @@
 
 [![3D landing page](docs/screenshots/landing-1440-0-hero.png)](https://aneek22112007-tech.github.io/cascade-sentinel/)
 
-**Live site:** https://aneek22112007-tech.github.io/cascade-sentinel/ (3D landing page) · **Replay demo:** https://aneek22112007-tech.github.io/cascade-sentinel/app/ · **Video:** _placeholder_ · **Repo:** https://github.com/aneek22112007-tech/cascade-sentinel
+**Live demo (real FalkorDB):** https://cascade-sentinel.onrender.com/app · **Landing:** https://aneek22112007-tech.github.io/cascade-sentinel/ · **Recorded replay (instant fallback):** https://aneek22112007-tech.github.io/cascade-sentinel/app/ · **Video:** _placeholder_ · **Repo:** https://github.com/aneek22112007-tech/cascade-sentinel
 
-> The live site is static (GitHub Pages). `/app/` is the real dashboard replaying JSON recorded from real FalkorDB runs by `python -m sentinel.export_static`: Run 2024, Close Episode, Run 2025, What changed, Explain with Cypher, and the tenant switch. For the live graph, run it locally (60 s, below).
+> The live demo is one Docker container on Render's free plan: FastAPI plus an embedded FalkorDB (`python -m sentinel.serve`) that seeds both tenants on boot. The dashboard header reads **Live FalkorDB**. Free instances sleep after 15 min idle, so the first request can take 30–60 s to wake. The GitHub Pages `/app/` is the same dashboard replaying JSON recorded from real FalkorDB runs (`python -m sentinel.export_static`); it is labelled **Recorded replay** and opens instantly. The demo graph is shared: if someone else is mid-run, press Reset.
 
 > Existing science models how cascades could unfold. Sentinel remembers how they actually unfolded, which interventions actually worked, and refuses to act without precedent.
 

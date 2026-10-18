@@ -252,3 +252,6 @@ html { overflow-x: clip; }
 /* scene fades in once it is built (lazy init after first paint) */
 html.js #scene { opacity: 0; transition: opacity 0.9s var(--ease); }
 html.scene-ready #scene { opacity: 1; }
+.cta-note { margin: 12px 0 0; font-size: 13px; color: #b8c2cd; max-width: 520px; }
+.cta-note.center { margin: 14px auto 0; text-align: center; }
+.cta-note a { color: #ffd8a8; }

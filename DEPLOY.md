@@ -44,7 +44,7 @@ There's no separate DB service and no persistent disk. A free-tier restart simpl
 
 1. Go to https://dashboard.render.com, then **New +** > **Blueprint**, and connect `aneek22112007-tech/cascade-sentinel`.
 2. Click **Apply**. Render builds the Dockerfile, injects `PORT`, and health-checks `/healthz`.
-3. The URL is `https://cascade-sentinel-XXXX.onrender.com`. The first build takes about 3–5 min. Free instances sleep after 15 min idle, and the first request after that takes about 30–60 s to wake.
+3. The URL is `https://cascade-sentinel.onrender.com` (live now; `/healthz` → `{"ok":true,"db":true}`). The first build takes about 3–5 min. Free instances sleep after 15 min idle, and the first request after that takes about 30–60 s to wake.
 
 You can also skip the Blueprint and create a manual **New > Web Service** with Runtime Docker, Instance Free, and Health Check Path `/healthz`.
 
