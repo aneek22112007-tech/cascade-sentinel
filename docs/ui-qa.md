@@ -60,6 +60,10 @@ Fixed in `73bdf62`:
 | 27 | minor | dashboard | Stepper flex buttons rendered "Run  Season  2024" with double gaps | Single span child | — |
 | 28 | minor | dashboard diff | Redundant "weak_analog weak_analog", raw underscores, long paths overflowed on phones | Readable labels, wrapped path in mono with full path in the title, coloured verdicts | app-*-6-diff |
 | 29 | minor | dashboard | Theme toggle had confusing `aria-pressed` semantics | Plain button named "Light theme" / "Dark theme" | — |
+| 30 | blocker | live demo | One shared graph per tenant: two visitors clicking at once overwrote each other (B's Reset wiped A's closed episode) | Per-browser sandbox graph `sentinel_<tenant>__<session>` (header `X-Sentinel-Session`, lazy seed, cap + 2 h TTL); CLI/backtest/MCP unchanged; `tests/test_sessions.py` | two-A/B-1440, two-A/B-390 |
+| 31 | major | deploy | Pushes never reached Render: no GitHub webhook (service created via API from the public URL) | Deploy via Render API after each push; DEPLOY.md explains connecting the Render GitHub app | — |
+| 32 | major | Pages landing | "Launch live demo" opened a blank tab for 30–60 s while the free instance woke | `wake.js`: "Waking live server…" toast polls CORS-open `/healthz`, navigates when it answers, offers the replay after 60 s | wake-slow, wake-60s |
+| 33 | minor | deploy | 50 sandboxes ≈ 190 MB of FalkorDB on a 512 MB instance | `SESSION_MAX=30` on Render (render.yaml) | — |
 | 30 | minor | Pages | Local-only "FalkorDB Browser" link shown; canonical pointed at `origin/app` | Hidden in the static build; canonical points at the Pages URL | — |
 | 31 | minor | dashboard | "ready" toast covered the legend and became the LCP element at 8 s; pill said "API ping 1" in the replay | Toast removed; pill says "Recorded replay" | Lighthouse LCP element |
 | 32 | minor | dashboard | Copy-Cypher failed on non-secure origins | `execCommand` fallback; aria-label "Copy Cypher query" | "Copied" |
@@ -92,3 +96,10 @@ Live GitHub Pages: landing mobile 59 / desktop 65 performance (TBT comes from CP
   - API end to end for both tenants: reset → run 2024 → close (J = 1.00 PASS) → run 2025 → explain (9 Cypher) → snapshot.
   - Demo has 14 path-level changes; district_b has 5.
   - Instance memory is about 80 MB of 512 MB.
+
+## Sweep 2: session isolation (Oct 18, 2026, 10:30 PM IST)
+
+- **Two concurrent browsers on live Render, at 1440 and at 390.** They get distinct session ids. Both run 2024 at the same moment. A closes while B resets. A runs 2025 while B runs 2024 again. A keeps its state across a reload, and B's state stays independent. Six rapid clicks leave the UI usable. 0 console errors and 0 5xx.
+- **Concurrent API sessions on live (`conc.py`).** Parallel resets, runs, close+reset and 2025 runs all pass. A sees 2024 closed while B sees it absent, and the shared base graph is untouched. An unknown tenant gets a 4xx. A malformed session header falls back cleanly. A bad year gets a 4xx. 5 identical concurrent runs return all 200.
+- **Full harness on live Render (1440 and 390) and on Pages (1440 and 390).** 0 issues, 0 axe violations, 0 failed requests. The only console message is the expected 404 from the deliberate 404-page check.
+- **Pages → live launch flow (real, not mocked).** It reaches the live dashboard ("Live FalkorDB") in about 4–5 s on a warm instance. A mocked cold start shows "Waking live server…" and navigates after the 3rd ping. A mocked dead server offers "Open recorded replay instead" at 60 s, and Cancel hides the toast.
