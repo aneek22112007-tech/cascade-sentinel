@@ -29,6 +29,15 @@ DISTRICT_FILE = {
     "district_b": "district_kalinagar.json",
 }
 
+
+def seed_archetype(tenant: str) -> str:
+    """Map a graph tenant to the seed JSON it clones. `test_*` graphs clone demo."""
+    if tenant in DISTRICT_FILE:
+        return tenant
+    if tenant.startswith("test_"):
+        return "demo"
+    raise ValueError(f"unknown tenant {tenant!r}")
+
 TODO = "TODO_REAL_VALUE"
 
 
@@ -128,10 +137,11 @@ def _keep_node(item: dict[str, Any], tenant: str) -> bool:
     return t == tenant
 
 
-def load_graph_file(tenant: str, filename: str) -> None:
+def load_graph_file(tenant: str, filename: str, *, seed_as: str | None = None) -> None:
+    keep = seed_as or tenant
     data = _load_json(filename)
     for node in data.get("nodes") or []:
-        if _keep_node(node, tenant):
+        if _keep_node(node, keep):
             merge_node(tenant, node)
     for edge in data.get("edges") or []:
         merge_edge(tenant, edge["from"], edge["to"], edge["type"], edge.get("properties") or {})
@@ -204,11 +214,12 @@ def _ensure_forecast(
     return fid
 
 
-def load_episode_library(tenant: str) -> None:
+def load_episode_library(tenant: str, *, seed_as: str | None = None) -> None:
+    seed_as = seed_as or seed_archetype(tenant)
     data = _load_json("episodes_library.json")
     aliases: dict[str, list[str]] = data["path_aliases"]
     for ep in data["episodes"]:
-        if ep["tenant"] != tenant:
+        if ep["tenant"] != seed_as:
             continue
         year = int(ep["season_year"])
         sid = _ensure_season(tenant, year)
@@ -315,11 +326,14 @@ def load_episode_library(tenant: str) -> None:
             )
 
 
-def load_day1_forecasts(tenant: str) -> None:
+def load_day1_forecasts(tenant: str, *, seed_as: str | None = None) -> None:
+    seed_as = seed_as or seed_archetype(tenant)
     data = _load_json("backtest_day1.json")
     for spec in data["forecasts"]:
-        if spec["tenant"] != tenant:
+        if spec["tenant"] != seed_as:
             continue
+        spec = dict(spec)
+        spec["id"] = f"fc_{int(spec['season_year'])}_{tenant}"
         _ensure_season(tenant, int(spec["season_year"]))
         _ensure_forecast(tenant, spec, spec["district"], spec.get("hazard", "heatwave"))
 
@@ -365,14 +379,15 @@ def print_counts(tenant: str) -> dict[str, Any]:
 
 
 def load_tenant(tenant: str) -> dict[str, Any]:
+    seed_as = seed_archetype(tenant)
     ensure_schema(tenant)
     for name in SHARED_BEFORE_DISTRICT:
-        load_graph_file(tenant, name)
-    load_graph_file(tenant, DISTRICT_FILE[tenant])
+        load_graph_file(tenant, name, seed_as=seed_as)
+    load_graph_file(tenant, DISTRICT_FILE[seed_as], seed_as=seed_as)
     for name in SHARED_AFTER_DISTRICT:
-        load_graph_file(tenant, name)
-    load_episode_library(tenant)
-    load_day1_forecasts(tenant)
+        load_graph_file(tenant, name, seed_as=seed_as)
+    load_episode_library(tenant, seed_as=seed_as)
+    load_day1_forecasts(tenant, seed_as=seed_as)
     return print_counts(tenant)
 
 
@@ -381,7 +396,11 @@ def load_all() -> list[dict[str, Any]]:
 
 
 def main() -> None:
-    load_all()
+    from sentinel.db import delete_graph
+
+    for t in config.TENANTS:
+        delete_graph(t)
+        load_tenant(t)
 
 
 if __name__ == "__main__":

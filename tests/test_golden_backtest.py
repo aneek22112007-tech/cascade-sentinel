@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import uuid
 from pathlib import Path
 
 from sentinel.backtest import main
@@ -10,13 +11,21 @@ from sentinel.seed.loader import load_tenant
 GOLDEN = Path(__file__).parent / "golden" / "backtest_demo.json"
 
 
+def _canonical(payload: dict, tenant: str) -> dict:
+    return json.loads(json.dumps(payload).replace(tenant, "demo"))
+
+
 def _run(tmp_path: Path) -> dict:
-    delete_graph("demo")
-    load_tenant("demo")
-    out = tmp_path / "out.json"
-    rc = main(["--tenant", "demo", "--double-run", "--json", str(out)])
-    assert rc == 0
-    return json.loads(out.read_text())
+    tenant = f"test_{uuid.uuid4().hex}"
+    delete_graph(tenant)
+    try:
+        load_tenant(tenant)
+        out = tmp_path / f"{tenant}.json"
+        rc = main(["--tenant", tenant, "--double-run", "--json", str(out)])
+        assert rc == 0
+        return _canonical(json.loads(out.read_text()), tenant)
+    finally:
+        delete_graph(tenant)
 
 
 def _roles(payload: dict) -> dict[str, str]:

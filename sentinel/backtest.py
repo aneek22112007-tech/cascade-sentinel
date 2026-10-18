@@ -14,7 +14,8 @@ from rich.text import Text
 
 from sentinel import config
 from sentinel.agents.orchestrator import run_season
-from sentinel.db import node_edge_counts, query_stats, reset_query_log
+from sentinel.db import delete_graph, node_edge_counts, query_stats, reset_query_log
+from sentinel.seed.loader import load_tenant
 from sentinel.tools.episodes import close_episode
 from sentinel.tools.registry import call_tool
 
@@ -235,6 +236,8 @@ def main(argv: list[str] | None = None) -> int:
     print_banner()
 
     if args.double_run:
+        delete_graph(args.tenant)
+        load_tenant(args.tenant)
         s2024 = run_season(args.tenant, 2024)
         print_season(s2024, "Season N-1 (2024)")
         closed = close_episode(args.tenant, s2024["episode_id"])["result"]

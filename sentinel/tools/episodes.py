@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 
 from sentinel import config
 from sentinel.formulas import credibility, is_hit, jaccard, path_signature, precedent_weight
-from sentinel.seed.loader import load_heldout
+from sentinel.seed.loader import load_heldout, seed_archetype
 from sentinel.tools.common import CypherBag, episode_context, episode_year, split_signature
 
 _CLOSE_LOCKS: dict[tuple[str, str], threading.Lock] = {}
@@ -182,7 +182,7 @@ def _close_episode_write(bag: CypherBag, tenant: str, episode_id: str) -> dict:
     ctx = episode_context(bag, tenant, episode_id)
     year = episode_year(bag, tenant, ctx)
 
-    held = load_heldout()["by_tenant_year"][tenant][str(year)]
+    held = load_heldout()["by_tenant_year"][seed_archetype(tenant)][str(year)]
     realized = list(held["realized_path"])
     also = [list(p) for p in held.get("also_realized") or []]
     realized_sets = [realized] + also
