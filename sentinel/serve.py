@@ -72,6 +72,8 @@ def start_embedded() -> int:
         "--save", "",
         "--appendonly", "no",
         "--loadmodule", module,
+        # small free instances (512 MB, shared CPU): cap the graph worker pool
+        *os.getenv("EMBEDDED_FALKORDB_MODULE_ARGS", "THREAD_COUNT 2 OMP_THREAD_COUNT 2").split(),
     ]
     _log(f"starting embedded FalkorDB on 127.0.0.1:{port} (data {data_dir})")
     _child = subprocess.Popen(cmd, stdout=subprocess.DEVNULL if os.getenv("EMBEDDED_QUIET", "1") == "1" else None)

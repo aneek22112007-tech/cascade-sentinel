@@ -29,7 +29,8 @@ async function checkHealth() {
     const h = await api("/health");
     state.health = h;
     setHealthPill(!!h.ok, h.ping);
-    if (h.replay) $("healthPill").textContent = "Recorded replay";
+    $("healthPill").textContent = h.replay ? "Recorded replay" : h.ok ? "Live FalkorDB" : "API down";
+    $("healthPill").title = h.replay ? "Static replay of recorded FalkorDB runs" : `FalkorDB ping ${h.ping ?? 1}`;
     showBanner(false);
     renderMcp(h.tools || []);
     return true;
