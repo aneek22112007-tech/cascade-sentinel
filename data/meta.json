@@ -1,0 +1,52 @@
+{
+  "recorded_at": "2026-10-18T10:37:12+00:00",
+  "elapsed_s": 3.0,
+  "health": {
+    "ok": true,
+    "ping": 1,
+    "tenant_default": "demo",
+    "synthetic": true,
+    "tools": [
+      "enumerate_cascade_paths",
+      "query_precedent",
+      "propose_hypothesis",
+      "support_hypothesis",
+      "attack_hypothesis",
+      "compute_accepted_risk",
+      "recommend_action",
+      "close_episode",
+      "explain",
+      "memory_view",
+      "graph_snapshot"
+    ]
+  },
+  "tenants": {
+    "tenants": [
+      {
+        "id": "demo",
+        "name": "Rajpur (archetype)",
+        "badge": "synthetic"
+      },
+      {
+        "id": "district_b",
+        "name": "Kalinagar (archetype)",
+        "badge": "synthetic"
+      }
+    ]
+  },
+  "summary": {
+    "demo": {
+      "reconstruction_jaccard": 1.0,
+      "reconstruction_pass": true,
+      "recs_2025": 12,
+      "escalate_2025": 1
+    },
+    "district_b": {
+      "reconstruction_jaccard": 0.3333333333333333,
+      "reconstruction_pass": false,
+      "recs_2025": 12,
+      "escalate_2025": 5
+    }
+  },
+  "note": "Static replay of recorded FalkorDB runs. Synthetic archetype data. Run locally for the live graph."
+}

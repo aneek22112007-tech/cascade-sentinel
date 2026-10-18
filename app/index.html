@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cascade Sentinel — live demo</title>
+  <meta name="description" content="Run Season 2024, close the episode, run 2025. Synthetic archetype data. The agent refuses to act without precedent." />
+  <meta name="theme-color" content="#0b0f14" />
+  <link rel="icon" href="../static/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../static/css/tokens.css" />
+  <link rel="stylesheet" href="../static/css/base.css" />
+  <link rel="stylesheet" href="../static/css/app.css" />
+  <script>
+    (function () {
+      var t = localStorage.getItem("sentinelTheme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      else document.documentElement.setAttribute("data-theme", matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      var l = document.createElement("link");
+      l.rel = "canonical";
+      l.href = location.origin + "/app";
+      document.head.appendChild(l);
+    })();
+  </script>
+</head>
+<body class="app-body">
+  <div class="replay-banner" role="status" style="position:sticky;top:0;z-index:1000;background:#3b2f14;color:#ffe8a3;border-bottom:1px solid #7a651f;font:500 13px/1.4 system-ui,sans-serif;padding:8px 16px;text-align:center">Static replay of recorded FalkorDB runs. Run locally for the live graph: <code>pip install -e ".[embedded]" &amp;&amp; python -m sentinel.serve</code> · <a style="color:#ffd8a8" href="https://github.com/aneek22112007-tech/cascade-sentinel">GitHub</a></div>
+  <a class="skip" href="#graph">Skip to graph</a>
+  <div class="app-shell">
+    <div id="healthBanner" class="banner hidden" role="status">
+      <span id="healthBannerMsg">Can't reach FalkorDB/API. Run make up && make seed</span>
+      <button class="btn" type="button" id="healthRetry">Retry</button>
+    </div>
+    <header class="app-top">
+      <a class="brand" href="../">
+        <img src="../static/logo.svg" width="32" height="32" alt="" />
+        Cascade Sentinel
+      </a>
+      <label class="muted">
+        Tenant
+        <select id="tenant" aria-label="Tenant">
+          <option value="demo">Rajpur (archetype)</option>
+        </select>
+      </label>
+      <span id="healthPill" class="health-pill bad">API…</span>
+      <span class="badge badge-synthetic">Synthetic data</span>
+      <a class="btn btn-ghost" id="browserLink" href="http://localhost:3000" target="_blank" rel="noopener">FalkorDB Browser</a>
+      <button class="btn btn-ghost" type="button" id="themeToggle" aria-pressed="true">Light</button>
+    </header>
+    <div class="stepper" role="group" aria-label="Season controls">
+      <button class="btn btn-primary" type="button" id="btn2024" data-busy>① Run Season 2024</button>
+      <button class="btn" type="button" id="btnClose" data-busy>② Close Episode (reveal history)</button>
+      <button class="btn" type="button" id="btn2025" data-busy>③ Run Season 2025</button>
+      <button class="btn btn-ghost" type="button" id="btnReset" data-busy>Reset</button>
+      <span class="muted">Day-1 data only until you close. Held-out outcomes are sealed.</span>
+    </div>
+
+    <div class="app-grid">
+      <aside class="col-left pane active" data-pane="debate" id="leftPane">
+        <div class="debate-block">
+          <h2 class="pane-title">Debate timeline <span id="stepCount" class="muted">0 steps</span></h2>
+          <div id="timelineLog" role="log" aria-live="polite">
+            <ol id="timeline" class="timeline"></ol>
+          </div>
+          <h2 class="pane-title">Hypotheses</h2>
+          <div id="hyps"></div>
+          <h2 class="pane-title">Rationale (prose only, decisions never read it)</h2>
+          <div id="rationale" class="callout muted"></div>
+        </div>
+        <details class="memory-block" id="memoryAnchor">
+          <summary class="pane-title">Memory layers and MCP</summary>
+          <h2 class="pane-title">Memory layers</h2>
+          <div id="memoryTabs" class="tabs" role="tablist"></div>
+          <div id="memoryBody"></div>
+          <h2 class="pane-title">MCP</h2>
+          <p class="muted"><button class="btn" type="button" id="copyMcp">Copy</button> <code>python -m sentinel.mcp_server --list</code></p>
+          <ul id="mcpList"></ul>
+        </details>
+      </aside>
+
+      <section class="col-center pane active" data-pane="graph" id="graphHost">
+        <div class="graph-toolbar">
+          <button class="btn" type="button" id="fitBtn">Fit</button>
+          <button class="btn" type="button" id="zoomIn" aria-label="Zoom in">+</button>
+          <button class="btn" type="button" id="zoomOut" aria-label="Zoom out">−</button>
+          <label><input type="checkbox" data-layer="layer-corridor" checked /> Corridor</label>
+          <label><input type="checkbox" data-layer="layer-semantic" checked /> Semantic</label>
+          <label><input type="checkbox" data-layer="layer-episodic" checked /> Episodic</label>
+          <label><input type="checkbox" data-layer="layer-procedural" checked /> Procedural</label>
+          <label><input type="checkbox" data-layer="layer-governance" checked /> Governance</label>
+        </div>
+        <div class="graph-stage">
+          <div id="graph" role="img" tabindex="-1" aria-label="Cascade graph. A Paths table below lists the same data."></div>
+          <div id="graphEmpty">Run Season 2024 to draw the cascade graph.</div>
+          <div id="unprecBadge" class="unprec-badge hidden">UNPRECEDENTED: escalate to district officer</div>
+        </div>
+        <div class="legend">
+          <span><span class="swatch accepted"></span> accepted</span>
+          <span><span class="swatch contested"></span> contested</span>
+          <span><span class="swatch defeated"></span> defeated</span>
+          <span><span class="swatch unprecedented"></span> unprecedented</span>
+        </div>
+        <details>
+          <summary>Paths table</summary>
+          <div id="pathsTable"></div>
+        </details>
+      </section>
+
+      <aside class="col-right pane" data-pane="actions">
+        <h2 class="pane-title">Recommendations</h2>
+        <div id="recFilters" class="tabs" role="tablist"></div>
+        <div id="recs"></div>
+        <div id="closePanel"></div>
+      </aside>
+    </div>
+
+    <nav class="mobile-tabs" aria-label="Dashboard regions">
+      <button class="btn" type="button" data-pane="graph" aria-pressed="true">Graph</button>
+      <button class="btn" type="button" data-pane="debate" aria-pressed="false">Debate</button>
+      <button class="btn" type="button" data-pane="actions" aria-pressed="false">Actions</button>
+      <button class="btn" type="button" data-pane="memory" aria-pressed="false">Memory</button>
+    </nav>
+  </div>
+
+  <div id="drawer" class="drawer hidden">
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="explainTitle">
+      <header>
+        <h2 id="explainTitle">Explain</h2>
+        <button id="drawerClose" class="btn btn-ghost" type="button">Close</button>
+      </header>
+      <div id="drawerBody"></div>
+    </div>
+  </div>
+
+  <div id="diffModal" class="modal hidden">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="diffTitle">
+      <header>
+        <h2 id="diffTitle">What changed because of memory</h2>
+        <button id="diffClose" class="btn btn-ghost" type="button">Close</button>
+      </header>
+      <div id="diffBody"></div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="modal hidden">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <header>
+        <h2 id="confirmTitle">Reset tenant graph?</h2>
+        <button id="confirmNo" class="btn btn-ghost" type="button">Cancel</button>
+      </header>
+      <p>This reseeds the tenant graph. All in-session hypotheses and recommendations for this tenant are replaced with the synthetic seed.</p>
+      <button id="confirmYes" class="btn btn-danger" type="button">Reset</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script>window.SENTINEL_STATIC="../static";window.SENTINEL_DATA="../data";</script>
+  <script src="../static/js/replay.js"></script>
+  <script type="module" src="../static/js/app/main.js"></script>
+</body>
+</html>
