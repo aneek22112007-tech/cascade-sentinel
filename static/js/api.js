@@ -40,9 +40,27 @@ export class ApiError extends Error {
   }
 }
 
+// One private sandbox graph per browser (the server clones the tenant seed on first use),
+// so concurrent visitors never step on each other's runs, closes or resets.
+let cachedSid = "";
+export function sessionId() {
+  if (cachedSid) return cachedSid;
+  let sid = "";
+  try { sid = localStorage.getItem("sentinelSession") || ""; } catch { /* storage blocked */ }
+  if (!/^[a-z0-9]{8,40}$/.test(sid)) {
+    const raw = window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Math.random()}${Date.now()}`;
+    sid = raw.replace(/[^a-z0-9]/gi, "").toLowerCase().slice(0, 32).padEnd(12, "0");
+    try { localStorage.setItem("sentinelSession", sid); } catch { /* per-page id only */ }
+  }
+  cachedSid = sid;
+  return sid;
+}
+
 export function authHeaders() {
   const token = (typeof localStorage !== "undefined" && localStorage.getItem("sentinelToken")) || "";
-  return token ? { "X-Sentinel-Token": token } : {};
+  const h = { "X-Sentinel-Session": sessionId() };
+  if (token) h["X-Sentinel-Token"] = token;
+  return h;
 }
 
 export async function api(path, opts = {}) {

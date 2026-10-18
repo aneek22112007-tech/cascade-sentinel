@@ -1,4 +1,4 @@
-import { api, readSSE, el, ApiError, authHeaders } from "../api.js";
+import { api, readSSE, el, ApiError, authHeaders, sessionId } from "../api.js";
 import { state, initTheme, setTheme, getTheme, episodeIdFor } from "./state.js";
 import { draw, fit, refit, zoomBy, applyLayerFilters, renderPathsTable, destroyGraph, highlightPath } from "./graph.js";
 import { resetTimeline, addStep, renderHypotheses, renderRationale } from "./timeline.js";
@@ -30,7 +30,7 @@ async function checkHealth() {
     state.health = h;
     setHealthPill(!!h.ok, h.ping);
     $("healthPill").textContent = h.replay ? "Recorded replay" : h.ok ? "Live FalkorDB" : "API down";
-    $("healthPill").title = h.replay ? "Static replay of recorded FalkorDB runs" : `FalkorDB ping ${h.ping ?? 1}`;
+    $("healthPill").title = h.replay ? "Static replay of recorded FalkorDB runs" : `Live FalkorDB · your own sandbox graph (session ${sessionId().slice(0, 6)}) · ping ${h.ping ?? 1}`;
     showBanner(false);
     renderMcp(h.tools || []);
     return true;

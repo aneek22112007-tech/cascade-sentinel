@@ -17,6 +17,8 @@ from sentinel.db import ping, query
 from sentinel.seed.loader import load_tenant
 from sentinel.db import delete_graph
 from sentinel.tools.episodes import close_episode
+from sentinel import sessions
+from sentinel.sessions import SessionGraphMiddleware
 from sentinel.tools.registry import call_tool, list_tool_names
 
 STATIC = config.SENTINEL_STATIC_DIR
@@ -26,6 +28,8 @@ app = FastAPI(
     description="The climate-crisis agent that refuses to act without precedent.",
     version="0.1.0",
 )
+# each browser session gets its own sandbox copy of the tenant graph (see sentinel/sessions.py)
+app.add_middleware(SessionGraphMiddleware)
 
 
 def _ok_tenant(tenant: str) -> str:
@@ -71,6 +75,7 @@ def health() -> dict[str, Any]:
         "tenant_default": config.DEFAULT_TENANT,
         "synthetic": True,
         "tools": list_tool_names(),
+        "session_graphs": sessions.active(),
     }
 
 

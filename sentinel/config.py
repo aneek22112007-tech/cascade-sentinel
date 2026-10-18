@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextvars
 import os
 from pathlib import Path
 
@@ -89,7 +90,16 @@ GRAPH_PREFIX = "sentinel_"
 HEALTH_GRAPH = "sentinel_health"
 
 
+# Per-visitor sandbox: the API middleware sets this from the X-Sentinel-Session header so each
+# browser session works on its own copy of a tenant graph (sentinel_<tenant>__<session>).
+# Empty (CLI, backtest, MCP, tests) -> the shared tenant graph, unchanged.
+SESSION: contextvars.ContextVar[str] = contextvars.ContextVar("sentinel_session", default="")
+
+
 def graph_name(tenant: str) -> str:
+    sid = SESSION.get()
+    if sid and tenant in TENANTS:
+        return f"{GRAPH_PREFIX}{tenant}__{sid}"
     return f"{GRAPH_PREFIX}{tenant}"
 
 
